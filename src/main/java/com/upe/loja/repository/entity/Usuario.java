@@ -1,4 +1,4 @@
-package com.upe.loja.entity;
+package com.upe.loja.repository.entity;
 
 public abstract class Usuario{
 	
