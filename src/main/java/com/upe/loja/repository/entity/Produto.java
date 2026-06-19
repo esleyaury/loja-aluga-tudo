@@ -1,25 +1,28 @@
 package com.upe.loja.repository.entity;
-
 import java.math.BigDecimal;
 
 public class Produto {
+    // Tem que adicionar quantidade, e disponibilidade!!1 menob, faca isso!
     private String id;
     private String nome;
     private BigDecimal taxaDiaria;
     private String conservacao;
     private BigDecimal valorReposicao;
-    private Categoria categoria;
-    private Fornecedor fornecedor;
+ //   private Categoria categoria;
+   // private Fornecedor fornecedor;
     private String estado;
 
-    public void Produto(String id, String nome, BigDecimal taxaDiaria, String conservacao, BigDecimal valorReposicao, Categoria categoria, Fornecedor fornecerdor, boolean estado){
+    public Produto(){}
+    public Produto(String id, String nome, BigDecimal taxaDiaria,
+        String conservacao, BigDecimal valorReposicao, String estado){
+
         this.id = id;
         this.nome = nome;
         this.taxaDiaria = taxaDiaria;
         this.conservacao = conservacao;
         this.valorReposicao = valorReposicao;
-        this.categoria = categoria;
-        this.fornecedor = fornecerdor;
+       // this.categoria = categoria;
+     //   this.fornecedor = fornecerdor;
         this.estado = estado;
     }
     public String getID(){
@@ -40,12 +43,7 @@ public class Produto {
     public String getEstado(){
         return this.estado;
     }
-    public Categoria getCategoria(){
-        return this.categoria;
-    }
-    public Fornecedor getFornecedor(){
-        return this.fornecedor;
-    }
+
     public void setEstado(String estado){
         this.estado = estado;
     }
