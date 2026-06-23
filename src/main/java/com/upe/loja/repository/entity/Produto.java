@@ -12,7 +12,7 @@ public class Produto {
     private Fornecedor fornecedor;
     private String estado;
 
-    public void Produto(String id, String nome, BigDecimal taxaDiaria, String conservacao, BigDecimal valorReposicao, Categoria categoria, Fornecedor fornecerdor, boolean estado){
+    public Produto(String id, String nome, BigDecimal taxaDiaria, String conservacao, BigDecimal valorReposicao, Categoria categoria, Fornecedor fornecerdor, boolean estado){
         this.id = id;
         this.nome = nome;
         this.taxaDiaria = taxaDiaria;
