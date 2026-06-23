@@ -29,6 +29,7 @@ public class Produto {
     public boolean getEstado(){ return this.estado;}
 
     //setters
+    public void setNome(String nome){this.nome = nome;}
     public void setTaxaDiaria(BigDecimal taxaDiaria){ this.taxaDiaria = taxaDiaria;}
     public void setConservacao(String conservacao){ this.conservacao = conservacao;}
     public void setValorReposicao(BigDecimal valorReposicao){ this.valorReposicao = valorReposicao;}
