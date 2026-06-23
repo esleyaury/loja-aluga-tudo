@@ -7,17 +7,32 @@ import java.util.ArrayList;
 
 public class ProdutoBusiness implements ProdutoInterface{
   private int quantidadePedido;
-  private ProdutoRepository produto;
+  private ProdutoRepository estoque;
 
   public ProdutoBusiness(int quantidadePedido){
     this.quantidadePedido = quantidadePedido;
-    this.produto = new ProdutoRepository();
+    this.estoque = new ProdutoRepository();
   }
 
 
   @Override
-    public Produto verificarDisponibilidade(ProdutoRepository produto){
-      
+    public List<Produto> verificarDisponibilidade(String nome){
+      List<Produto> listaEstoque = this.estoque.buscarProduto(nome);
+
+      if (listaEstoque.isEmpty()){
+        System.out.println("Nenhum produto encontrado!");
+        return new ArrayList<>();
+      }
+
+      List<Produto> disponiveis = new ArrayList<>();
+
+      for (Produto produto : listaEstoque){
+        if (produto.getEstado()){
+          disponiveis.add(produto);
+        }
+      }
+
+      return disponiveis;
     }
 
   
