@@ -1,6 +1,5 @@
 package com.upe.loja.repository;
 import java.io.File;
-import java.io.IOException;
 import com.upe.loja.repository.entity.Produto;
 import java.util.Map;
 import java.util.HashMap;
@@ -12,12 +11,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 public class ProdutoRepository {
   private ObjectMapper mapper;
   private Map<String, Produto> estoque;
-  private Produto produto;
   private final File arquivoDestino = new File("produtos.json");
 
   public ProdutoRepository(Produto produto){
     this.mapper = new ObjectMapper();
-    this.produto = produto;
     this.estoque = carregar();
   }
 
@@ -25,13 +22,14 @@ public class ProdutoRepository {
 
     try{
 
-      Map<String, Produto> objetoCarregado = HashMap<>();
+      Map<String, Produto> objetoCarregado = new HashMap<>();
       objetoCarregado = mapper.readValue(arquivoDestino, new TypeReference<Map<String, Produto>>(){});
       return objetoCarregado;
 
     } catch (Exception e){
       System.err.println(e.getMessage());
       e.printStackTrace();
+      return new HashMap<>();
     }
   }
   public void salvar(Produto produto){
@@ -42,6 +40,9 @@ public class ProdutoRepository {
       File arquivoDestino = new File("produtos.json");
       mapper.writerWithDefaultPrettyPrinter()
         .writeValue(arquivoDestino, estoque);
+    } catch (Exception e){
+        System.err.println(e);
+        e.printStackTrace();
     }
   }
 
