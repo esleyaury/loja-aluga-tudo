@@ -24,7 +24,11 @@ public class ProdutoRepository {
   public Map<String, Produto> carregar(){
 
     try{
-      return mapper.readValue(arquivoDestino, new TypeReference<Map<String, Produto>>(){});
+
+      Map<String, Produto> objetoCarregado = HashMap<>();
+      objetoCarregado = mapper.readValue(arquivoDestino, new TypeReference<Map<String, Produto>>(){});
+      return objetoCarregado;
+
     } catch (Exception e){
       System.err.println(e.getMessage());
       e.printStackTrace();
@@ -32,10 +36,10 @@ public class ProdutoRepository {
   }
   public void salvar(Produto produto){
     this.estoque = carregar();
-    estoque.put(produto.getID(), );
+    estoque.put(produto.getID(), produto);
+
     try {
       File arquivoDestino = new File("produtos.json");
-
       mapper.writerWithDefaultPrettyPrinter()
         .writeValue(arquivoDestino, estoque);
     }
@@ -54,7 +58,16 @@ public class ProdutoRepository {
 
   }
 
+<<<<<<< HEAD
   public Produto buscarProduto(){};
   public void atualizar(Produto produto){};
   public void remover(String id){};
+=======
+  public Produto buscarProduto(){
+
+  }
+
+  public void atualizar(Produto produto);
+  public void remover(String id)
+>>>>>>> 5b210dd (fix: fix sintaxe error)
 }
