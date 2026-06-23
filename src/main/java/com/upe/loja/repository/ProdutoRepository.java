@@ -58,16 +58,10 @@ public class ProdutoRepository {
 
   }
 
-<<<<<<< HEAD
-  public Produto buscarProduto(){};
-  public void atualizar(Produto produto){};
-  public void remover(String id){};
-=======
   public Produto buscarProduto(){
 
   }
 
   public void atualizar(Produto produto);
   public void remover(String id)
->>>>>>> 5b210dd (fix: fix sintaxe error)
 }
