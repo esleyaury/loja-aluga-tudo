@@ -13,7 +13,7 @@ public class ProdutoRepository {
   private Map<String, Produto> estoque;
   private final File arquivoDestino = new File("produtos.json");
 
-  public ProdutoRepository(Produto produto){
+  public ProdutoRepository(){
     this.mapper = new ObjectMapper();
     this.estoque = carregar();
   }
@@ -32,6 +32,7 @@ public class ProdutoRepository {
       return new HashMap<>();
     }
   }
+  
   public void salvar(Produto produto){
     this.estoque = carregar();
     estoque.put(produto.getID(), produto);
@@ -59,7 +60,9 @@ public class ProdutoRepository {
 
   }
 
-  //public void buscarProduto(){
+  public Produto buscarProduto(String nome){
+
+  }
 
   //public void atualizar(Produto produto, int option, String msg)
 
