@@ -58,10 +58,9 @@ public class ProdutoRepository {
 
   }
 
-  public Produto buscarProduto(){
+  //public void buscarProduto(){
 
-  }
+  //public void atualizar(Produto produto, int option, String msg)
 
-  public void atualizar(Produto produto);
-  public void remover(String id)
+  public void remover(String id){ this.estoque.remove(id); }
 }
