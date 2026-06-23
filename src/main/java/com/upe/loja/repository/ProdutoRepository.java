@@ -54,7 +54,7 @@ public class ProdutoRepository {
 
   }
 
-  public Produto buscarProduto();
-  public void atualizar(Produto produto);
-  public void remover(String id)
+  public Produto buscarProduto(){};
+  public void atualizar(Produto produto){};
+  public void remover(String id){};
 }
