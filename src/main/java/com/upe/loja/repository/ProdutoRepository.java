@@ -2,7 +2,10 @@ package com.upe.loja.repository;
 import java.io.File;
 import com.upe.loja.repository.entity.Produto;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 //Jackson JSON
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -60,7 +63,16 @@ public class ProdutoRepository {
 
   }
 
-  public Produto buscarProduto(String nome){
+  public List<Produto> buscarProduto(String nome){
+    Map<String, Produto> mapaProdutos = carregar();
+    try{
+    return mapaProdutos.values().stream().filter(p -> p.getNome().equalsIgnoreCase(nome))
+    .collect(Collectors.toList());
+    }catch (Exception e){
+      System.err.println(e);
+      e.printStackTrace();
+      return new ArrayList<>();
+    }
 
   }
 
