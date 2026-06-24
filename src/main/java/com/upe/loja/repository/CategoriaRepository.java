@@ -64,9 +64,6 @@ public class CategoriaRepository {
     }
 
     public void deletar(String nomeCategoria) {
-        if (!categorias.contains(nomeCategoria)) {
-            throw new IllegalArgumentException("Categoria não encontrada: " + nomeCategoria);
-        }
         categorias.remove(nomeCategoria); //nativo do hashset
     }
 }
