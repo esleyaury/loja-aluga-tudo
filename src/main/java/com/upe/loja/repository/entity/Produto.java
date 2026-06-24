@@ -7,10 +7,11 @@ public class Produto {
     private BigDecimal taxaDiaria;
     private String conservacao;
     private BigDecimal valorReposicao;
-    private boolean estado;
+    private EstadoProduto estado;
 
+    public Produto(){}
     public Produto(String id, String nome, BigDecimal taxaDiaria,
-        String conservacao, BigDecimal valorReposicao, boolean estado){
+        String conservacao, BigDecimal valorReposicao, EstadoProduto estado){
 
         this.id = id;
         this.nome = nome;
@@ -20,20 +21,25 @@ public class Produto {
         this.estado = estado;
     }
 
+    public enum EstadoProduto{
+      DISPONIVEL,
+      ALUGADO,
+      EM_MANUTENCAO,
+      INATIVO
+    }
+
     //getters 
     public String getID(){ return this.id; }
     public String getNome(){ return this.nome; }
     public BigDecimal getTaxaDiaria(){ return this.taxaDiaria;}
     public String getConservacao(){ return this.conservacao;}
     public BigDecimal getValorReposicao(){ return this.valorReposicao;}
-    public boolean getEstado(){ return this.estado;}
+    public EstadoProduto getEstado(){ return this.estado;}
 
     //setters
     public void setNome(String nome){this.nome = nome;}
     public void setTaxaDiaria(BigDecimal taxaDiaria){ this.taxaDiaria = taxaDiaria;}
     public void setConservacao(String conservacao){ this.conservacao = conservacao;}
     public void setValorReposicao(BigDecimal valorReposicao){ this.valorReposicao = valorReposicao;}
-    public void setEstado(boolean estado){ this.estado = estado;}
-    // Tireando ID, e Nome, o resto pode mudar.
-    // TODO: Discutir com os amiguinhos sobre a relevancia de ter outros setters.
+    public void setEstado(EstadoProduto estado){ this.estado = estado;}
 }

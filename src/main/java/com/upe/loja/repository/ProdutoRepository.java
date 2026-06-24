@@ -12,6 +12,8 @@ import java.util.List;
 //Jackson JSON
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 
 public class ProdutoRepository {
   private ObjectMapper mapper;
@@ -21,16 +23,15 @@ public class ProdutoRepository {
   public ProdutoRepository(){
     this.mapper = new ObjectMapper();
     this.estoque = carregar();
+    this.mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
   }
 
   public Map<String, Produto> carregar(){
 
     try{
-
       Map<String, Produto> objetoCarregado = new HashMap<>();
       objetoCarregado = mapper.readValue(arquivoDestino, new TypeReference<Map<String, Produto>>(){});
       return objetoCarregado;
-
     } catch (Exception e){
       System.err.println(e.getMessage());
       e.printStackTrace();
@@ -39,6 +40,7 @@ public class ProdutoRepository {
   }
   
   public void salvar(Produto produto){
+    //Rever a logica
     this.estoque = carregar();
     estoque.put(produto.getID(), produto);
 
@@ -78,6 +80,10 @@ public class ProdutoRepository {
 
   }
 
+  public Optional<Produto> buscarPorId(String id){
+    return Optional.ofNullable(estoque.get(id)); // n concordo c isso n e ta dando erro
+  }
+
   public void atualizar(Produto produto, int option, String valor){
      switch(option){
       /* 
@@ -90,9 +96,28 @@ public class ProdutoRepository {
       case 1 -> produto.setNome(valor);
       case 2 -> produto.setTaxaDiaria(new BigDecimal(valor));
       case 3 -> produto.setConservacao(valor);
-      case 4 -> produto.setEstado(Boolean.parseBoolean(valor));
+      case 4 -> produto.setEstado(Boolean.parseBoolean(valor)); //como transforma em EstadoProduto?
      }
+
+     //Salvar
+    try {
+          mapper.writerWithDefaultPrettyPrinter()
+            .writeValue(this.arquivoDestino, estoque);
+        } catch (Exception e){
+            System.err.println(e);
+            e.printStackTrace();
+        }
   }
 
-  public void remover(String id){ this.estoque.remove(id); }
+  public void remover(String id){
+    this.estoque.remove(id);
+    // Salvar
+    try {
+          mapper.writerWithDefaultPrettyPrinter()
+            .writeValue(this.arquivoDestino, estoque);
+        } catch (Exception e){
+            System.err.println(e);
+            e.printStackTrace();
+        }
+  }
 }

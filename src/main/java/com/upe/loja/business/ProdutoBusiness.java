@@ -6,12 +6,10 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class ProdutoBusiness implements ProdutoInterface{
-  private int quantidadePedido;
   private ProdutoRepository estoque;
 
-  public ProdutoBusiness(int quantidadePedido){
-    this.quantidadePedido = quantidadePedido;
-    this.estoque = new ProdutoRepository();
+  public ProdutoBusiness(ProdutoRepository repository){
+    this.estoque = repository; 
   }
 
 
@@ -20,21 +18,18 @@ public class ProdutoBusiness implements ProdutoInterface{
       List<Produto> listaEstoque = this.estoque.buscarProduto(nome);
 
       if (listaEstoque.isEmpty()){
-        System.out.println("Nenhum produto encontrado!");
+        System.out.println("Nenhum produto encontrado!");//print em business
         return new ArrayList<>();
       }
 
       List<Produto> disponiveis = new ArrayList<>();
 
       for (Produto produto : listaEstoque){
-        if (produto.getEstado()){
+        if (produto.getEstado().equals("Disponível")){ //ignorar case e acento ver isso
           disponiveis.add(produto);
         }
       }
 
       return disponiveis;
     }
-
-  
-
 }
