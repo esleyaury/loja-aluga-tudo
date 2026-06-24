@@ -4,6 +4,8 @@ public class Funcionario extends Usuario{
 
     //vai ter atributos diferentes?
 
+    public Funcionario(){} //construtor vazio p JSON
+
     public Funcionario(long cpf, String senha, String nome, long telefone, String email){
         super(cpf, senha, nome, telefone, email);
         //se tiver atributos diferentes fazer o this.xx = xx normal
