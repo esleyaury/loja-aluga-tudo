@@ -1,5 +1,7 @@
 package com.upe.loja.repository;
 import java.io.File;
+import java.math.BigDecimal;
+
 import com.upe.loja.repository.entity.Produto;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -76,7 +78,21 @@ public class ProdutoRepository {
 
   }
 
-  //public void atualizar(Produto produto, int option, String msg)
+  public void atualizar(Produto produto, int option, String valor){
+     switch(option){
+      /* 
+      Menu:
+      Case 1 - Nome
+      Case 2 - Taxa Diaria
+      Case 3 - Conservacao
+      Case 4 - Estado
+      */
+      case 1 -> produto.setNome(valor);
+      case 2 -> produto.setTaxaDiaria(new BigDecimal(valor));
+      case 3 -> produto.setConservacao(valor);
+      case 4 -> produto.setEstado(Boolean.parseBoolean(valor));
+     }
+  }
 
   public void remover(String id){ this.estoque.remove(id); }
 }
