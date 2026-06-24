@@ -11,7 +11,7 @@ public class Produto {
 
     public Produto(){}
     public Produto(String id, String nome, BigDecimal taxaDiaria,
-        String conservacao, BigDecimal valorReposicao, boolean estado){
+        String conservacao, BigDecimal valorReposicao, EstadoProduto estado){
 
         this.id = id;
         this.nome = nome;
