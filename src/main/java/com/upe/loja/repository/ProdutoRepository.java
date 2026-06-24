@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 //Jackson JSON
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,8 +23,8 @@ public class ProdutoRepository {
 
   public ProdutoRepository(){
     this.mapper = new ObjectMapper();
-    this.estoque = carregar();
     this.mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+    this.estoque = carregar();
   }
 
   public Map<String, Produto> carregar(){
@@ -54,30 +55,28 @@ public class ProdutoRepository {
     }
   }
 
-  public void listarTodos(){
-    this.estoque = carregar();
-    if (estoque.isEmpty()){
-      System.out.println("Nenhum produto encontrado!");
+  public List<Produto> listarTodos(){
+    if (this.estoque.isEmpty()){
+      return new ArrayList<>();
     }
 
-    estoque.forEach((id, produto)->{System.out.println("ID: " +id +
-          " | Nome: " + produto.getNome() + " | Taxa Diaria " + produto.getTaxaDiaria() +
-          " | Conservacao: " + produto.getConservacao());
-    });
+    return new ArrayList<>(estoque.values());
+    /*Nao ha certeza de que vai carregar o estoque
+    totalmente atualizado!! */
 
   }
 
   public List<Produto> buscarProduto(String nome){
-    Map<String, Produto> mapaProdutos = carregar();
     try{
-    return mapaProdutos.values().stream().filter(p -> p.getNome().equalsIgnoreCase(nome))
+    return this.estoque.values().stream().filter(p -> p.getNome().equalsIgnoreCase(nome))
     .collect(Collectors.toList());
     }catch (Exception e){
       System.err.println(e);
       e.printStackTrace();
       return new ArrayList<>();
     }
-
+    /*Nao ha certeza de que vai carregar o estoque
+    totalmente atualizado!! */
   }
 
   public Optional<Produto> buscarPorId(String id){
@@ -96,7 +95,8 @@ public class ProdutoRepository {
       case 1 -> produto.setNome(valor);
       case 2 -> produto.setTaxaDiaria(new BigDecimal(valor));
       case 3 -> produto.setConservacao(valor);
-      case 4 -> produto.setEstado(Boolean.parseBoolean(valor)); //como transforma em EstadoProduto?
+      case 4 -> produto.setEstado(Produto.
+        EstadoProduto.valueOf(valor.toUpperCase())); //como transforma em EstadoProduto?
      }
 
      //Salvar
