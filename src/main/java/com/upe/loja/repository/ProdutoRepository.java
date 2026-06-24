@@ -81,7 +81,7 @@ public class ProdutoRepository {
   }
 
   public Optional<Produto> buscarPorId(String id){
-    return Optional.ofNullable(estoque.get(id));
+    return Optional.ofNullable(estoque.get(id)); // n concordo c isso n e ta dando erro
   }
 
   public void atualizar(Produto produto, int option, String valor){
@@ -96,7 +96,7 @@ public class ProdutoRepository {
       case 1 -> produto.setNome(valor);
       case 2 -> produto.setTaxaDiaria(new BigDecimal(valor));
       case 3 -> produto.setConservacao(valor);
-      case 4 -> produto.setEstado(Boolean.parseBoolean(valor));
+      case 4 -> produto.setEstado(Boolean.parseBoolean(valor)); //como transforma em EstadoProduto?
      }
 
      //Salvar
