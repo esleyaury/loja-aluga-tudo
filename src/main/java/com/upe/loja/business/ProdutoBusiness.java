@@ -25,7 +25,7 @@ public class ProdutoBusiness implements ProdutoInterface{
       List<Produto> disponiveis = new ArrayList<>();
 
       for (Produto produto : listaEstoque){
-        if (produto.getEstado().equals("Disponível")){ //ignorar case e acento ver isso
+        if (produto.getEstado().equals("DISPONIVEL")){ //ignorar case e acento ver isso
           disponiveis.add(produto);
         }
       }
