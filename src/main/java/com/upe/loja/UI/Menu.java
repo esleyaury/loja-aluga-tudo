@@ -17,7 +17,7 @@ public class Menu{
             String digitado = entrada.nextLine();
 
             try{
-                opc = Integer.parseInt(digitado)
+                opc = Integer.parseInt(digitado);
                 processarOpcao(opc);
             } catch(NumberFormatException e){
                 System.out.println("Entrada Inválida! Por favor, digite um número.");
@@ -30,5 +30,4 @@ public class Menu{
     }
     public void processarOpcao(int opc){
         }
-    }
 }
