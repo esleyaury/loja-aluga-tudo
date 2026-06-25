@@ -12,7 +12,7 @@ public class Facade {
     }
 
     public void cadastrarProduto(String id, String nome, BigDecimal taxaDiaria,
-        String conservacao, BigDecimal valorReposicao, Produto.EstadoProduto estado){
+        String conservacao, BigDecimal valorReposicao){
         // Todo o processo de cadastrar um produto.
         // Criar um novo produto
         Produto produto = new Produto(id, nome, taxaDiaria, conservacao,
