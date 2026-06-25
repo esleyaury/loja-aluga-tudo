@@ -29,4 +29,28 @@ public class ProdutoBusiness implements ProdutoInterface{
       }
       return disponiveis;
     }
+
+    public void salvar(Produto produto){
+      //se for colocar coisa de ah nome nao pode estar vazio e n sei oq bota aq
+
+      estoque.salvar(produto);
+    }
+
+    public void atualizar(Produto produto, int option, String valor){
+      //colocar parte de verificacao aqui pra throw exception e tal
+
+      estoque.atualizar(produto, option, valor);
+    }
+
+    public List<Produto> listarTodos(){
+      //verificacoes aq
+      return estoque.listarTodos();
+    }
+
+    public void remover(String id){
+      if (estoque.buscarPorId(id).isEmpty()){
+        throw new IllegalArgumentException("Produto não encontrado"); //não é print
+      }
+      estoque.remover(id);
+    }
 }
