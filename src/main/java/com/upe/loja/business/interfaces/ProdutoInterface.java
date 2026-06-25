@@ -9,4 +9,5 @@ public interface ProdutoInterface {
     void atualizar(Produto produto, int option, String valor);
     List<Produto> listarTodos();
     void remover(String id);
+    void guardarDados();
 }
