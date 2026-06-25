@@ -1,14 +1,12 @@
 package com.upe.loja;
-import com.upe.loja.repository.entity.*;
-import java.math.BigDecimal;
 
+import com.upe.loja.UI.*;
 public class Main{
-  public static void main(String[] args) {
-    Produto produto = new Produto("b52400", "Menob", new BigDecimal("22.2"), "Ben doente", new BigDecimal("0.0"), "Em manutenzion");
-    ProdutoRepository produtoEstoque = new ProdutoRepository(produto);
+  public static void main(String[] args) {  
 
-    produtoEstoque.salvarProduto();
-    produtoEstoque.lerProduto();
+    Menu menu = new Menu(null);
+    menu.iniciar();
+
   }
 }
 
