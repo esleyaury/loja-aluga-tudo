@@ -16,7 +16,7 @@ public class Facade {
         // Todo o processo de cadastrar um produto.
         // Criar um novo produto
         Produto produto = new Produto(id, nome, taxaDiaria, conservacao,
-            valorReposicao, EstadoProduto.valueOf("DISPONIVEL"));
+            valorReposicao, Produto.EstadoProduto.valueOf("DISPONIVEL"));
         produtoBusiness.salvar(produto);
 
         // settar as informaçoes dele
