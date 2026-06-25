@@ -1,8 +1,12 @@
 package com.upe.loja.repository;
 import java.io.File;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.io.BufferedWriter;
 
 import com.upe.loja.repository.entity.Produto;
+import com.upe.loja.repository.entity.Produto.EstadoProduto;
+
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
@@ -10,114 +14,84 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-//Jackson JSON
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-
 public class ProdutoRepository {
-  private ObjectMapper mapper;
   private Map<String, Produto> estoque;
-  private final File arquivoDestino = new File("produtos.json");
+  private final File arquivoProdutos= new File("produtos.csv");
 
   public ProdutoRepository(){
-    this.mapper = new ObjectMapper();
-    this.mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
     this.estoque = carregar();
   }
 
   public Map<String, Produto> carregar(){
 
+    Map <String, Produto> listaProdutos = new HashMap<>();
     try{
-      Map<String, Produto> objetoCarregado = new HashMap<>();
-      objetoCarregado = mapper.readValue(arquivoDestino, new TypeReference<Map<String, Produto>>(){});
-      return objetoCarregado;
-    } catch (Exception e){
-      System.err.println(e.getMessage());
+      if(!arquivoProdutos.exists()){
+        arquivoProdutos.createNewFile();
+        return listaProdutos;
+      }
+    
+    List<String> linhas = Files.readAllLines(arquivoProdutos.toPath());
+    for(String linha : linhas){
+      if(linha.trim().isEmpty()){continue;}
+        
+        String[] dados = linha.split(";");
+        if (dados.length != 6) {continue;}
+
+        String id = dados[0];
+        String nome = dados[1];
+        BigDecimal taxaDiaria = new BigDecimal(dados[2]);
+        String conservacao = dados[3];
+        BigDecimal valorReposicao = new BigDecimal(dados[4]);
+        EstadoProduto estado = EstadoProduto.valueOf(dados[5]); //aq pod colocar um toUpperCase()
+        Produto produto = new Produto(id, nome, taxaDiaria, conservacao, valorReposicao, estado);
+        
+        listaProdutos.put(id, produto);
+      }
+
+    }catch(Exception e){
+      System.err.println(e);
       e.printStackTrace();
-      return new HashMap<>();
     }
-  }
+
+    return listaProdutos;
+  } 
   
   public void salvar(Produto produto){
-    //Rever a logica
-    this.estoque = carregar();
     estoque.put(produto.getID(), produto);
-
-    try {
-      File arquivoDestino = new File("produtos.json");
-      mapper.writerWithDefaultPrettyPrinter()
-        .writeValue(arquivoDestino, estoque);
-    } catch (Exception e){
-        System.err.println(e);
-        e.printStackTrace();
-    }
   }
 
   public List<Produto> listarTodos(){
-    if (this.estoque.isEmpty()){
-      return new ArrayList<>();
-    }
-
     return new ArrayList<>(estoque.values());
-    /*Nao ha certeza de que vai carregar o estoque
-    totalmente atualizado!! */
-
   }
 
   public List<Produto> buscarProduto(String nome){
-    try{
-    return this.estoque.values().stream().filter(p -> p.getNome().equalsIgnoreCase(nome))
+    return this.estoque.values().stream().filter(p -> p.getNome().equalsIgnoreCase(nome.trim()))
     .collect(Collectors.toList());
-    }catch (Exception e){
-      System.err.println(e);
-      e.printStackTrace();
-      return new ArrayList<>();
-    }
-    /*Nao ha certeza de que vai carregar o estoque
-    totalmente atualizado!! */
   }
 
   public Optional<Produto> buscarPorId(String id){
     return Optional.ofNullable(estoque.get(id)); // n concordo c isso n 
   }
 
-  public void atualizar(Produto produto, int option, String valor){
-     switch(option){
-      /* 
-      Menu:
-      Case 1 - Nome
-      Case 2 - Taxa Diaria
-      Case 3 - Conservacao
-      Case 4 - Estado
-      */
-      case 1 -> produto.setNome(valor);
-      case 2 -> produto.setTaxaDiaria(new BigDecimal(valor));
-      case 3 -> produto.setConservacao(valor);
-      case 4 -> produto.setEstado(Produto.
-        EstadoProduto.valueOf(valor.toUpperCase())); 
-     }
-
-     //Salvar
-    try {
-          mapper.writerWithDefaultPrettyPrinter()
-            .writeValue(this.arquivoDestino, estoque);
-        } catch (Exception e){
-            System.err.println(e);
-            e.printStackTrace();
-        }
+  public void atualizar(Produto produto){
+    estoque.put(produto.getID(), produto);
   }
 
   public void remover(String id){
     this.estoque.remove(id);
-    // Salvar
-    try {
-          mapper.writerWithDefaultPrettyPrinter()
-            .writeValue(this.arquivoDestino, estoque);
-        } catch (Exception e){
-            System.err.println(e);
-            e.printStackTrace();
-        }
+  }
+
+  public void guardarDados(){
+    try(BufferedWriter writer = Files.newBufferedWriter(arquivoProdutos.toPath())){
+      for(Produto p : estoque.values()){
+        String linha = String.format("%s;%s;%s;%s;%s;%s", p.getID(), p.getNome(), p.getTaxaDiaria(), p.getConservacao(), p.getValorReposicao(), p.getEstado());
+        writer.write(linha);
+        writer.newLine();
+      }
+    }catch(Exception e){
+      System.err.println(e);
+      e.printStackTrace();
+    }
   }
 }
