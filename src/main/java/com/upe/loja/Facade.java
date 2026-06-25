@@ -1,7 +1,6 @@
 package com.upe.loja;
 import java.math.BigDecimal;
 import java.util.List;
-
 import com.upe.loja.business.*;
 import com.upe.loja.repository.entity.*;
 
@@ -16,8 +15,10 @@ public class Facade {
         String conservacao, BigDecimal valorReposicao, Produto.EstadoProduto estado){
         // Todo o processo de cadastrar um produto.
         // Criar um novo produto
-        Produto produto = new Produto(id, nome, taxaDiaria, conservacao, valorReposicao, estado);
+        Produto produto = new Produto(id, nome, taxaDiaria, conservacao,
+            valorReposicao, EstadoProduto.valueOf("DISPONIVEL"));
         produtoBusiness.salvar(produto);
+
         // settar as informaçoes dele
         // salvar nele no csv
     }
