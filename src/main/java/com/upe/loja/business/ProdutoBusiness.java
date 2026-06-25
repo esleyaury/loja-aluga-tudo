@@ -37,7 +37,7 @@ public class ProdutoBusiness implements ProdutoInterface{
     public void salvar(Produto produto){
 
       //depois ver se essa é a melhor maneira de tratar os erros
-      
+
       // validação estrutural do objeto
       if (produto == null) {
           throw new IllegalArgumentException("O objeto produto não pode ser nulo.");
@@ -135,5 +135,9 @@ public class ProdutoBusiness implements ProdutoInterface{
         throw new IllegalArgumentException("Produto não encontrado"); //não é print
       }
       estoque.remover(id);
+    }
+
+    public void guardarDados(){
+      estoque.guardarDados();
     }
 }
