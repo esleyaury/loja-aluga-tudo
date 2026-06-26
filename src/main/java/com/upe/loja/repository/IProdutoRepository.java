@@ -1,0 +1,17 @@
+package com.upe.loja.repository;
+
+import java.util.List;
+import java.util.Map;
+
+import com.upe.loja.repository.entity.Produto;
+
+public interface IProdutoRepository {
+    public Map<String, Produto> carregar();
+    public void salvar(Produto produto);
+    public Produto buscarPorId(String id);
+    public Map<String, Produto> listarTodos();
+    public List<Produto> buscarProduto(String nome);
+    public void atualizar(Produto produto);
+    public void remover(String id);
+    public void guardarDados();
+}
