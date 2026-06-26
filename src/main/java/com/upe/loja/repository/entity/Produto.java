@@ -17,6 +17,8 @@ public class Produto {
             throw new IllegalArgumentException("O campo 'ID' é obrigatório.");
         }
 
+        this.id = id;
+
         setNome(nome);
         setTaxaDiaria(taxaDiaria);
         setConservacao(conservacao);
