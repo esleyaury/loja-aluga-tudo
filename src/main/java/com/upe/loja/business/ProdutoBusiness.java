@@ -6,11 +6,9 @@ import com.upe.loja.repository.entity.Produto;
 import com.upe.loja.repository.entity.Produto.EstadoProduto;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.ArrayList;
 import java.math.BigDecimal;
 import java.util.Map;
-import java.util.HashMap;
 
 public class ProdutoBusiness implements ProdutoInterface{
   private ProdutoRepository estoque;
