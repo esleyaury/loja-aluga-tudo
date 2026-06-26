@@ -1,11 +1,9 @@
 package com.upe.loja.repository;
 import java.io.File;
-import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.io.BufferedWriter;
 
 import com.upe.loja.repository.entity.Produto;
-import com.upe.loja.repository.entity.Produto.EstadoProduto;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -14,46 +12,14 @@ import java.util.List;
 
 public class ProdutoRepository implements IProdutoRepository{
   private Map<String, Produto> estoque;
-  private final File arquivoProdutos= new File("produtos.csv");
+  private GerirProdutosCSV gerenciadorArquivo;
+  private File arquivoProdutos;
 
   public ProdutoRepository(){
-    this.estoque = carregar();
+    this.arquivoProdutos = new File("produtos.csv");
+    this.gerenciadorArquivo = new GerirProdutosCSV();
+    this.estoque = gerenciadorArquivo.carregar(this.arquivoProdutos);
   }
-
-  public Map<String, Produto> carregar(){
-
-    Map <String, Produto> listaProdutos = new HashMap<>();
-    try{
-      if(!arquivoProdutos.exists()){
-        arquivoProdutos.createNewFile();
-        return listaProdutos;
-      }
-    
-    List<String> linhas = Files.readAllLines(arquivoProdutos.toPath());
-    for(String linha : linhas){
-      if(linha.trim().isEmpty()){continue;}
-        
-        String[] dados = linha.split(";");
-        if (dados.length != 6) {continue;}
-
-        String id = dados[0];
-        String nome = dados[1];
-        BigDecimal taxaDiaria = new BigDecimal(dados[2]);
-        String conservacao = dados[3];
-        BigDecimal valorReposicao = new BigDecimal(dados[4]);
-        EstadoProduto estado = EstadoProduto.valueOf(dados[5]); //aq pod colocar um toUpperCase()
-        Produto produto = new Produto(id, nome, taxaDiaria, conservacao, valorReposicao, estado);
-        
-        listaProdutos.put(id, produto);
-      }
-
-    }catch(Exception e){
-      System.err.println(e);
-      e.printStackTrace();
-    }
-
-    return listaProdutos;
-  } 
   
   public void salvar(Produto produto){
     estoque.put(produto.getID(), produto);

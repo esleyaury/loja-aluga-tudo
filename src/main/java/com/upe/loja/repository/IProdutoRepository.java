@@ -6,7 +6,6 @@ import java.util.Map;
 import com.upe.loja.repository.entity.Produto;
 
 public interface IProdutoRepository {
-    public Map<String, Produto> carregar();
     public void salvar(Produto produto);
     public Produto buscarPorId(String id);
     public Map<String, Produto> listarTodos();
