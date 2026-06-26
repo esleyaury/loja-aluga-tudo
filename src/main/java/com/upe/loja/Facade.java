@@ -1,8 +1,10 @@
 package com.upe.loja;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import com.upe.loja.business.*;
 import com.upe.loja.repository.entity.*;
+import com.upe.loja.repository.entity.Produto.EstadoProduto;
 
 public class Facade {
     private final ProdutoBusiness produtoBusiness;
@@ -28,11 +30,15 @@ public class Facade {
         return produtoBusiness.verificarDisponibilidade(nome);
     }
 
+    public Produto buscarPorId(String id){
+        return produtoBusiness.buscarPorId(id);
+    }
+
     public void atualizarProduto(Produto produto, int option, String valor){
         produtoBusiness.atualizar(produto, option, valor);
     }
 
-    public List<Produto> listarTodos(){
+    public Map<String, Produto> listarTodos(){
         return produtoBusiness.listarTodos();
     }
 
