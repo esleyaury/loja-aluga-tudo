@@ -40,54 +40,16 @@ public class ProdutoBusiness implements IProdutoBusiness{
   }
 
     public void salvar(Produto produto){
-
-      //depois ver se essa é a melhor maneira de tratar os erros
-
       // validação estrutural do objeto
       if (produto == null) {
           throw new IllegalArgumentException("O objeto produto não pode ser nulo.");
       }
 
-      // campos de Texto (Strings) não sejam nulos ou vazios
-      if (produto.getID() == null || produto.getID().trim().isEmpty()) {
-          throw new IllegalArgumentException("O campo 'ID' é obrigatório e deve ser preenchido.");
-      }
-      
-      if (produto.getNome() == null || produto.getNome().trim().isEmpty()) {
-          throw new IllegalArgumentException("O campo 'Nome' é obrigatório e deve ser preenchido.");
-      }
-
-      if (produto.getConservacao() == null || produto.getConservacao().trim().isEmpty()) {
-          throw new IllegalArgumentException("O campo 'Conservação' é obrigatório e deve ser preenchido.");
-      }
-
-      //campo de Tipo (Enum) foi selecionado
-      if (produto.getEstado() == null) {
-          throw new IllegalArgumentException("O campo 'Estado' (Enum) é obrigatório.");
-      }
-
-      // valores numéricos (BigDecimal) existem e são MAIORES QUE ZERO
-      if (produto.getTaxaDiaria() == null) {
-          throw new IllegalArgumentException("O campo 'Taxa Diária' é obrigatório.");
-      }
-      // compareTo <= 0 significa que o valor é menor ou igual a zero
-      if (produto.getTaxaDiaria().compareTo(BigDecimal.ZERO) <= 0) {
-          throw new IllegalArgumentException("A 'Taxa Diária' deve ser um valor estritamente maior que zero.");
-      }
-
-      if (produto.getValorReposicao() == null) {
-          throw new IllegalArgumentException("O campo 'Valor de Reposição' é obrigatório.");
-      }
-      if (produto.getValorReposicao().compareTo(BigDecimal.ZERO) <= 0) {
-          throw new IllegalArgumentException("O 'Valor de Reposição' deve ser um valor estritamente maior que zero.");
-      }
-
       // unicidade (Garantir que não sobrescreva um ID já existente)
       if (estoque.buscarPorId(produto.getID()) != null) {
         throw new IllegalArgumentException("Operação negada: Já existe um produto cadastrado com o ID " + produto.getID());
-        }
+      }
 
-      // Se passar por todas as barreiras acima, o repositório é finalmente acionado
       estoque.salvar(produto);
     }
 
