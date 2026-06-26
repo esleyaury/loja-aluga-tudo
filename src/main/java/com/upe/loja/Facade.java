@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import com.upe.loja.business.*;
 import com.upe.loja.repository.entity.*;
-import com.upe.loja.repository.entity.Produto.EstadoProduto;
 
 public class Facade {
     private final ProdutoBusiness produtoBusiness;
