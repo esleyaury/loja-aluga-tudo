@@ -1,6 +1,6 @@
 package com.upe.loja.business;
 
-import com.upe.loja.business.interfaces.ProdutoInterface;
+import com.upe.loja.business.interfaces.IProdutoBusiness;
 import com.upe.loja.repository.ProdutoRepository;
 import com.upe.loja.repository.entity.Produto;
 import com.upe.loja.repository.entity.Produto.EstadoProduto;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.math.BigDecimal;
 import java.util.Map;
 
-public class ProdutoBusiness implements ProdutoInterface{
+public class ProdutoBusiness implements IProdutoBusiness{
   private ProdutoRepository estoque;
 
   public ProdutoBusiness(ProdutoRepository repository){
