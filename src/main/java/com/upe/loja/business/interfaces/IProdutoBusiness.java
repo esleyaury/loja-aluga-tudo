@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.upe.loja.repository.entity.Produto;
 
-public interface ProdutoInterface {
+public interface IProdutoBusiness {
     public List<Produto> verificarDisponibilidade(String nome);
     void salvar(Produto produto);
     void atualizar(Produto produto, int option, String valor);
