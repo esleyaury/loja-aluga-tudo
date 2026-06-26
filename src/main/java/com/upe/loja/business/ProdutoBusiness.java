@@ -6,8 +6,11 @@ import com.upe.loja.repository.entity.Produto;
 import com.upe.loja.repository.entity.Produto.EstadoProduto;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.ArrayList;
 import java.math.BigDecimal;
+import java.util.Map;
+import java.util.HashMap;
 
 public class ProdutoBusiness implements ProdutoInterface{
   private ProdutoRepository estoque;
@@ -33,6 +36,10 @@ public class ProdutoBusiness implements ProdutoInterface{
       }
       return disponiveis;
     }
+
+    public Produto buscarPorId(String id){
+      return estoque.buscarPorId(id);
+  }
 
     public void salvar(Produto produto){
 
@@ -78,9 +85,9 @@ public class ProdutoBusiness implements ProdutoInterface{
       }
 
       // unicidade (Garantir que não sobrescreva um ID já existente)
-      if (estoque.buscarPorId(produto.getID()).isPresent()) {
-          throw new IllegalArgumentException("Operação negada: Já existe um produto cadastrado com o ID " + produto.getID());
-      }
+      if (estoque.buscarPorId(produto.getID()) != null) {
+        throw new IllegalArgumentException("Operação negada: Já existe um produto cadastrado com o ID " + produto.getID());
+        }
 
       // Se passar por todas as barreiras acima, o repositório é finalmente acionado
       estoque.salvar(produto);
@@ -126,15 +133,12 @@ public class ProdutoBusiness implements ProdutoInterface{
       estoque.atualizar(produto);
     }
 
-    public List<Produto> listarTodos(){
+    public Map<String, Produto> listarTodos(){
       return estoque.listarTodos();
     }
 
     public void remover(String id){
-      if (estoque.buscarPorId(id).isEmpty()){
-        throw new IllegalArgumentException("Produto não encontrado"); //não é print
-      }
-      estoque.remover(id);
+       estoque.remover(id);
     }
 
     public void guardarDados(){
