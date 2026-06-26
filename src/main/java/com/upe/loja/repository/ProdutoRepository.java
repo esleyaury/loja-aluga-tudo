@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import java.util.HashMap;
 import java.util.List;
 
-public class ProdutoRepository {
+public class ProdutoRepository implements IProdutoRepository{
   private Map<String, Produto> estoque;
   private final File arquivoProdutos= new File("produtos.csv");
 
