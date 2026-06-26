@@ -9,7 +9,6 @@ import com.upe.loja.repository.entity.Produto.EstadoProduto;
 
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
