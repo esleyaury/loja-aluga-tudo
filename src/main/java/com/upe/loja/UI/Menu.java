@@ -88,8 +88,15 @@ public class Menu{
     public void menuListarProdutos(){
         Map<String, Produto> produtos = facade.listarTodos();
         for (Produto p : produtos.values()){
-            System.out.println(p);
+            System.out.println("-----------------------------------");
+            System.out.println("ID: " + p.getID());
+            System.out.println("Nome: " + p.getNome());
+            System.out.println("Taxa Diária: R$ " + p.getTaxaDiaria());
+            System.out.println("Conservação: " + p.getConservacao());
+            System.out.println("Valor Reposição: R$ " + p.getValorReposicao());
+            System.out.println("Estado: " + p.getEstado());
         }
+        System.out.println("-----------------------------------");
     }
 
     public void menuAtualizarProduto(){

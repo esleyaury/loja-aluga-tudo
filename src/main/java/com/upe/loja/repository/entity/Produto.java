@@ -43,15 +43,4 @@ public class Produto {
     public void setValorReposicao(BigDecimal valorReposicao){ this.valorReposicao = valorReposicao;}
     public void setEstado(EstadoProduto estado){ this.estado = estado;}
 
-
-    public String toString() {
-        return "-----------------------------------\n" +
-            "ID: " + this.id + "\n" +
-            "Nome: " + this.nome + "\n" +
-            "Taxa Diária: R$ " + this.taxaDiaria + "\n" +
-            "Conservação: " + this.conservacao + "\n" +
-            "Valor Reposição: R$ " + this.valorReposicao + "\n" +
-            "Estado: " + this.estado + "\n" +
-            "-----------------------------------";
-    }
 }
