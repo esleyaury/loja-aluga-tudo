@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 public class ProdutoRepository {
   private Map<String, Produto> estoque;
@@ -61,17 +60,17 @@ public class ProdutoRepository {
     estoque.put(produto.getID(), produto);
   }
 
-  public List<Produto> listarTodos(){
-    return new ArrayList<>(estoque.values());
+  public Produto buscarPorId(String id){
+    return estoque.get(id);
   }
 
+  public Map<String, Produto> listarTodos(){
+    return new HashMap<>(estoque);
+  }
+  //vai pro business?
   public List<Produto> buscarProduto(String nome){
     return this.estoque.values().stream().filter(p -> p.getNome().equalsIgnoreCase(nome.trim()))
     .collect(Collectors.toList());
-  }
-
-  public Optional<Produto> buscarPorId(String id){
-    return Optional.ofNullable(estoque.get(id)); // n concordo c isso n 
   }
 
   public void atualizar(Produto produto){
