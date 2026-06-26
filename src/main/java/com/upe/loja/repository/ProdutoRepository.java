@@ -1,7 +1,5 @@
 package com.upe.loja.repository;
 import java.io.File;
-import java.nio.file.Files;
-import java.io.BufferedWriter;
 
 import com.upe.loja.repository.entity.Produto;
 
@@ -47,15 +45,6 @@ public class ProdutoRepository implements IProdutoRepository{
   }
 
   public void guardarDados(){
-    try(BufferedWriter writer = Files.newBufferedWriter(arquivoProdutos.toPath())){
-      for(Produto p : estoque.values()){
-        String linha = String.format("%s;%s;%s;%s;%s;%s", p.getID(), p.getNome(), p.getTaxaDiaria(), p.getConservacao(), p.getValorReposicao(), p.getEstado());
-        writer.write(linha);
-        writer.newLine();
-      }
-    }catch(Exception e){
-      System.err.println(e);
-      e.printStackTrace();
-    }
+      gerenciadorArquivo.guardarDados(this.arquivoProdutos, this.estoque);
   }
 }
