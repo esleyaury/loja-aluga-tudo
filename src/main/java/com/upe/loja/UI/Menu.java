@@ -4,7 +4,6 @@ import com.upe.loja.repository.entity.Produto;
 
 import java.util.Scanner;
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Map;
 
 public class Menu{
@@ -28,6 +27,8 @@ public class Menu{
                 processarOpcao(opc);
             } catch(NumberFormatException e){
                 System.out.println("Entrada Inválida! Por favor, digite um número.");
+            } catch(IllegalArgumentException e){
+                System.out.println("Erro na operação: " + e.getMessage() + "\n");
             }
         } while (opc != 0) ;
     }
@@ -62,6 +63,7 @@ public class Menu{
 
             case 0:
                 facade.fecharPrograma();
+                entrada.close();
                 break;
             default:
                 System.out.println("Opção Invalida!!!");
@@ -70,10 +72,11 @@ public class Menu{
 
     public void menuCadastrarProduto(){
       System.out.println("Digite: id, nome, taxaDiaria, conservacao, valorReposicao");
-      Scanner scanner = new Scanner(System.in);
-      String linha = scanner.nextLine();
-      //scanner.close();
+      String linha = entrada.nextLine();
       String[] partes = linha.split(",");
+      if (partes.length < 5) {
+        throw new IllegalArgumentException("Formato inválido. Use vírgulas para separar os 5 campos.");
+      }
       String id = partes[0].trim();
       String nome = partes[1].trim();
       BigDecimal taxaDiaria = new BigDecimal(partes[2].trim());
@@ -91,23 +94,19 @@ public class Menu{
 
     public void menuAtualizarProduto(){
         System.out.println("Digite o ID do produto que deseja atualizar:\n");
-        Scanner scanner = new Scanner (System.in);
-        String id = scanner.nextLine();
+        String id = entrada.nextLine();
         Produto produtoEncontrado = facade.buscarPorId(id);
         System.out.println("O que deseja alterar? \n 1- NOME 2-TAXA 3-CONSERVACAO 4-ESTADO\n");
-        int option = scanner.nextInt();
-        scanner.nextLine();
+        int option = entrada.nextInt();
+        entrada.nextLine();
         System.out.println("O que deseja inserir no lugar?\n");
-        String valor = scanner.nextLine();
-        //scanner.close();
+        String valor = entrada.nextLine();
         facade.atualizarProduto(produtoEncontrado, option, valor);
     }
 
     public void menuRemoverProduto(){
         System.out.println("Digite o ID do produto que deseja deletar:\n");
-        Scanner scanner = new Scanner(System.in);
-        String id = scanner.nextLine();
-        //scanner.close();
+        String id = entrada.nextLine();
         Produto produtoEncontrado = facade.buscarPorId(id);
         String idProduto = produtoEncontrado.getID();
         facade.removerProduto(idProduto);
