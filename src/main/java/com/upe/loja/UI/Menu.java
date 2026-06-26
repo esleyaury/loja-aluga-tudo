@@ -27,7 +27,7 @@ public class Menu{
                 processarOpcao(opc);
             } catch(NumberFormatException e){
                 System.out.println("Entrada Inválida! Por favor, digite um número.");
-            } catch(IllegalArgumentException e){
+            } catch(Exception e){
                 System.out.println("Erro na operação: " + e.getMessage() + "\n");
             }
         } while (opc != 0) ;
