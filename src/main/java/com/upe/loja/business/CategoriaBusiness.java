@@ -33,6 +33,16 @@ public class CategoriaBusiness implements ICategoriaBusiness{
         categorias.remover(nome);
     }
 
+    public boolean buscarCategoria(String nome){
+        boolean encontrado = false;
+        for (String c : categorias.listarCategorias()){
+            if(c.equals(nome)){
+                encontrado = true;
+            }
+        }
+        return encontrado;
+    }
+
     public void guardarDados(){
         categorias.guardarDados();
     }
