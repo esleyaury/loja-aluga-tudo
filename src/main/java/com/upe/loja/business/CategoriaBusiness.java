@@ -43,6 +43,10 @@ public class CategoriaBusiness implements ICategoriaBusiness{
         return encontrado;
     }
 
+    public void atualizar(String nomeAtual, String novoNome){
+        categorias.atualizar(nomeAtual, novoNome);
+    }
+
     public void guardarDados(){
         categorias.guardarDados();
     }

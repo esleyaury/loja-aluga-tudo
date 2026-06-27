@@ -9,5 +9,6 @@ public interface ICategoriaBusiness {
     public void criarCategoria(String nome);
     public Set<String> listarCategorias();
     boolean buscarCategoria(String nome);
+    void atualizar(String nomeAtual, String novoNome);
     public void guardarDados();
 }
