@@ -2,7 +2,6 @@ package com.upe.loja.business;
 
 import com.upe.loja.business.interfaces.CategoriaInterface;
 import com.upe.loja.repository.CategoriaRepository;
-import com.upe.loja.repository.entity.Categoria;
 import java.util.Set;
 
 public class CategoriaBusiness implements CategoriaInterface{
@@ -20,9 +19,7 @@ public class CategoriaBusiness implements CategoriaInterface{
         if (categorias.buscarCategoria(nome)) {
             throw new IllegalArgumentException("Categoria já existe.");
         }
-        Categoria categoria = new Categoria(nome);
-        categorias.adicionar(categoria);
-        categorias.salvar();
+        categorias.salvar(nome);
     }
 
     public Set<String> listarCategorias() {
@@ -33,6 +30,6 @@ public class CategoriaBusiness implements CategoriaInterface{
         if (!categorias.buscarCategoria(nome)) {
             throw new IllegalArgumentException("Categoria não encontrada.");
         }
-        categorias.deletar(nome);
+        categorias.remover(nome);
     }
 }
