@@ -19,6 +19,8 @@ public class ProdutoBusiness implements IProdutoBusiness{
   }
 
   @Override
+    // Faz sentido isso aqui, eh regra de negocio!!!
+
     public List<Produto> verificarDisponibilidade(String nome){
       List<Produto> listaEstoque = this.estoque.buscarProduto(nome);
 

@@ -25,6 +25,7 @@ public class Facade {
     }
 
     // Isso vai precisar retornar 
+    // verificarDisponibilidade aqui nao faz sentido - Winsley
     public List<Produto> verificarDisponibilidade(String nome){
         return produtoBusiness.verificarDisponibilidade(nome);
     }
