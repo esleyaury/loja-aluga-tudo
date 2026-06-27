@@ -106,10 +106,10 @@ public class ProdutoBusiness implements IProdutoBusiness{
       estoque.guardarDados();
     }
 
-    public Map<String, Produto> produtosDisponiveis(Map<String, Produto> estoque){
+    public Map<String, Produto> produtosDisponiveis(){
       Map<String, Produto> todos = estoque.listarTodos();
       Map <String, Produto> disponiveis = new HashMap<>();
-      for (Produto p : estoque.values()){
+      for (Produto p : todos.values()){
               EstadoProduto disponibilidade = p.getEstado();
               if (disponibilidade == EstadoProduto.DISPONIVEL){
                   disponiveis.put(p.getID(), p);
