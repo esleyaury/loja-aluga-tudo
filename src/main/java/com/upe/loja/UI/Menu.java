@@ -60,6 +60,7 @@ public class Menu{
             case 4:
                 menuRemoverProduto();
                 break;
+            //criar case 5 para a gerar relatórios, pensar nisso
 
             case 0:
                 facade.fecharPrograma();
