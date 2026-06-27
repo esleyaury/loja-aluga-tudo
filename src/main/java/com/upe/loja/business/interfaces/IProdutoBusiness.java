@@ -11,4 +11,5 @@ public interface IProdutoBusiness {
     Map<String, Produto> listarTodos();
     void remover(String id);
     void guardarDados();
+        public Map<String, Produto> produtosDisponiveis();
 }

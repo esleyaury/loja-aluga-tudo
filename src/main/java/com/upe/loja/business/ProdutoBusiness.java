@@ -7,6 +7,7 @@ import com.upe.loja.repository.entity.Produto.EstadoProduto;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.math.BigDecimal;
 import java.util.Map;
 
@@ -103,5 +104,17 @@ public class ProdutoBusiness implements IProdutoBusiness{
 
     public void guardarDados(){
       estoque.guardarDados();
+    }
+
+    public Map<String, Produto> produtosDisponiveis(Map<String, Produto> estoque){
+      Map<String, Produto> todos = estoque.listarTodos();
+      Map <String, Produto> disponiveis = new HashMap<>();
+      for (Produto p : estoque.values()){
+              EstadoProduto disponibilidade = p.getEstado();
+              if (disponibilidade == EstadoProduto.DISPONIVEL){
+                  disponiveis.put(p.getID(), p);
+              }
+          }
+      return disponiveis;
     }
 }
