@@ -7,8 +7,6 @@ public class Usuario {
     private long telefone;
     private String email;
 
-    public Usuario(){} // construtor vazio para o JSON
-
     public Usuario(long cpf, String senha, String nome, long telefone, String email){
         this.cpf = cpf;
         this.senha = senha;
