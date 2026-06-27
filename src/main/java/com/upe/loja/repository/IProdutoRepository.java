@@ -13,4 +13,6 @@ public interface IProdutoRepository {
     public void atualizar(Produto produto);
     public void remover(String id);
     public void guardarDados();
+    public Map<String, Produto> produtosDisponiveis(Map<String, Produto> estoque);
+
 }

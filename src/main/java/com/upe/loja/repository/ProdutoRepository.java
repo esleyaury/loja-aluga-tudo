@@ -2,6 +2,7 @@ package com.upe.loja.repository;
 import java.io.File;
 
 import com.upe.loja.repository.entity.Produto;
+import com.upe.loja.repository.entity.Produto.EstadoProduto;
 
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -47,4 +48,15 @@ public class ProdutoRepository implements IProdutoRepository{
   public void guardarDados(){
       gerenciadorArquivo.guardarDados(this.arquivoProdutos, this.estoque);
   }
+
+  public Map<String, Produto> produtosDisponiveis(Map<String, Produto> estoque){
+      Map <String, Produto> disponiveis = new HashMap<>();
+      for (Produto p : estoque.values()){
+              EstadoProduto disponibilidade = p.getEstado();
+              if (disponibilidade == EstadoProduto.DISPONIVEL){
+                  disponiveis.put(p.getID(), p);
+              }
+          }
+      return disponiveis;
+    }
 }
