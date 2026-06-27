@@ -53,7 +53,7 @@ public class MenuCategoria{
                 menuRemoverCategoria();
                 break;
             case 0:
-                //fecharPrograma();
+                fecharPrograma();
                 entrada.close();
                 break;
             default:
