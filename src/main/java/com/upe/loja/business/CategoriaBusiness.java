@@ -1,10 +1,10 @@
 package com.upe.loja.business;
 
-import com.upe.loja.business.interfaces.CategoriaInterface;
+import com.upe.loja.business.interfaces.ICategoriaBusiness;
 import com.upe.loja.repository.CategoriaRepository;
 import java.util.Set;
 
-public class CategoriaBusiness implements CategoriaInterface{
+public class CategoriaBusiness implements ICategoriaBusiness{
     private CategoriaRepository categorias;
 
     public CategoriaBusiness(CategoriaRepository categorias){
@@ -31,5 +31,9 @@ public class CategoriaBusiness implements CategoriaInterface{
             throw new IllegalArgumentException("Categoria não encontrada.");
         }
         categorias.remover(nome);
+    }
+
+    public void guardarDados(){
+        categorias.guardarDados();
     }
 }
