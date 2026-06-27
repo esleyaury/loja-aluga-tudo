@@ -51,6 +51,10 @@ public class MenuCategoria{
             case 4:
                 menuRemoverCategoria();
                 break;
+            case 0:
+                //fecharPrograma();
+                entrada.close();
+                break;
             default:
                 System.out.println("Opção inválida");
         }
@@ -122,5 +126,9 @@ public class MenuCategoria{
                 System.err.println("Erro: " + e.getMessage());
             }
         }
+    }
+
+    public void fecharPrograma(){
+        facade.fecharPrograma();
     }
 }
