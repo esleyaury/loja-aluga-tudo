@@ -22,6 +22,10 @@ public class Facade {
         categoriaBusiness.deletarCategoria(nome);
     }
 
+    public boolean buscarCategoria(String nome){
+        return categoriaBusiness.buscarCategoria(nome);
+    }
+
     public void fecharPrograma(){
         categoriaBusiness.guardarDados();
     }
