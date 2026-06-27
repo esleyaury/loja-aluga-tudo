@@ -67,6 +67,7 @@ public class MenuCategoria{
                 }
                 facade.criarCategoria(nome);
                 System.out.println("Categoria criada.");
+                sucesso = true;
             }catch(IllegalArgumentException e){
                 System.err.println("Erro: " + e.getMessage());
             }
