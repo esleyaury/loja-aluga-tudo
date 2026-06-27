@@ -35,6 +35,7 @@ public class MenuCategoria{
         System.out.println("2 - Listar categorias");
         System.out.println("3 - Atualizar uma categoria");
         System.out.println("4 - Remover uma categoria");
+        System.out.println("0 - Fechar programa");
     }
 
     public void processarOpcao(int opc){
