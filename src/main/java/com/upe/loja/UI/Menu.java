@@ -71,18 +71,29 @@ public class Menu{
     }
 
     public void menuCadastrarProduto(){
-      System.out.println("Digite: id, nome, taxaDiaria, conservacao, valorReposicao");
-      String linha = entrada.nextLine();
-      String[] partes = linha.split(",");
-      if (partes.length < 5) {
-        throw new IllegalArgumentException("Formato inválido. Use vírgulas para separar os 5 campos.");
-      }
-      String id = partes[0].trim();
-      String nome = partes[1].trim();
-      BigDecimal taxaDiaria = new BigDecimal(partes[2].trim());
-      String conservacao = partes[3].trim();
-      BigDecimal valorReposicao = new BigDecimal(partes[4].trim());
-      facade.cadastrarProduto(id, nome, taxaDiaria, conservacao, valorReposicao);
+        boolean sucesso = false;
+        while(!sucesso){
+            System.out.println("Digite: id, nome, taxaDiaria, conservacao, valorReposicao");
+            String linha = entrada.nextLine();
+            try{
+                String[] partes = linha.split(",");
+                if (partes.length < 5) {
+                    throw new IllegalArgumentException("Formato inválido. Use vírgulas para separar os 5 campos.");
+                }
+                String id = partes[0].trim();
+                String nome = partes[1].trim();
+                BigDecimal taxaDiaria = new BigDecimal(partes[2].trim());
+                String conservacao = partes[3].trim();
+                BigDecimal valorReposicao = new BigDecimal(partes[4].trim());
+                facade.cadastrarProduto(id, nome, taxaDiaria, conservacao, valorReposicao);
+                System.out.println("Produto cadastrado.");
+                sucesso = true;
+            }catch(NumberFormatException e){
+                System.err.println("Taxa e/ou valor estão fora do formato");
+            } catch(IllegalArgumentException e){
+                System.err.println("Erro: " + e.getMessage());
+            }
+        } 
     }
 
     public void menuListarProdutos(){
@@ -103,19 +114,47 @@ public class Menu{
         System.out.println("Digite o ID do produto que deseja atualizar:\n");
         String id = entrada.nextLine();
         Produto produtoEncontrado = facade.buscarPorId(id);
-        System.out.println("O que deseja alterar? \n 1- NOME 2-TAXA 3-CONSERVACAO 4-ESTADO\n");
-        int option = entrada.nextInt();
-        entrada.nextLine();
-        System.out.println("O que deseja inserir no lugar?\n");
-        String valor = entrada.nextLine();
-        facade.atualizarProduto(produtoEncontrado, option, valor);
+        if(produtoEncontrado == null){
+            System.out.println("Produto não localizado");
+            return;
+        }
+        
+        boolean sucesso = false;
+
+        do{
+            try{
+                System.out.println("O que deseja alterar? \n 1- NOME 2-TAXA 3-CONSERVACAO 4-ESTADO\n");
+                int option = entrada.nextInt();
+                entrada.nextLine();
+                System.out.println("O que deseja inserir no lugar?\n");
+                String valor = entrada.nextLine();
+                facade.atualizarProduto(produtoEncontrado, option, valor);
+                System.out.println("Produto cadastrado.");
+                sucesso = true;
+            }catch(IllegalArgumentException e){
+                System.err.println("Erro: " + e.getMessage() + "\n Tente novamente\n");
+            } 
+        }while (!sucesso);
+        
     }
 
     public void menuRemoverProduto(){
-        System.out.println("Digite o ID do produto que deseja deletar:\n");
-        String id = entrada.nextLine();
-        Produto produtoEncontrado = facade.buscarPorId(id);
-        String idProduto = produtoEncontrado.getID();
-        facade.removerProduto(idProduto);
+        boolean sucesso = false;
+        while(!sucesso){
+            System.out.println("Digite o ID do produto que deseja deletar:\n");
+            String id = entrada.nextLine();
+            try{
+                Produto produtoEncontrado = facade.buscarPorId(id);
+                if (produtoEncontrado == null){
+                    throw new IllegalArgumentException("Produto não encontrado");
+                }
+                String idProduto = produtoEncontrado.getID();
+                facade.removerProduto(idProduto);
+                System.out.println("Produto removido.");
+                sucesso = true;
+            }catch(IllegalArgumentException e){
+                System.err.println("Erro: " + e.getMessage());
+            }
+        }
     }
 }
