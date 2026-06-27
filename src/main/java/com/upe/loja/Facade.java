@@ -26,6 +26,10 @@ public class Facade {
         return categoriaBusiness.buscarCategoria(nome);
     }
 
+    public void atualizarCategoria(String nomeAntigo, String nomeNovo){
+        categoriaBusiness.atualizar(nomeAntigo, nomeNovo);
+    }
+
     public void fecharPrograma(){
         categoriaBusiness.guardarDados();
     }
