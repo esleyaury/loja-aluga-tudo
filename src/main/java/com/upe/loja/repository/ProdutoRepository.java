@@ -2,6 +2,7 @@ package com.upe.loja.repository;
 import java.io.File;
 
 import com.upe.loja.repository.entity.Produto;
+import com.upe.loja.repository.interfaces.IProdutoRepository;
 
 import java.util.Map;
 import java.util.stream.Collectors;
