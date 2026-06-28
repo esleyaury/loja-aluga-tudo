@@ -2,10 +2,7 @@ package com.upe.loja.repository;
 
 import com.upe.loja.repository.IFuncionarioRepository;
 import com.upe.loja.repository.entity.Funcionario;
-import com.upe.loja.repository.entity.Usuario;
 import java.util.HashMap;
-import java.util.stream.Collectors;
-import java.util.List;
 import java.util.Map;
 import java.io.File; 
 
@@ -28,9 +25,8 @@ public class FuncionarioRepository implements IFuncionarioRepository{
     public Map<String, Funcionario> listarTodos(){
         return new HashMap<>(funcionarios);
     }
-    public List<Funcionario> buscarPorCpf(String cpf){
-        return this.funcionarios.values().stream().filter(func -> func.getNome().equalsIgnoreCase(cpf.trim()))
-        .collect(Collectors.toList());
+    public Funcionario buscarPorCpf(String cpf){
+        return funcionarios.get(cpf);
     }
     public void atualizar(Funcionario funcionario){
         funcionarios.put(funcionario.getId(), funcionario);
