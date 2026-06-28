@@ -39,7 +39,7 @@ public class GerirFuncionariosCSV{
                 Cargo cargo = Cargo.valueOf(dados[6].toUpperCase());
 
                 Funcionario funcionario = new Funcionario(id,cpf,senha,nome,email,salario,cargo);
-                listaFuncionarios.put(cpf, funcionario);
+                listaFuncionarios.put(id, funcionario);
         }
 
         }catch (Exception e){
