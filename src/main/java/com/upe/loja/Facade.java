@@ -15,7 +15,7 @@ public class Facade {
         this.funcionarioBusiness = new FuncionarioBusiness();
     }
 
-    public void cadastrarFuncionario(String id, String cpf, String senha, String nome, String email, BigDecimal salario, Cargo cargo){
+    public void cadastrarFuncionario(String cpf, String senha, String nome, String email, BigDecimal salario, Cargo cargo){
         funcionarioBusiness.cadastrarFuncionario(cpf, senha, nome, email, salario, cargo);
     }
 

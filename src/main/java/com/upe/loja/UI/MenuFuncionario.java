@@ -76,7 +76,7 @@ public class MenuFuncionario {
             String linha = entrada.nextLine();
             try{
                 String[] partes = linha.split(",");
-                if(partes.length < 7 ){
+                if(partes.length < 6 ){
                     throw new IllegalArgumentException("Formato inválido");
                 }
                 String cpf = partes[1].trim();
