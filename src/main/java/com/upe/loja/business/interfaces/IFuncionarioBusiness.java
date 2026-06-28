@@ -8,7 +8,7 @@ public interface IFuncionarioBusiness {
     public Funcionario buscarPorId(String id);
     public Funcionario buscarPorCpf(String cpf);
     public Map<String, Funcionario> listarTodos();
-    public void atualizar(Funcionario funcionario);
+    public void atualizar(Funcionario funcionario, int option, String valor);
     public void remover(String id);
     public void guardarDados();
 }
