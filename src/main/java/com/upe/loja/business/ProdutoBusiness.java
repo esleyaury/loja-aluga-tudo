@@ -2,8 +2,6 @@ package com.upe.loja.business;
 
 import com.upe.loja.business.interfaces.IProdutoBusiness;
 import com.upe.loja.repository.ProdutoRepository;
-// [CORREÇÃO ANTIGRAVITY] Adicionado import da interface IProdutoRepository.
-// A camada de negócio deve interagir com a persistência apenas pela interface.
 import com.upe.loja.repository.interfaces.IProdutoRepository;
 import com.upe.loja.repository.entity.Produto;
 import com.upe.loja.repository.entity.Produto.EstadoProduto;
