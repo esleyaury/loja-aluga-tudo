@@ -8,12 +8,11 @@ public class Usuario {
     private String email;
 
     public Usuario(long cpf, String senha, String nome, long telefone, String email){
-        this.cpf = cpf;
-        this.senha = senha;
-        this.nome = nome;
-        this.telefone = telefone;
-        this.email = email;
-
+        setCpf(cpf);
+        setSenha(senha);
+        setNome(nome);
+        setTelefone(telefone);
+        setEmail(email);
     }
 
     public long getCpf(){
@@ -36,13 +35,40 @@ public class Usuario {
         return this.email;
     }
 
-    //setters
-    //os outros acho desnecessario a gente incluir ao menos inicialmente, vamos focar no básico
+    //setters com verificação
+    private void setCpf(long cpf){
+        if (cpf <= 0) {
+            throw new IllegalArgumentException("O campo 'CPF' é obrigatório e deve ser válido.");
+        }
+        this.cpf = cpf;
+    }
 
-    public String setSenha(String senha){return this.senha = senha;}
+    public void setSenha(String senha){
+        if (senha == null || senha.trim().isEmpty()) {
+            throw new IllegalArgumentException("O campo 'Senha' é obrigatório.");
+        }
+        this.senha = senha;
+    }
 
-    public long setTelefone(long telefone){return this.telefone = telefone;}
+    public void setNome(String nome){
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new IllegalArgumentException("O campo 'Nome' é obrigatório.");
+        }
+        this.nome = nome;
+    }
 
-    public String setEmail(String email){return this.email = email;}
+    public void setTelefone(long telefone){
+        if (telefone <= 0) {
+            throw new IllegalArgumentException("O campo 'Telefone' é obrigatório e deve ser válido.");
+        }
+        this.telefone = telefone;
+    }
+
+    public void setEmail(String email){
+        if (email == null || email.trim().isEmpty() || !email.contains("@")) {
+            throw new IllegalArgumentException("O campo 'Email' é obrigatório e deve ser válido.");
+        }
+        this.email = email;
+    }
 
 }
