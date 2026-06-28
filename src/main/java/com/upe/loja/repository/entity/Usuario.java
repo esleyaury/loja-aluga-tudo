@@ -1,7 +1,6 @@
 package com.upe.loja.repository.entity;
 
 public abstract class Usuario {
-    private String id;
     private String cpf;
     private String senha;
     private String nome;
@@ -9,8 +8,7 @@ public abstract class Usuario {
     private TipoPerfil tipo;
 
     
-    public Usuario(String id, String cpf, String senha, String nome, String email, TipoPerfil tipo){
-        this.id = id;
+    public Usuario(String cpf, String senha, String nome, String email, TipoPerfil tipo){
         this.cpf = cpf;
         this.senha = senha;
         this.nome = nome;
@@ -24,11 +22,6 @@ public abstract class Usuario {
         ADMINISTRADOR
     }
     
-
-    public String getId(){
-        return this.id;
-    }
-
     public String getCpf(){
         return this.cpf;
     }

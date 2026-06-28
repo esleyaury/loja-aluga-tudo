@@ -17,11 +17,9 @@ public class FuncionarioRepository implements IFuncionarioRepository{
         this.funcionarios = gereciadorArquivo.carregar(this.arquivoFuncionarios);
     }
     public void salvar(Funcionario funcionario){
-        funcionarios.put(funcionario.getId(), funcionario);
+        funcionarios.put(funcionario.getCpf(), funcionario);
     }
-    public Funcionario buscarPorId(String id){
-        return funcionarios.get(id);
-    }
+
     public Map<String, Funcionario> listarTodos(){
         return new HashMap<>(funcionarios);
     }
@@ -29,10 +27,10 @@ public class FuncionarioRepository implements IFuncionarioRepository{
         return funcionarios.get(cpf);
     }
     public void atualizar(Funcionario funcionario){
-        funcionarios.put(funcionario.getId(), funcionario);
+        funcionarios.put(funcionario.getCpf(), funcionario);
     }
-    public void remover(String id){
-        this.funcionarios.remove(id);
+    public void remover(String cpf){
+        this.funcionarios.remove(cpf);
     }
     public void guardarDados(){
         gereciadorArquivo.guardarDados(this.arquivoFuncionarios, this.funcionarios);

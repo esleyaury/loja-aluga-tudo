@@ -17,25 +17,17 @@ public class FuncionarioBusiness implements IFuncionarioBusiness{
     }
     
     @Override
-    public void cadastrarFuncionario(String id, String cpf, String senha, String nome, String email, BigDecimal salario, Cargo cargo){
-        if (funcionarios.buscarPorId(id) != null){
-            throw new IllegalArgumentException("Já existe um funcionário com esse ID.");
-        }
+    public void cadastrarFuncionario(String cpf, String senha, String nome, String email, BigDecimal salario, Cargo cargo){
         if (funcionarios.buscarPorCpf(cpf) != null){
             throw new IllegalArgumentException("CPF já cadastrado.");
         }
-        Funcionario funcionario = new Funcionario(id, cpf, senha, nome, email, salario, cargo);
+        Funcionario funcionario = new Funcionario(cpf, senha, nome, email, salario, cargo);
         funcionarios.salvar(funcionario);
     }
 
     @Override
     public void salvar(Funcionario funcionario){
         funcionarios.salvar(funcionario);
-    }
-
-    @Override
-    public Funcionario buscarPorId(String id){
-        return funcionarios.buscarPorId(id);
     }
     
     @Override
@@ -49,8 +41,8 @@ public class FuncionarioBusiness implements IFuncionarioBusiness{
     }
 
     @Override
-    public void atualizar(String id, int option, String valor){
-        Funcionario funcionario = funcionarios.buscarPorId(id);
+    public void atualizar(String cpf, int option, String valor){
+        Funcionario funcionario = funcionarios.buscarPorCpf(cpf);
         if(funcionario == null){
             throw new IllegalArgumentException("Funcionário inválido para atualização");
         }
@@ -88,12 +80,12 @@ public class FuncionarioBusiness implements IFuncionarioBusiness{
     }
 
     @Override
-    public void remover(String id){
-        Funcionario funcionario = funcionarios.buscarPorId(id);
+    public void remover(String cpf){
+        Funcionario funcionario = funcionarios.buscarPorCpf(cpf);
         if(funcionario == null){
             throw new IllegalArgumentException("Funcionário inválido para atualização");
         }
-        funcionarios.remover(id);
+        funcionarios.remover(cpf);
     }
 
     @Override

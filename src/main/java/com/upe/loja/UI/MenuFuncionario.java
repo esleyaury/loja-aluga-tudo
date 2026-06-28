@@ -72,21 +72,20 @@ public class MenuFuncionario {
     public void menuCadastrarFuncionario(){
         boolean sucesso = false;
         while(!sucesso){
-            System.out.println("Digite: id, cpf, senha, nome, email, salário e cargo: ");
+            System.out.println("Digite: cpf, senha, nome, email, salário e cargo: ");
             String linha = entrada.nextLine();
             try{
                 String[] partes = linha.split(",");
                 if(partes.length < 7 ){
                     throw new IllegalArgumentException("Formato inválido");
                 }
-                String id = partes[0].trim();
                 String cpf = partes[1].trim();
                 String senha = partes[2].trim();
                 String nome = partes[3].trim();
                 String email = partes[4].trim();
                 BigDecimal salario = new BigDecimal(partes[5].trim());
                 Cargo cargo = Cargo.valueOf(partes[6].trim().toUpperCase());
-                facade.cadastrarFuncionario(id, cpf, senha, nome, email, salario, cargo);
+                facade.cadastrarFuncionario(cpf, senha, nome, email, salario, cargo);
                 sucesso = true;
             } catch(NumberFormatException e){
                 System.err.println("Salário está fora de formato");
@@ -100,7 +99,6 @@ public class MenuFuncionario {
         Map<String, Funcionario> funcionarios = facade.listarTodos();
         for(Funcionario f : funcionarios.values()){
             System.out.println("------------");
-            System.out.println("ID: " + f.getId());
             System.out.println("CPF: " + f.getCpf());
             System.out.println("Nome: " + f.getNome());
             System.out.println("Senha: " + f.getSenha());

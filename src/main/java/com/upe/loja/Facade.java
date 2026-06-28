@@ -16,7 +16,7 @@ public class Facade {
     }
 
     public void cadastrarFuncionario(String id, String cpf, String senha, String nome, String email, BigDecimal salario, Cargo cargo){
-        funcionarioBusiness.cadastrarFuncionario(id, cpf, senha, nome, email, salario, cargo);
+        funcionarioBusiness.cadastrarFuncionario(cpf, senha, nome, email, salario, cargo);
     }
 
     /*public Funcionario buscarPorId(String id){ //pergunta a winsley
@@ -31,12 +31,12 @@ public class Facade {
         return funcionarioBusiness.listarTodos();
     }
 
-    public void atualizar(String id, int option, String valor){
-        funcionarioBusiness.atualizar(id, option, valor);
+    public void atualizar(String cpf, int option, String valor){
+        funcionarioBusiness.atualizar(cpf, option, valor);
     }
 
-    public void remover(String id){
-        funcionarioBusiness.remover(id);
+    public void remover(String cpf){
+        funcionarioBusiness.remover(cpf);
     }
 
     public void fecharPrograma(){

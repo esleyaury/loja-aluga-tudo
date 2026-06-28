@@ -2,7 +2,6 @@ package com.upe.loja.repository;
 
 import com.upe.loja.repository.entity.Funcionario;
 import com.upe.loja.repository.entity.Funcionario.Cargo;
-import com.upe.loja.repository.entity.Usuario.TipoPerfil;
 
 import java.util.Map;
 import java.io.BufferedWriter;
@@ -38,7 +37,7 @@ public class GerirFuncionariosCSV{
                 BigDecimal salario = new BigDecimal(dados[5]);
                 Cargo cargo = Cargo.valueOf(dados[6].toUpperCase());
 
-                Funcionario funcionario = new Funcionario(id,cpf,senha,nome,email,salario,cargo);
+                Funcionario funcionario = new Funcionario(cpf,senha,nome,email,salario,cargo);
                 listaFuncionarios.put(id, funcionario);
         }
 
@@ -51,7 +50,7 @@ public class GerirFuncionariosCSV{
     public void guardarDados(File arquivoFuncionarios, Map<String, Funcionario> funcionarios){
         try(BufferedWriter writer = Files.newBufferedWriter(arquivoFuncionarios.toPath())){
             for (Funcionario func : funcionarios.values()){
-                String linha = String.format("%s;%s;%s;%s;%s;%s;%s",func.getId(),
+                String linha = String.format("%s;%s;%s;%s;%s;%s;%s",func.getCpf(),
                 func.getCpf(), func.getSenha(), func.getNome(),func.getEmail(),func.getSalario(),
                 func.getCargo());
 

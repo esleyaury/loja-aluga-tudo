@@ -7,8 +7,8 @@ public class Funcionario extends Usuario{
     private Cargo cargo;
     private BigDecimal salario;
 
-    public Funcionario(String id, String cpf, String senha, String nome, String email, BigDecimal salario, Cargo cargo){
-        super(id,cpf,senha,nome,email,TipoPerfil.FUNCIONARIO);
+    public Funcionario(String cpf, String senha, String nome, String email, BigDecimal salario, Cargo cargo){
+        super(cpf,senha,nome,email,TipoPerfil.FUNCIONARIO);
         this.salario = salario;
         this.cargo = cargo;
     }
