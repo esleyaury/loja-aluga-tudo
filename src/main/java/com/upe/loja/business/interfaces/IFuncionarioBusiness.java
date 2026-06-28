@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface IFuncionarioBusiness {
     public void cadastrarFuncionario(String id, String cpf, String senha, String nome, String email, BigDecimal salario, Cargo cargo);
-    public void salvar(String id);
+    public void salvar(Funcionario funcionario);
     public Funcionario buscarPorId(String id);
     public Funcionario buscarPorCpf(String cpf);
     public Map<String, Funcionario> listarTodos();
