@@ -91,6 +91,10 @@ public class FuncionarioBusiness implements IFuncionarioBusiness{
 
     @Override
     public void remover(String id){
+        Funcionario funcionario = funcionarios.buscarPorId(id);
+        if(funcionario == null){
+            throw new IllegalArgumentException("Funcionário inválido para atualização");
+        }
         funcionarios.remover(id);
     }
 
