@@ -79,12 +79,12 @@ public class MenuFuncionario {
                 if(partes.length < 6 ){
                     throw new IllegalArgumentException("Formato inválido");
                 }
-                String cpf = partes[1].trim();
-                String senha = partes[2].trim();
-                String nome = partes[3].trim();
-                String email = partes[4].trim();
-                BigDecimal salario = new BigDecimal(partes[5].trim());
-                Cargo cargo = Cargo.valueOf(partes[6].trim().toUpperCase());
+                String cpf = partes[0].trim();
+                String senha = partes[1].trim();
+                String nome = partes[2].trim();
+                String email = partes[3].trim();
+                BigDecimal salario = new BigDecimal(partes[4].trim());
+                Cargo cargo = Cargo.valueOf(partes[5].trim().toUpperCase());
                 facade.cadastrarFuncionario(cpf, senha, nome, email, salario, cargo);
                 sucesso = true;
             } catch(NumberFormatException e){
