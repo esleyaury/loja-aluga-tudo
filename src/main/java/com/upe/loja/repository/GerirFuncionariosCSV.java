@@ -1,0 +1,45 @@
+package com.upe.loja.repository;
+
+import com.upe.loja.repository.entity.Funcionario;
+import com.upe.loja.repository.entity.Funcionario.Cargo;
+import com.upe.loja.repository.entity.Usuario.TipoPerfil;
+
+import java.util.Map;
+import java.io.File;
+import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.List;
+
+
+public class GerirFuncionariosCSV{
+    public Map<String, Funcionario> carregar(File arquivoFuncionarios){
+        Map<String, Funcionario> listaFuncionarios = new HashMap<>();
+
+        try{
+            if (!arquivoFuncionarios.exists()){
+                arquivoFuncionarios.createNewFile();
+                return listaFuncionarios;
+            }
+            List<String> linhas = Files.readAllLines(arquivoFuncionarios.toPath());
+        
+            for (String linha : linhas){
+                if (linha.trim().isEmpty()){continue;}
+
+                String[] dados = linha.split(";");
+                if (dados.length != 7){continue;}
+
+                String id = dados[0];
+                String cpf = dados[1];
+                String senha = dados[2];
+                String nome = dados[3];
+                String email = dados[4];
+                BigDecimal salario = new BigDecimal(dados[5]);
+                Cargo cargo = Cargo.valueOf(dados[6].toUpperCase());
+        }
+        
+        }
+        
+
+    }
+}

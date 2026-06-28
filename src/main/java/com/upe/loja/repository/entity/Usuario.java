@@ -9,7 +9,7 @@ public abstract class Usuario {
     private TipoPerfil tipo;
 
     
-    public Usuario(String id, String cpf, String senha, String nome, String email, tipoPerfil tipo){
+    public Usuario(String id, String cpf, String senha, String nome, String email, TipoPerfil tipo){
         this.id = id;
         this.cpf = cpf;
         this.senha = senha;
