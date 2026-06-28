@@ -12,6 +12,7 @@ public class Funcionario extends Usuario{
         this.salario = salario;
         this.cargo = cargo;
     }
+
     public enum Cargo{
         ESTAGIARIO,
         ATENDENTE,
@@ -19,11 +20,18 @@ public class Funcionario extends Usuario{
         GERENTE,
         CEO
     }
+
+    public String getSenha(){
+        return super.getSenha();
+    }
+
     public BigDecimal getSalario(){
         return this.salario;
+    
     }
     public Cargo getCargo(){
         return this.cargo;
+    
     }
     public void setSalario(BigDecimal salarioNovo){
         if (salarioNovo == null){
@@ -44,5 +52,12 @@ public class Funcionario extends Usuario{
     public void setCargo(Cargo cargo){
         this.cargo = cargo;
         /*Adicionar verificação para CEO, só pode ter 3 em ativação*/
+    }
+
+    public void setSenha(String senha){
+        if(senha == null){
+            throw new IllegalArgumentException("Senha não pode ser nula");
+        }
+        super.setSenha(senha);
     }
 }
