@@ -25,11 +25,6 @@ public class Facade {
         this.produtoBusiness = new ProdutoBusiness();
     }
 
-    // [CORREÇÃO ANTIGRAVITY] Método refatorado: antes criava o objeto Produto aqui
-    // dentro do Facade (new Produto(...)). Isso violava a arquitetura porque a
-    // criação de entidades com regras de validação é responsabilidade da camada de
-    // negócio, não da Facade. Agora o Facade apenas delega os dados primitivos para
-    // o Business, que decide como criar e validar o Produto.
     public void cadastrarProduto(String id, String nome, BigDecimal taxaDiaria,
         String conservacao, BigDecimal valorReposicao){
         produtoBusiness.cadastrarProduto(id, nome, taxaDiaria, conservacao, valorReposicao);
