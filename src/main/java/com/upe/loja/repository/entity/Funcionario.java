@@ -21,10 +21,6 @@ public class Funcionario extends Usuario{
         CEO
     }
 
-    public String getSenha(){
-        return super.getSenha();
-    }
-
     public BigDecimal getSalario(){
         return this.salario;
     
