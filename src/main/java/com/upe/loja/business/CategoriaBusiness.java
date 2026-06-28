@@ -7,8 +7,8 @@ import java.util.Set;
 public class CategoriaBusiness implements ICategoriaBusiness{
     private CategoriaRepository categorias;
 
-    public CategoriaBusiness(CategoriaRepository categorias){
-        this.categorias = categorias;
+    public CategoriaBusiness(){
+        this.categorias = new CategoriaRepository();
     }
     @Override
 

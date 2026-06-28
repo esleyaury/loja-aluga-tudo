@@ -1,13 +1,15 @@
 package com.upe.loja;
 
 import com.upe.loja.business.CategoriaBusiness;
+import com.upe.loja.business.interfaces.ICategoriaBusiness;
+
 import java.util.Set;
 
 public class Facade {
-    private final CategoriaBusiness categoriaBusiness;
+    private final ICategoriaBusiness categoriaBusiness;
 
-    public Facade(CategoriaBusiness categoriaBusiness){
-        this.categoriaBusiness = categoriaBusiness;
+    public Facade(){
+        this.categoriaBusiness = new CategoriaBusiness();
     }
     
     public void criarCategoria(String nome){
