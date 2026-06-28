@@ -24,7 +24,6 @@ public abstract class Usuario {
         Administrador
     }
     
-    public abstract String getTipoPerfil();
 
     public String getId(){
         return this.id;
@@ -44,6 +43,9 @@ public abstract class Usuario {
 
     public String getEmail(){
         return this.email;
+    }
+    public tipoPerfil getTipo(){
+        return this.tipo;
     }
 
     //setters
