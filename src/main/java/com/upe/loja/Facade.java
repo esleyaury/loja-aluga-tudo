@@ -19,11 +19,11 @@ public class Facade {
         funcionarioBusiness.cadastrarFuncionario(id, cpf, senha, nome, email, salario, cargo);
     }
 
-    public Funcionario buscarPorId(String id){
+    public Funcionario buscarPorId(String id){ //pergunta a winsley
         return funcionarioBusiness.buscarPorId(id);
     }
     
-    public Funcionario buscarPorCpf(String cpf){
+    public Funcionario buscarPorCpf(String cpf){ //pergunta a winsley
         return funcionarioBusiness.buscarPorCpf(cpf);
     }
 
@@ -39,7 +39,7 @@ public class Facade {
         funcionarioBusiness.remover(id);
     }
 
-    public void guardarDados(){
+    public void fecharPrograma(){
         funcionarioBusiness.guardarDados();
     }
 }
