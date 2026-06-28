@@ -1,22 +1,36 @@
 package com.upe.loja.repository.entity;
 
-public class Usuario {
-    private long cpf;
-    private String senha; // um cpf pode ser cliente e funcionario, por exemplo, oq vai diferenciar o acesso vai ser essa senha
+public abstract class Usuario {
+    private String id;
+    private String cpf;
+    private String senha;
     private String nome;
-    private long telefone;
     private String email;
+    private tipoPerfil tipo;
 
-    public Usuario(long cpf, String senha, String nome, long telefone, String email){
+    
+    public Usuario(String id, String cpf, String senha, String nome, String email, tipoPerfil tipo){
+        this.id = id;
         this.cpf = cpf;
         this.senha = senha;
         this.nome = nome;
-        this.telefone = telefone;
         this.email = email;
-
+        this.tipo = tipo;
     }
 
-    public long getCpf(){
+    public enum tipoPerfil{
+        Funcionario,
+        Cliente,
+        Administrador
+    }
+    
+    public abstract String getTipoPerfil();
+
+    public String getId(){
+        return this.id;
+    }
+
+    public String getCpf(){
         return this.cpf;
     }
 
@@ -28,21 +42,16 @@ public class Usuario {
         return this.nome;
     }
 
-    public long getTelefone(){
-        return this.telefone;
-    }
-
     public String getEmail(){
         return this.email;
     }
 
     //setters
     //os outros acho desnecessario a gente incluir ao menos inicialmente, vamos focar no básico
-
-    public String setSenha(String senha){return this.senha = senha;}
-
-    public long setTelefone(long telefone){return this.telefone = telefone;}
-
-    public String setEmail(String email){return this.email = email;}
+    public void setCpf(String cpf){this.cpf = cpf;}
+    public void setTipoPerfil(tipoPerfil tipo){this.tipo = tipo;}
+    public void setSenha(String senha){this.senha = senha;}
+    public void setNome(String nome){this.nome = nome;}
+    public void setEmail(String email){this.email = email;}
 
 }
