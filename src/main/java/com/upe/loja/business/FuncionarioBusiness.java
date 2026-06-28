@@ -30,14 +30,6 @@ public class FuncionarioBusiness implements IFuncionarioBusiness{
 
     @Override
     public void salvar(Funcionario funcionario){
-        if (funcionario == null){
-            throw new IllegalArgumentException("Funcionario não pode estar vázio");
-        }
-
-        if (funcionarios.buscarPorCpf(funcionario.getCpf()) != null){
-            throw new IllegalArgumentException("O cpf já está cadastrado");
-        }
-
         funcionarios.salvar(funcionario);
     }
 
