@@ -4,14 +4,16 @@ import java.util.Map;
 import java.math.BigDecimal;
 
 import com.upe.loja.business.interfaces.IFuncionarioBusiness;
+import com.upe.loja.repository.IFuncionarioRepository;
+import com.upe.loja.repository.FuncionarioRepository;
 import com.upe.loja.repository.entity.Funcionario;
 import com.upe.loja.repository.entity.Funcionario.Cargo;
 
 public class FuncionarioBusiness implements IFuncionarioBusiness{
-    private IFuncionarioBusiness funcionarios;
+    private IFuncionarioRepository funcionarios;
     
     public FuncionarioBusiness(){
-        this.funcionarios = new FuncionarioBusiness();
+        this.funcionarios = new FuncionarioRepository();
     }
     
     @Override
@@ -49,7 +51,8 @@ public class FuncionarioBusiness implements IFuncionarioBusiness{
     }
 
     @Override
-    public void atualizar(Funcionario funcionario, int option, String valor){
+    public void atualizar(String id, int option, String valor){
+        Funcionario funcionario = funcionarios.buscarPorId(id);
         if(funcionario == null){
             throw new IllegalArgumentException("Funcionário inválido para atualização");
         }
@@ -83,7 +86,7 @@ public class FuncionarioBusiness implements IFuncionarioBusiness{
             }
             default -> throw new IllegalArgumentException("Opção inválida");
         }
-        funcionarios.atualizar(funcionario, option, valor);
+        funcionarios.atualizar(funcionario);
     }
 
     @Override
