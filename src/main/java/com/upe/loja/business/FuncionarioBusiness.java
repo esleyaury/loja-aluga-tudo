@@ -4,7 +4,7 @@ import java.util.Map;
 import java.math.BigDecimal;
 
 import com.upe.loja.business.interfaces.IFuncionarioBusiness;
-import com.upe.loja.repository.interface.IFuncionarioRepository;
+import com.upe.loja.repository.interfaces.IFuncionarioRepository;
 import com.upe.loja.repository.FuncionarioRepository;
 import com.upe.loja.repository.entity.Funcionario;
 import com.upe.loja.repository.entity.Funcionario.Cargo;
