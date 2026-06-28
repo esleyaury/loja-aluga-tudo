@@ -27,18 +27,17 @@ public class GerirFuncionariosCSV{
                 if (linha.trim().isEmpty()){continue;}
 
                 String[] dados = linha.split(";");
-                if (dados.length != 7){continue;}
+                if (dados.length != 6){continue;}
 
-                String id = dados[0];
-                String cpf = dados[1];
-                String senha = dados[2];
-                String nome = dados[3];
-                String email = dados[4];
-                BigDecimal salario = new BigDecimal(dados[5]);
-                Cargo cargo = Cargo.valueOf(dados[6].toUpperCase());
+                String cpf = dados[0];
+                String senha = dados[1];
+                String nome = dados[2];
+                String email = dados[3];
+                BigDecimal salario = new BigDecimal(dados[4]);
+                Cargo cargo = Cargo.valueOf(dados[5].toUpperCase());
 
                 Funcionario funcionario = new Funcionario(cpf,senha,nome,email,salario,cargo);
-                listaFuncionarios.put(id, funcionario);
+                listaFuncionarios.put(cpf, funcionario);
         }
 
         }catch (Exception e){
@@ -50,9 +49,8 @@ public class GerirFuncionariosCSV{
     public void guardarDados(File arquivoFuncionarios, Map<String, Funcionario> funcionarios){
         try(BufferedWriter writer = Files.newBufferedWriter(arquivoFuncionarios.toPath())){
             for (Funcionario func : funcionarios.values()){
-                String linha = String.format("%s;%s;%s;%s;%s;%s;%s",func.getCpf(),
-                func.getCpf(), func.getSenha(), func.getNome(),func.getEmail(),func.getSalario(),
-                func.getCargo());
+                String linha = String.format("%s;%s;%s;%s;%s;%s",func.getCpf(),
+                func.getSenha(), func.getNome(),func.getEmail(),func.getSalario(),func.getCargo());
 
                 writer.write(linha);
                 writer.newLine();
