@@ -1,12 +1,34 @@
 package com.upe.loja.repository.entity;
 
-public class Cliente extends Usuario{
-    //atributos diferentes?
+public class Cliente extends Usuario {
+
+    private EstadoCliente estado;
+    private boolean inadimplente;
 
     public Cliente(long cpf, String senha, String nome, long telefone, String email){
         super(cpf, senha, nome, telefone, email);
-        //se add atributos colocar o this.xx = xx normal aqui
+        this.estado = EstadoCliente.ATIVO;
+        this.inadimplente = false;
     }
 
-    //getters e setters so se add coisas diferentes?
+    public enum EstadoCliente{
+        ATIVO,
+        INATIVO // usado para exclusão lógica (RN05), quando o cliente possui histórico de contratos
+    }
+
+    //getters
+    public EstadoCliente getEstado(){ return this.estado; }
+    public boolean isInadimplente(){ return this.inadimplente; }
+
+    //setters com verificação
+    public void setEstado(EstadoCliente estado){
+        if (estado == null) {
+            throw new IllegalArgumentException("O campo 'Estado' é obrigatório.");
+        }
+        this.estado = estado;
+    }
+
+    public void setInadimplente(boolean inadimplente){
+        this.inadimplente = inadimplente;
+    }
 }
