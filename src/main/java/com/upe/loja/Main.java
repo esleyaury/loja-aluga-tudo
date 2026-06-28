@@ -6,7 +6,7 @@ public class Main{
   public static void main(String[] args) {  
     Facade facade = new Facade();
 
-    Menu menu = new Menu(Facade);
+    MenuFuncionario menu = new MenuFuncionario(facade);
     menu.iniciar();
   }
 }
