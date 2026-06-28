@@ -110,7 +110,7 @@ public class MenuFuncionario {
     }
 
     public void menuAtualizarFuncionario(){
-        System.out.println("Digite o ID do funcionário que deseja alterar:\n");
+        System.out.println("Digite o CPF do funcionário que deseja alterar:\n");
         String cpf = entrada.nextLine();
         boolean sucesso = false;
         do{
