@@ -19,9 +19,9 @@ public class Facade {
         funcionarioBusiness.cadastrarFuncionario(id, cpf, senha, nome, email, salario, cargo);
     }
 
-    public Funcionario buscarPorId(String id){ //pergunta a winsley
+    /*public Funcionario buscarPorId(String id){ //pergunta a winsley
         return funcionarioBusiness.buscarPorId(id);
-    }
+    } */
     
     public Funcionario buscarPorCpf(String cpf){ //pergunta a winsley
         return funcionarioBusiness.buscarPorCpf(cpf);
@@ -31,8 +31,8 @@ public class Facade {
         return funcionarioBusiness.listarTodos();
     }
 
-    public void atualizar(Funcionario funcionario, int option, String valor){
-        funcionarioBusiness.atualizar(funcionario, option, valor);
+    public void atualizar(String id, int option, String valor){
+        funcionarioBusiness.atualizar(id, option, valor);
     }
 
     public void remover(String id){
