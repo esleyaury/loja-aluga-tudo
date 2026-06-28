@@ -111,7 +111,7 @@ public class MenuFuncionario {
 
     public void menuAtualizarFuncionario(){
         System.out.println("Digite o ID do funcionário que deseja alterar:\n");
-        String id = entrada.nextLine();
+        String cpf = entrada.nextLine();
         boolean sucesso = false;
         do{
             try{
@@ -120,7 +120,7 @@ public class MenuFuncionario {
                 entrada.nextLine();
                 System.out.println("Qual valor inserir no lugar?\n");
                 String valor = entrada.nextLine();
-                facade.atualizar(id, option, valor);
+                facade.atualizar(cpf, option, valor);
                 System.out.println("Funcionário atualizado");
                 sucesso = true;
             } catch(IllegalArgumentException e){
@@ -135,10 +135,10 @@ public class MenuFuncionario {
     public void menuRemoverFuncionario(){
         boolean sucesso = false;
         while(!sucesso){
-            System.out.println("Digite o ID do funcionário que deseja remover:\n");
-            String id = entrada.nextLine();
+            System.out.println("Digite o CPF do funcionário que deseja remover:\n");
+            String cpf = entrada.nextLine();
             try{
-                facade.remover(id);
+                facade.remover(cpf);
                 System.out.println("Funcionário removido");
                 sucesso = true;
             } catch(IllegalArgumentException e){
