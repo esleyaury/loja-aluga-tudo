@@ -5,6 +5,7 @@ import com.upe.loja.repository.entity.Funcionario.Cargo;
 import com.upe.loja.repository.entity.Usuario.TipoPerfil;
 
 import java.util.Map;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.math.BigDecimal;
 import java.nio.file.Files;
@@ -36,10 +37,30 @@ public class GerirFuncionariosCSV{
                 String email = dados[4];
                 BigDecimal salario = new BigDecimal(dados[5]);
                 Cargo cargo = Cargo.valueOf(dados[6].toUpperCase());
-        }
-        
-        }
-        
 
+                Funcionario funcionario = new Funcionario(id,cpf,senha,nome,email,salario,cargo);
+                listaFuncionarios.put(cpf, funcionario);
+        }
+
+        }catch (Exception e){
+            System.err.println(e);
+            e.printStackTrace();
+        }
+        return listaFuncionarios;
+    }
+    public void guardarDados(File arquivoFuncionarios, Map<String, Funcionario> funcionarios){
+        try(BufferedWriter writer = Files.newBufferedWriter(arquivoFuncionarios.toPath())){
+            for (Funcionario func : funcionarios.values()){
+                String linha = String.format("%s;%s;%s;%s;%s;%s;%s",func.getId(),
+                func.getCpf(), func.getSenha(), func.getNome(),func.getEmail(),func.getSalario(),
+                func.getCargo());
+
+                writer.write(linha);
+                writer.newLine();
+            }
+        }catch (Exception e){
+            System.err.println(e);
+            e.printStackTrace();
+        }
     }
 }
