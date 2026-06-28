@@ -6,12 +6,23 @@ public class Funcionario extends Usuario{
 
     private Cargo cargo;
     private BigDecimal salario;
+    private boolean permissaoAdmin;
 
-    public Funcionario(String id, String cpf, String senha, String nome, String email, BigDecimal salario, Cargo cargo){
+    public Funcionario(String id, String cpf, String senha, String nome, 
+        String email, BigDecimal salario, Cargo cargo){
         super(id,cpf,senha,nome,email,TipoPerfil.FUNCIONARIO);
         this.salario = salario;
         this.cargo = cargo;
+        this.permissaoAdmin = false;
     }
+
+    protected Funcionario(String id, String cpf, String senha, String nome, 
+        String email, boolean permissaoAdmin){
+        
+        super(id, cpf, senha, nome, email, TipoPerfil.ADMINISTRADOR);
+        this.permissaoAdmin = permissaoAdmin;
+    }
+
     public enum Cargo{
         ESTAGIARIO,
         ATENDENTE,
@@ -57,5 +68,9 @@ public class Funcionario extends Usuario{
     public void setCargo(Cargo cargo){
         this.cargo = cargo;
         /*Adicionar verificação para CEO, só pode ter 3 em ativação*/
+    }
+
+    public boolean getPermissao(){
+        return this.permissaoAdmin;
     }
 }
