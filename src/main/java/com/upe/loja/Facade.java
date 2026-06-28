@@ -3,24 +3,13 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-// [CORREÇÃO ANTIGRAVITY] Import concreto mantido apenas para instanciação interna.
 import com.upe.loja.business.ProdutoBusiness;
-// [CORREÇÃO ANTIGRAVITY] Facade agora referencia a interface, não a classe concreta.
-// Isso garante que a camada de apresentação (UI) só interage com a camada de
-// negócio por meio de interface, respeitando a arquitetura de 3 camadas.
 import com.upe.loja.business.interfaces.IProdutoBusiness;
 import com.upe.loja.repository.entity.Produto;
 
 public class Facade {
-    // [CORREÇÃO ANTIGRAVITY] Tipo alterado de ProdutoBusiness (concreto) para
-    // IProdutoBusiness (interface). A Facade deve depender apenas da interface
-    // da camada de negócio.
     private final IProdutoBusiness produtoBusiness;
 
-    // [CORREÇÃO ANTIGRAVITY] Construtor alterado: antes recebia ProdutoBusiness
-    // por parâmetro (forçando a Main a conhecer a camada de negócio). Agora cria
-    // internamente, seguindo o requisito: "A UI não deve instanciar regras de
-    // negócio ou repositórios diretamente."
     public Facade(){
         this.produtoBusiness = new ProdutoBusiness();
     }
