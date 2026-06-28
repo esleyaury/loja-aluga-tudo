@@ -5,8 +5,6 @@ import java.util.Map;
 
 import com.upe.loja.repository.entity.Produto;
 
-// [CORREÇÃO ANTIGRAVITY] Interface movida de repository/ para repository/interfaces/
-// para seguir o padrão de organização do projeto (mesmo padrão de business/interfaces/).
 public interface IProdutoRepository {
     public void salvar(Produto produto);
     public Produto buscarPorId(String id);
