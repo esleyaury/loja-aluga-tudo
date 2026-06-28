@@ -2,6 +2,9 @@ package com.upe.loja.repository;
 import java.io.File;
 
 import com.upe.loja.repository.entity.Produto;
+// [CORREÇÃO ANTIGRAVITY] Import atualizado para apontar para repository/interfaces/
+// seguindo o padrão de organização do projeto (mesmo padrão de business/interfaces/).
+import com.upe.loja.repository.interfaces.IProdutoRepository;
 
 import java.util.Map;
 import java.util.stream.Collectors;

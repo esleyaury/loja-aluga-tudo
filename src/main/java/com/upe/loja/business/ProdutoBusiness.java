@@ -2,6 +2,9 @@ package com.upe.loja.business;
 
 import com.upe.loja.business.interfaces.IProdutoBusiness;
 import com.upe.loja.repository.ProdutoRepository;
+// [CORREÇÃO ANTIGRAVITY] Adicionado import da interface IProdutoRepository.
+// A camada de negócio deve interagir com a persistência apenas pela interface.
+import com.upe.loja.repository.interfaces.IProdutoRepository;
 import com.upe.loja.repository.entity.Produto;
 import com.upe.loja.repository.entity.Produto.EstadoProduto;
 
@@ -12,10 +15,28 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 public class ProdutoBusiness implements IProdutoBusiness{
-  private ProdutoRepository estoque;
+  // [CORREÇÃO ANTIGRAVITY] Tipo do campo alterado de ProdutoRepository (concreto)
+  // para IProdutoRepository (interface). Cada camada só deve conhecer a interface
+  // da camada abaixo, nunca a implementação concreta.
+  private IProdutoRepository estoque;
 
-  public ProdutoBusiness(ProdutoRepository repository){
-    this.estoque = repository; 
+  // [CORREÇÃO ANTIGRAVITY] Construtor alterado: antes recebia ProdutoRepository
+  // por parâmetro (fazendo a Main conhecer todas as camadas). Agora cria o
+  // repository internamente, seguindo o Facade Pattern do projeto onde cada
+  // camada encapsula a instanciação da camada abaixo.
+  public ProdutoBusiness(){
+    this.estoque = new ProdutoRepository();
+  }
+
+  // [CORREÇÃO ANTIGRAVITY] Novo método: a criação do objeto Produto foi movida
+  // para cá (antes estava no Facade). A camada de negócio é a responsável por
+  // criar entidades e aplicar regras de validação, não a Facade.
+  @Override
+  public void cadastrarProduto(String id, String nome, BigDecimal taxaDiaria,
+      String conservacao, BigDecimal valorReposicao){
+      Produto produto = new Produto(id, nome, taxaDiaria, conservacao,
+          valorReposicao, Produto.EstadoProduto.valueOf("DISPONIVEL"));
+      salvar(produto);
   }
 
   @Override
