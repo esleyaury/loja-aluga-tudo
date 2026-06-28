@@ -18,8 +18,14 @@ public class FuncionarioBusiness implements IFuncionarioBusiness{
     
     @Override
     public void cadastrarFuncionario(String id, String cpf, String senha, String nome, String email, BigDecimal salario, Cargo cargo){
+        if (funcionarios.buscarPorId(id) != null){
+            throw new IllegalArgumentException("Já existe um funcionário com esse ID.");
+        }
+        if (funcionarios.buscarPorCpf(cpf) != null){
+            throw new IllegalArgumentException("CPF já cadastrado.");
+        }
         Funcionario funcionario = new Funcionario(id, cpf, senha, nome, email, salario, cargo);
-        salvar(funcionario);
+        funcionarios.salvar(funcionario);
     }
 
     @Override
