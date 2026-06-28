@@ -1,6 +1,6 @@
 package com.upe.loja.repository;
 
-import com.upe.loja.repository.IFuncionarioRepository;
+import com.upe.loja.repository.interface.IFuncionarioRepository;
 import com.upe.loja.repository.entity.Funcionario;
 import java.util.HashMap;
 import java.util.Map;
