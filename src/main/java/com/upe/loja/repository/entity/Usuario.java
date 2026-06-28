@@ -6,10 +6,9 @@ public abstract class Usuario {
     private String senha;
     private String nome;
     private String email;
-    private tipoPerfil tipo;
-
+    private TipoPerfil tipo;
     
-    public Usuario(String id, String cpf, String senha, String nome, String email, tipoPerfil tipo){
+    public Usuario(String id, String cpf, String senha, String nome, String email, TipoPerfil tipo){
         this.id = id;
         this.cpf = cpf;
         this.senha = senha;
@@ -18,10 +17,11 @@ public abstract class Usuario {
         this.tipo = tipo;
     }
 
-    public enum tipoPerfil{
-        Funcionario,
-        Cliente,
-        Administrador
+    public enum TipoPerfil{
+        FUNCIONARIO,
+        CLIENTE,
+        ADMINISTRADOR
+
     }
     
 
@@ -44,14 +44,14 @@ public abstract class Usuario {
     public String getEmail(){
         return this.email;
     }
-    public tipoPerfil getTipo(){
+    public TipoPerfil getTipo(){
         return this.tipo;
     }
 
     //setters
     //os outros acho desnecessario a gente incluir ao menos inicialmente, vamos focar no básico
     public void setCpf(String cpf){this.cpf = cpf;}
-    public void setTipoPerfil(tipoPerfil tipo){this.tipo = tipo;}
+    public void setTipoPerfil(TipoPerfil tipo){this.tipo = tipo;}
     public void setSenha(String senha){this.senha = senha;}
     public void setNome(String nome){this.nome = nome;}
     public void setEmail(String email){this.email = email;}
