@@ -19,14 +19,6 @@ public class Facade {
         funcionarioBusiness.cadastrarFuncionario(cpf, senha, nome, email, salario, cargo);
     }
 
-    /*public Funcionario buscarPorId(String id){ //pergunta a winsley
-        return funcionarioBusiness.buscarPorId(id);
-    } */
-    
-    public Funcionario buscarPorCpf(String cpf){ //pergunta a winsley
-        return funcionarioBusiness.buscarPorCpf(cpf);
-    }
-
     public Map<String, Funcionario> listarTodos(){
         return funcionarioBusiness.listarTodos();
     }
