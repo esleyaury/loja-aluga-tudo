@@ -7,10 +7,10 @@ import java.util.Set;
 
 public interface IFornecedorBusiness {
     public void cadastrarFornecedor(String cnpj, String razaoSocial, Set<String> produtos);
-    public void salvar();
-    public Fornecedor buscarPorCnpj();
+    public void salvar(Fornecedor fornecedor);
+    public Fornecedor buscarPorCnpj(String cnpj);
     public Map<String, Fornecedor> listarTodos();
-    public void atualizar();
-    public void remover();
+    public void atualizar(String cnpj, int option, String valor);
+    public void remover(String cnpj);
     public void guardarDados();
 }
