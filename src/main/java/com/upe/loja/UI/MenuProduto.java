@@ -9,12 +9,12 @@ import java.util.Scanner;
 import java.math.BigDecimal;
 import java.util.Map;
 
-public class Menu{
+public class MenuProduto{
     private Scanner entrada;
     private int opc;
     private Facade facade;
 
-    public Menu(Facade facade){
+    public MenuProduto(Facade facade){
         this.entrada = new Scanner(System.in);
         this.opc = -1;
         this.facade = facade;
@@ -77,19 +77,20 @@ public class Menu{
     public void menuCadastrarProduto(){
         boolean sucesso = false;
         while(!sucesso){
-            System.out.println("Digite: id, nome, taxaDiaria, conservacao, valorReposicao");
+            System.out.println("Digite: id, nome, categoria, taxaDiaria, conservacao, valorReposicao");
             String linha = entrada.nextLine();
             try{
                 String[] partes = linha.split(",");
-                if (partes.length < 5) {
+                if (partes.length < 6) {
                     throw new IllegalArgumentException("Formato inválido. Use vírgulas para separar os 5 campos.");
                 }
                 String id = partes[0].trim();
                 String nome = partes[1].trim();
-                BigDecimal taxaDiaria = new BigDecimal(partes[2].trim());
-                String conservacao = partes[3].trim();
-                BigDecimal valorReposicao = new BigDecimal(partes[4].trim());
-                facade.cadastrarProduto(id, nome, taxaDiaria, conservacao, valorReposicao);
+                String categoria = partes[2].trim();
+                BigDecimal taxaDiaria = new BigDecimal(partes[3].trim());
+                String conservacao = partes[4].trim();
+                BigDecimal valorReposicao = new BigDecimal(partes[5].trim());
+                facade.cadastrarProduto(id, nome, categoria, taxaDiaria, conservacao, valorReposicao);
                 System.out.println("Produto cadastrado.");
                 sucesso = true;
             }catch(NumberFormatException e){
@@ -106,6 +107,7 @@ public class Menu{
             System.out.println("-----------------------------------");
             System.out.println("ID: " + p.getID());
             System.out.println("Nome: " + p.getNome());
+            System.out.println("Categoria: " + p.getCategoria());
             System.out.println("Taxa Diária: R$ " + p.getTaxaDiaria());
             System.out.println("Conservação: " + p.getConservacao());
             System.out.println("Valor Reposição: R$ " + p.getValorReposicao());
