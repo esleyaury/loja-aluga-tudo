@@ -27,17 +27,18 @@ public class GerirProdutosCSV {
                 if (linha.trim().isEmpty()) {continue;}
                 
                 String[] dados = linha.split(";");
-                if (dados.length != 6) {continue;}
+                if (dados.length != 7) {continue;}
                 
                 String id = dados[0];
                 String nome = dados[1];
-                BigDecimal taxaDiaria = new BigDecimal(dados[2]);
-                String conservacao = dados[3];
-                BigDecimal valorReposicao = new BigDecimal(dados[4]);
+                String categoria = dados[2];
+                BigDecimal taxaDiaria = new BigDecimal(dados[3]);
+                String conservacao = dados[4];
+                BigDecimal valorReposicao = new BigDecimal(dados[5]);
                 
-                EstadoProduto estado = EstadoProduto.valueOf(dados[5].toUpperCase()); 
+                EstadoProduto estado = EstadoProduto.valueOf(dados[6].toUpperCase()); 
                 
-                Produto produto = new Produto(id, nome, taxaDiaria, conservacao, valorReposicao, estado);
+                Produto produto = new Produto(id, nome, categoria, taxaDiaria, conservacao, valorReposicao, estado);
                 listaProdutos.put(id, produto);
             }
         } catch (Exception e) {
@@ -52,7 +53,7 @@ public class GerirProdutosCSV {
         try (BufferedWriter writer = Files.newBufferedWriter(arquivoProdutos.toPath())) {
             
             for (Produto p : estoque.values()) {
-                String linha = String.format("%s;%s;%s;%s;%s;%s", p.getID(), p.getNome(), p.getTaxaDiaria(), 
+                String linha = String.format("%s;%s;%s;%s;%s;%s;%s", p.getID(), p.getNome(), p.getCategoria(), p.getTaxaDiaria(), 
                     p.getConservacao(), p.getValorReposicao(), p.getEstado());
                 
                 writer.write(linha);
