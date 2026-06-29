@@ -1,17 +1,23 @@
 package com.upe.loja;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.upe.loja.business.ProdutoBusiness;
 import com.upe.loja.business.interfaces.IProdutoBusiness;
 import com.upe.loja.repository.entity.Produto;
+import com.upe.loja.business.CategoriaBusiness;
+import com.upe.loja.business.interfaces.ICategoriaBusiness;
 
 public class Facade {
     private final IProdutoBusiness produtoBusiness;
+    private final ICategoriaBusiness categoriaBusiness;
 
     public Facade(){
         this.produtoBusiness = new ProdutoBusiness();
+        this.categoriaBusiness = new CategoriaBusiness();
     }
 
     public void cadastrarProduto(String id, String nome, BigDecimal taxaDiaria,
@@ -38,9 +44,29 @@ public class Facade {
     public void removerProduto(String id){
         produtoBusiness.remover(id);
     }
+    
+    public void criarCategoria(String nome){
+        categoriaBusiness.criarCategoria(nome);
+    }
+
+    public Set<String> listarCategorias(){
+        return categoriaBusiness.listarCategorias();
+    }
+
+    public void deletarCategoria(String nome){
+        categoriaBusiness.deletarCategoria(nome);
+    }
+
+    public boolean buscarCategoria(String nome){
+        return categoriaBusiness.buscarCategoria(nome);
+    }
+
+    public void atualizarCategoria(String nomeAntigo, String nomeNovo){
+        categoriaBusiness.atualizar(nomeAntigo, nomeNovo);
+    }
 
     public void fecharPrograma(){
         produtoBusiness.guardarDados();
+        categoriaBusiness.guardarDados();
     }
-
 }

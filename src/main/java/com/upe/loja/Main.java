@@ -8,7 +8,6 @@ public class Main{
     Facade facade = new Facade();
 
     Menu menu = new Menu(facade);
-    //Precia mesmo iniciar o facade dentro da Main?
     menu.iniciar();
   }
 }
