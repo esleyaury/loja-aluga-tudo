@@ -2,6 +2,9 @@ package com.upe.loja.UI;
 import com.upe.loja.Facade;
 import com.upe.loja.repository.entity.Produto;
 
+// [CORREÇÃO ANTIGRAVITY] Adicionado import de InputMismatchException para tratar
+// entrada inválida no menuAtualizarProduto (requisito: "tratar entradas inválidas").
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.math.BigDecimal;
 import java.util.Map;
@@ -130,11 +133,19 @@ public class Menu{
                 System.out.println("O que deseja inserir no lugar?\n");
                 String valor = entrada.nextLine();
                 facade.atualizarProduto(produtoEncontrado, option, valor);
-                System.out.println("Produto cadastrado.");
+                // [CORREÇÃO ANTIGRAVITY] Mensagem corrigida: antes dizia "Produto cadastrado"
+                // em vez de "Produto atualizado". Bug de copy-paste.
+                System.out.println("Produto atualizado.");
                 sucesso = true;
             }catch(IllegalArgumentException e){
                 System.err.println("Erro: " + e.getMessage() + "\n Tente novamente\n");
-            } 
+            // [CORREÇÃO ANTIGRAVITY] Adicionado tratamento de InputMismatchException.
+            // Sem isso, se o usuário digitar uma letra em vez de número na opção,
+            // o programa lança exceção não tratada (requisito: "tratar entradas inválidas").
+            }catch(InputMismatchException e){
+                System.err.println("Entrada inválida! Digite um número.\n");
+                entrada.nextLine();
+            }
         }while (!sucesso);
         
     }

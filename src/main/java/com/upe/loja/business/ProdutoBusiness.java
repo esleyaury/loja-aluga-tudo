@@ -2,6 +2,7 @@ package com.upe.loja.business;
 
 import com.upe.loja.business.interfaces.IProdutoBusiness;
 import com.upe.loja.repository.ProdutoRepository;
+import com.upe.loja.repository.interfaces.IProdutoRepository;
 import com.upe.loja.repository.entity.Produto;
 import com.upe.loja.repository.entity.Produto.EstadoProduto;
 
@@ -12,10 +13,18 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 public class ProdutoBusiness implements IProdutoBusiness{
-  private ProdutoRepository estoque;
+  private IProdutoRepository estoque;
 
-  public ProdutoBusiness(ProdutoRepository repository){
-    this.estoque = repository; 
+  public ProdutoBusiness(){
+    this.estoque = new ProdutoRepository();
+  }
+
+  @Override
+  public void cadastrarProduto(String id, String nome, BigDecimal taxaDiaria,
+      String conservacao, BigDecimal valorReposicao){
+      Produto produto = new Produto(id, nome, taxaDiaria, conservacao,
+          valorReposicao, Produto.EstadoProduto.valueOf("DISPONIVEL"));
+      salvar(produto);
   }
 
   @Override
