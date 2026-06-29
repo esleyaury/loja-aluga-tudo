@@ -4,13 +4,14 @@ import java.math.BigDecimal;
 public class Produto {
     private String id;
     private String nome;
+    private String categoria;
     private BigDecimal taxaDiaria;
     private String conservacao;
     private BigDecimal valorReposicao;
     private EstadoProduto estado;
 
     public Produto(){}
-    public Produto(String id, String nome, BigDecimal taxaDiaria,
+    public Produto(String id, String nome, String categoria, BigDecimal taxaDiaria,
         String conservacao, BigDecimal valorReposicao, EstadoProduto estado){
 
         if (id == null || id.trim().isEmpty()) {
@@ -20,6 +21,7 @@ public class Produto {
         this.id = id;
 
         setNome(nome);
+        setCategoria(categoria);
         setTaxaDiaria(taxaDiaria);
         setConservacao(conservacao);
         setValorReposicao(valorReposicao);
@@ -36,6 +38,7 @@ public class Produto {
     //getters 
     public String getID(){ return this.id; }
     public String getNome(){ return this.nome; }
+    public String getCategoria() { return this.categoria; }
     public BigDecimal getTaxaDiaria(){ return this.taxaDiaria;}
     public String getConservacao(){ return this.conservacao;}
     public BigDecimal getValorReposicao(){ return this.valorReposicao;}
@@ -47,6 +50,12 @@ public class Produto {
             throw new IllegalArgumentException("O campo 'Nome' é obrigatório.");
         }
         this.nome = nome;
+    }
+    public void setCategoria(String categoria) {
+        if (categoria == null || categoria.trim().isEmpty()) {
+            throw new IllegalArgumentException("Categoria é obrigatória.");
+        }
+        this.categoria = categoria;
     }
     public void setTaxaDiaria(BigDecimal taxaDiaria){ 
         if (taxaDiaria == null || taxaDiaria.compareTo(BigDecimal.ZERO) <= 0) {
