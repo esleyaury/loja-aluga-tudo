@@ -20,9 +20,9 @@ public class Facade {
         this.categoriaBusiness = new CategoriaBusiness();
     }
 
-    public void cadastrarProduto(String id, String nome, BigDecimal taxaDiaria,
+    public void cadastrarProduto(String id, String nome, String categoria, BigDecimal taxaDiaria,
         String conservacao, BigDecimal valorReposicao){
-        produtoBusiness.cadastrarProduto(id, nome, taxaDiaria, conservacao, valorReposicao);
+        produtoBusiness.cadastrarProduto(id, nome, categoria, taxaDiaria, conservacao, valorReposicao);
     }
 
     public List<Produto> verificarDisponibilidade(String nome){
