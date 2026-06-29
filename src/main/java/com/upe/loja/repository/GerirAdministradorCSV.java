@@ -26,17 +26,16 @@ package com.upe.loja.repository;
                     if (linha.trim().isEmpty()){ continue;}
 
                     String[] dados = linha.split(";");
-                    if (dados.length != 5 ){ continue; }
+                    if (dados.length != 4 ){ continue; }
 
-                    String id = dados [0];
-                    String cpf = dados [1];
-                    String senha = dados[2];
-                    String nome = dados[3];
-                    String email = dados[4];
+                    String cpf = dados [0];
+                    String senha = dados[1];
+                    String nome = dados[2];
+                    String email = dados[3];
                     //boolean permissaoAdmin = dados[5];
 
-                    Administrador administrador = new Administrador(id, cpf, senha, nome, email);
-                    listaAdministradores.put(id, administrador);
+                    Administrador administrador = new Administrador(cpf, senha, nome, email);
+                    listaAdministradores.put(cpf, administrador);
                 }
             } catch (Exception e){
                 System.err.println(e);
@@ -49,7 +48,7 @@ package com.upe.loja.repository;
         public void guardarDados(File arquivoAdministradores, Map<String, Administrador> administradores){
                 try(BufferedWriter writer = Files.newBufferedWriter(arquivoAdministradores.toPath())){
                     for (Administrador adm : administradores.values()){
-                        String linha = String.format("%s;%s;%s;%s;%s", adm.getId(),
+                        String linha = String.format("%s;%s;%s;%s", 
                     adm.getCpf(), adm.getSenha(), adm.getNome(), adm.getEmail());
 
                     writer.write(linha);
