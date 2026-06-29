@@ -17,13 +17,16 @@ public class AdministradorRepository implements IAdministradorRepository {
         this.administradores = gerenciadorArquivo.carregar(this.arquivoAdministradores);
     }
 
+    @Override
     public void salvar(Administrador administrador){
-        administradores.put(administrador.getId(), administrador);
+        administradores.put(administrador.getCpf(), administrador);
     }
 
+    /* 
     public Administrador buscarPorId(String id){
         return administradores.get(id);
     }
+    */
 
     public Map<String, Administrador> listarTodos(){
         return new HashMap<>(administradores);
@@ -34,11 +37,11 @@ public class AdministradorRepository implements IAdministradorRepository {
     }
 
     public void atualizar(Administrador administrador){
-        administradores.put(administrador.getId(), administrador);
+        administradores.put(administrador.getCpf(), administrador);
     }
 
-    public void remover(String id){
-        this.administradores.remove(id);
+    public void remover(String cpf){
+        this.administradores.remove(cpf);
     }
 
     public void guardarDados(){
