@@ -41,7 +41,15 @@ public class Fornecedor {
         this.razaoSocial = razaoSocial;
     }
 
-    public void setProdutos(Set<String> produtos){
-        this.produtos = produtos;
+    public void adicionarProduto(String idProduto){
+        if (idProduto == null || idProduto.isBlank()){
+            throw new IllegalArgumentException("ID do produto não pode ser vazio");
+        }
+        this.produtos.add(idProduto);
     }
+
+    public void removerProduto(String idProduto){
+        this.produtos.remove(idProduto);
+    }
+
 }
