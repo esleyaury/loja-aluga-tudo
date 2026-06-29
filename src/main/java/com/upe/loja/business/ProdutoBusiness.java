@@ -20,9 +20,9 @@ public class ProdutoBusiness implements IProdutoBusiness{
   }
 
   @Override
-  public void cadastrarProduto(String id, String nome, BigDecimal taxaDiaria,
+  public void cadastrarProduto(String id, String nome,String categoria, BigDecimal taxaDiaria,
       String conservacao, BigDecimal valorReposicao){
-      Produto produto = new Produto(id, nome, taxaDiaria, conservacao,
+      Produto produto = new Produto(id, nome, categoria, taxaDiaria, conservacao,
           valorReposicao, Produto.EstadoProduto.valueOf("DISPONIVEL"));
       salvar(produto);
   }

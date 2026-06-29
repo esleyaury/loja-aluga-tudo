@@ -6,7 +6,7 @@ import java.util.Map;
 import com.upe.loja.repository.entity.Produto;
 
 public interface IProdutoBusiness {
-    void cadastrarProduto(String id, String nome, BigDecimal taxaDiaria,
+    void cadastrarProduto(String id, String nome, String categoria, BigDecimal taxaDiaria,
         String conservacao, BigDecimal valorReposicao);
     public List<Produto> verificarDisponibilidade(String nome);
     Produto buscarPorId(String id);
