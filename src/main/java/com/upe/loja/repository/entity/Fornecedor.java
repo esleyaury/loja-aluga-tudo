@@ -45,10 +45,16 @@ public class Fornecedor {
         if (idProduto == null || idProduto.isBlank()){
             throw new IllegalArgumentException("ID do produto não pode ser vazio");
         }
+        if(this.produtos.contains(idProduto)){
+            throw new IllegalArgumentException("Produto já existente");
+        }
         this.produtos.add(idProduto);
     }
 
     public void removerProduto(String idProduto){
+        if(!this.produtos.contains(idProduto)){
+            throw new IllegalArgumentException("Produto não localizado");
+        }
         this.produtos.remove(idProduto);
     }
 
