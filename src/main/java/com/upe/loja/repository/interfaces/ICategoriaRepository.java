@@ -1,4 +1,4 @@
-package com.upe.loja.repository.Interface;
+package com.upe.loja.repository.interfaces;
 
 import java.util.Set;
 
