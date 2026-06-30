@@ -3,8 +3,9 @@ package com.upe.loja.business;
 import com.upe.loja.repository.FornecedorRepository;
 import com.upe.loja.repository.entity.Fornecedor;
 import java.util.List;
+import com.upe.loja.business.interfaces.IFornecedorService;
 
-public class FornecedorBusiness {
+public class FornecedorBusiness implements IFornecedorService {
     private FornecedorRepository repository;
 
     public FornecedorBusiness(FornecedorRepository repository) {
