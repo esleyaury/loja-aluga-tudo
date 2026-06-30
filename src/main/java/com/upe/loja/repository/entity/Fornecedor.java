@@ -1,9 +1,12 @@
 package com.upe.loja.repository.entity;
 
 public class Fornecedor {
+    //TODO: Remover id de toda a cadeia, Nao precisa de id, o CNPJ ja eh unico
     private String id;
     private String nome;
     private String cnpj;
+
+    //TODO: Faz sentido ter telefone?
     private String telefone;
 
     // O Construtor: é aqui que a Facade empacota os dados de uma vez só

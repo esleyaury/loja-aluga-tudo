@@ -1,5 +1,6 @@
 package com.upe.loja.business;
 
+// Tudo nesse Facade, vai entrar em Facade.java, cada entidade n tem seu proprio facade.
 import com.upe.loja.repository.FornecedorRepository;
 import com.upe.loja.repository.entity.Fornecedor;
 import java.util.List;
