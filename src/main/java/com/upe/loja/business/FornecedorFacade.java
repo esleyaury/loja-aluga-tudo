@@ -1,32 +1,29 @@
 package com.upe.loja.business;
 
-// Tudo nesse Facade, vai entrar em Facade.java, cada entidade n tem seu proprio facade.
-import com.upe.loja.repository.FornecedorRepository;
 import com.upe.loja.repository.entity.Fornecedor;
+import com.upe.loja.business.interfaces.IFornecedorService;
 import java.util.List;
 
 public class FornecedorFacade {
-    private FornecedorBusiness fornecedorBusiness;
+    private IFornecedorService service;
 
-    public FornecedorFacade() {
-        // Inicializa a camada de negócio já injetando o repositório, mantendo o padrão
-        this.fornecedorBusiness = new FornecedorBusiness(new FornecedorRepository());
+    public FornecedorFacade(IFornecedorService service) {
+        this.service = service;
     }
 
-    public void cadastrarFornecedor(String id, String nome, String cnpj, String telefone) {
-        Fornecedor fornecedor = new Fornecedor(id, nome, cnpj, telefone);
-        this.fornecedorBusiness.salvar(fornecedor);
+    public void salvar(Fornecedor fornecedor) {
+        this.service.salvar(fornecedor);
     }
 
-    public List<Fornecedor> listarFornecedores() {
-        return this.fornecedorBusiness.listarTodos();
+    public List<Fornecedor> listarTodos() {
+        return this.service.listarTodos();
     }
 
-    public void atualizarFornecedor(Fornecedor fornecedor, int option, String valor) {
-        this.fornecedorBusiness.atualizar(fornecedor, option, valor);
+    public void atualizar(Fornecedor fornecedor, int option, String valor) {
+        this.service.atualizar(fornecedor, option, valor);
     }
 
-    public void removerFornecedor(String id) {
-        this.fornecedorBusiness.remover(id);
+    public void remover(String cnpj) {
+        this.service.remover(cnpj);
     }
 }

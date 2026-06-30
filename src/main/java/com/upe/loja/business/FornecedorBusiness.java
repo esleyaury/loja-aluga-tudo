@@ -2,8 +2,8 @@ package com.upe.loja.business;
 
 import com.upe.loja.repository.FornecedorRepository;
 import com.upe.loja.repository.entity.Fornecedor;
-import java.util.List;
 import com.upe.loja.business.interfaces.IFornecedorService;
+import java.util.List;
 
 public class FornecedorBusiness implements IFornecedorService {
     private FornecedorRepository repository;
@@ -13,8 +13,8 @@ public class FornecedorBusiness implements IFornecedorService {
     }
 
     public void salvar(Fornecedor fornecedor) {
-        if (fornecedor.getID() == null || fornecedor.getID().isEmpty()) {
-            throw new IllegalArgumentException("ID do fornecedor não pode ser vazio.");
+        if (fornecedor.getCnpj() == null || fornecedor.getCnpj().isEmpty()) {
+            throw new IllegalArgumentException("CNPJ do fornecedor não pode ser vazio.");
         }
         this.repository.salvar(fornecedor);
     }
@@ -33,7 +33,7 @@ public class FornecedorBusiness implements IFornecedorService {
         this.repository.salvarAtualizado(fornecedor);
     }
 
-    public void remover(String id) {
-        this.repository.remover(id);
+    public void remover(String cnpj) {
+        this.repository.remover(cnpj);
     }
 }

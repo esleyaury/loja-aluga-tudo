@@ -1,52 +1,37 @@
 package com.upe.loja.repository.entity;
 
 public class Fornecedor {
-    //TODO: Remover id de toda a cadeia, Nao precisa de id, o CNPJ ja eh unico
-    private String id;
-    private String nome;
     private String cnpj;
-
-    //TODO: Faz sentido ter telefone?
+    private String nome;
     private String telefone;
 
-    // O Construtor: é aqui que a Facade empacota os dados de uma vez só
-    public Fornecedor(String id, String nome, String cnpj, String telefone) {
-        this.id = id;
-        this.nome = nome;
+    public Fornecedor(String cnpj, String nome, String telefone) {
         this.cnpj = cnpj;
-        this.telefone = telefone;
-    }
-
-    // Métodos Getters e Setters para acessar ou modificar os dados depois da caixa fechada
-    public String getID() {
-        return id;
-    }
-
-    public void setID(String id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
         this.nome = nome;
+        this.telefone = telefone;
     }
 
     public String getCnpj() {
-        return cnpj;
-    }
+         return cnpj; 
+        }
 
     public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
+         this.cnpj = cnpj; 
+        }
 
-    public String getTelefone() {
-        return telefone;
-    }
+    public String getNome() {
+         return nome; 
+        }
 
+    public void setNome(String nome) { 
+        this.nome = nome; 
+        }
+
+    public String getTelefone() { 
+        return telefone; 
+        }
+        
     public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
+         this.telefone = telefone; 
+        }
 }
