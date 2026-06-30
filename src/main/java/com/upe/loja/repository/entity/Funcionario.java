@@ -8,9 +8,8 @@ public class Funcionario extends Usuario{
     private BigDecimal salario;
     private boolean permissaoAdmin;
 
-    public Funcionario(String id, String cpf, String senha, String nome, 
-        String email, BigDecimal salario, Cargo cargo){
-        super(id,cpf,senha,nome,email,TipoPerfil.FUNCIONARIO);
+    public Funcionario(String cpf, String senha, String nome, String email, BigDecimal salario, Cargo cargo){
+        super(cpf,senha,nome,email,TipoPerfil.FUNCIONARIO);
         this.salario = salario;
         this.cargo = cargo;
         this.permissaoAdmin = false;
@@ -19,7 +18,7 @@ public class Funcionario extends Usuario{
     protected Funcionario(String id, String cpf, String senha, String nome, 
         String email, boolean permissaoAdmin){
         
-        super(id, cpf, senha, nome, email, TipoPerfil.ADMINISTRADOR);
+        super(cpf, senha, nome, email, TipoPerfil.ADMINISTRADOR);
         this.permissaoAdmin = permissaoAdmin;
     }
 
@@ -30,11 +29,18 @@ public class Funcionario extends Usuario{
         GERENTE,
         CEO
     }
+
+    public String getSenha(){
+        return super.getSenha();
+    }
+
     public BigDecimal getSalario(){
         return this.salario;
+    
     }
     public Cargo getCargo(){
         return this.cargo;
+    
     }
     public void setSalario(BigDecimal salarioNovo){
         if (salarioNovo == null){
@@ -67,10 +73,16 @@ public class Funcionario extends Usuario{
     }
     public void setCargo(Cargo cargo){
         this.cargo = cargo;
-        /*Adicionar verificação para CEO, só pode ter 3 em ativação*/
     }
 
     public boolean getPermissao(){
         return this.permissaoAdmin;
+    }
+
+    public void setSenha(String senha){
+        if(senha == null){
+            throw new IllegalArgumentException("Senha não pode ser nula");
+        }
+        super.setSenha(senha);
     }
 }
