@@ -1,4 +1,4 @@
-package com.upe.loja.repository;
+package com.upe.loja.repository.interfaces;
 
 import java.util.Map;
 import com.upe.loja.repository.entity.Cliente;

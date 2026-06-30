@@ -1,7 +1,8 @@
 package com.upe.loja.business;
 
+import com.upe.loja.business.interfaces.IClienteBusiness;
 import com.upe.loja.repository.ClienteRepository;
-import com.upe.loja.repository.IClienteRepository;
+import com.upe.loja.repository.interfaces.IClienteRepository;
 import com.upe.loja.repository.entity.Cliente;
 
 import java.util.ArrayList;

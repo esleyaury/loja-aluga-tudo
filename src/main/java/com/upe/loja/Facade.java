@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.upe.loja.business.ClienteBusiness;
-import com.upe.loja.business.IClienteBusiness;
+import com.upe.loja.business.interfaces.IClienteBusiness;
 import com.upe.loja.repository.entity.Cliente;
 
 public class Facade {

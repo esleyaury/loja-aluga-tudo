@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.upe.loja.repository.entity.Cliente;
+import com.upe.loja.repository.interfaces.IClienteRepository;
 
 public class ClienteRepository implements IClienteRepository {
     private Map<String, Cliente> clientes;

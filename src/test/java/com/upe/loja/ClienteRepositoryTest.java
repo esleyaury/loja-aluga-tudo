@@ -1,4 +1,4 @@
-package com.upe.loja.repository;
+package com.upe.loja;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.upe.loja.repository.entity.Cliente;
+import com.upe.loja.repository.ClienteRepository;
 
 /**
  * Testes de unidade da camada de persistência (ClienteRepository), conforme

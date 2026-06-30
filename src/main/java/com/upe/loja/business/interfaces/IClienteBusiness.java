@@ -1,4 +1,4 @@
-package com.upe.loja.business;
+package com.upe.loja.business.interfaces;
 
 import java.util.List;
 import java.util.Map;
