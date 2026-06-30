@@ -104,7 +104,7 @@ public class Menu {
     }
 
     public void menuListarClientes() {
-        Map<String, Cliente> clientes = facade.listarTodos();
+        Map<String, Cliente> clientes = facade.listarTodosCliente();
         if (clientes.isEmpty()) {
             System.out.println("Nenhum cliente cadastrado.");
             return;
