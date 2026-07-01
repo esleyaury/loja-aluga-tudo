@@ -1,16 +1,16 @@
 package com.upe.loja.business;
 
-import com.upe.loja.business.interfaces.IProdutoBusiness;
-import com.upe.loja.repository.ProdutoRepository;
-import com.upe.loja.repository.interfaces.IProdutoRepository;
-import com.upe.loja.repository.entity.Produto;
-import com.upe.loja.repository.entity.Produto.EstadoProduto;
-
-import java.util.List;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
+
+import com.upe.loja.business.interfaces.IProdutoBusiness;
+import com.upe.loja.repository.ProdutoRepository;
+import com.upe.loja.repository.entity.Produto;
+import com.upe.loja.repository.entity.Produto.EstadoProduto;
+import com.upe.loja.repository.interfaces.IProdutoRepository;
 
 public class ProdutoBusiness implements IProdutoBusiness{
   private IProdutoRepository estoque;
@@ -47,10 +47,12 @@ public class ProdutoBusiness implements IProdutoBusiness{
       return disponiveis;
     }
 
+    @Override
     public Produto buscarPorId(String id){
       return estoque.buscarPorId(id);
   }
 
+    @Override
     public void salvar(Produto produto){
       // validação estrutural do objeto
       if (produto == null) {
@@ -65,6 +67,7 @@ public class ProdutoBusiness implements IProdutoBusiness{
       estoque.salvar(produto);
     }
 
+    @Override
     public void atualizar(Produto produto, int option, String valor){
       if (produto == null) {
         throw new IllegalArgumentException("Produto inválido para atualização.");
@@ -105,18 +108,22 @@ public class ProdutoBusiness implements IProdutoBusiness{
       estoque.atualizar(produto);
     }
 
+    @Override
     public Map<String, Produto> listarTodos(){
       return estoque.listarTodos();
     }
 
+    @Override
     public void remover(String id){
        estoque.remover(id);
     }
 
+    @Override
     public void guardarDados(){
       estoque.guardarDados();
     }
 
+    @Override
     public Map<String, Produto> produtosDisponiveis(){
       Map<String, Produto> todos = estoque.listarTodos();
       Map <String, Produto> disponiveis = new HashMap<>();
