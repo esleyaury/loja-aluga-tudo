@@ -72,8 +72,7 @@ public class Menu {
                 menuVerificarSituacao();
                 break;
             case 0:
-                facade.fecharPrograma();
-                entrada.close();
+                System.out.println("Voltando ao menu principal...");
                 break;
             default:
                 System.out.println("Opção Invalida!!!");
