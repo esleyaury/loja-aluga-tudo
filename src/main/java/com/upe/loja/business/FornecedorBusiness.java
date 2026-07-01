@@ -50,6 +50,7 @@ public class FornecedorBusiness implements IFornecedorService {
         } else {
             throw new IllegalArgumentException("Opção de atualização inválida.");
         }
+        repository.atualizar(fornecedor);
 
     }
 
