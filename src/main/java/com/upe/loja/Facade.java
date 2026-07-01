@@ -45,10 +45,6 @@ public class Facade {
         funcionarioBusiness.cadastrarFuncionario(cpf, senha, nome, email, salario, cargo);
     }
 
-    public Funcionario buscarPorCpfFuncionario(String cpf){ //fazer as verificações q precisam disso no business e tirar isso daq do facade
-        return funcionarioBusiness.buscarPorCpf(cpf);
-    }
-
     public Map<String, Funcionario> listarTodosFuncionario(){
         return funcionarioBusiness.listarTodos();
     }
