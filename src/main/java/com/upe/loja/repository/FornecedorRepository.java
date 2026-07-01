@@ -1,36 +1,37 @@
 package com.upe.loja.repository;
 
 import com.upe.loja.repository.entity.Fornecedor;
+import com.upe.loja.repository.interfaces.IFornecedorRepository;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FornecedorRepository implements IFornecedorRepository {
-    private GerirFornecedoresCSV gerenciadorCSV;
+    private GerirFornecedoresCSV gerenciadorArquivo;
     private List<Fornecedor> fornecedores;
+    private File arquivoFornecedores;
 
     public FornecedorRepository() {
-        this.gerenciadorCSV = new GerirFornecedoresCSV();
-        this.fornecedores = gerenciadorCSV.carregarDoCSV();
+        this.arquivoFornecedores = new File("fornecedores.csv");
+        this.gerenciadorArquivo= new GerirFornecedoresCSV();
+        this.fornecedores = gerenciadorArquivo.carregar(this.arquivoFornecedores);
     }
 
-    @Override
     public List<Fornecedor> listarTodos() {
-        return fornecedores;
+        return new ArrayList<>(fornecedores);
     }
-
-    @Override
+   
     public void salvar(Fornecedor fornecedor) {
         fornecedores.add(fornecedor);
-        gerenciadorCSV.salvarArquivoCSV(fornecedores);
     }
 
-    @Override
     public void remover(String cnpj) {
-        fornecedores.removeIf(f -> f.getCnpj().equals(cnpj));
-        gerenciadorCSV.salvarArquivoCSV(fornecedores);
+        fornecedores.removeIf(f->f.getCnpj().equals(cnpj));
     }
 
-    @Override
     public void atualizar(Fornecedor fornecedor) {
-        gerenciadorCSV.salvarArquivoCSV(fornecedores);
+    }
+    public void guardarDados(){
+        gerenciadorArquivo.guardarDados(this.arquivoFornecedores, this.fornecedores);
     }
 }

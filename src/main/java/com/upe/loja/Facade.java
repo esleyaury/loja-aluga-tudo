@@ -6,18 +6,23 @@ import java.util.Map;
 import java.util.Set;
 
 import com.upe.loja.business.CategoriaBusiness;
+import com.upe.loja.business.FornecedorBusiness;
 import com.upe.loja.business.ProdutoBusiness;
 import com.upe.loja.business.interfaces.ICategoriaBusiness;
+import com.upe.loja.business.interfaces.IFornecedorService;
 import com.upe.loja.business.interfaces.IProdutoBusiness;
+import com.upe.loja.repository.entity.Fornecedor;
 import com.upe.loja.repository.entity.Produto;
 
 public class Facade {
     private final IProdutoBusiness produtoBusiness;
     private final ICategoriaBusiness categoriaBusiness;
+    private final IFornecedorService fornecedorBusiness;
 
     public Facade(){
         this.produtoBusiness = new ProdutoBusiness();
         this.categoriaBusiness = new CategoriaBusiness();
+        this.fornecedorBusiness = new FornecedorBusiness();
     }
 
     public void cadastrarProduto(String id, String nome, String categoria, BigDecimal taxaDiaria,
@@ -64,9 +69,22 @@ public class Facade {
     public void atualizarCategoria(String nomeAntigo, String nomeNovo){
         categoriaBusiness.atualizar(nomeAntigo, nomeNovo);
     }
+    public void salvarFornecedor(Fornecedor fornecedor){
+        fornecedorBusiness.salvar(fornecedor);
+    }
+    public List<Fornecedor> listarFornecedores(){
+        return fornecedorBusiness.listarTodos();
+    }
+    public void atualizarFornecedor(String cnpj, int opcao, String novoValor){
+        fornecedorBusiness.atualizar(cnpj, opcao, novoValor);
+    }
+    public void removerFornecedor(String cnpj){
+        fornecedorBusiness.remover(cnpj);
+    }
 
     public void fecharPrograma(){
         produtoBusiness.guardarDados();
         categoriaBusiness.guardarDados();
+        fornecedorBusiness.guardarDados();
     }
 }

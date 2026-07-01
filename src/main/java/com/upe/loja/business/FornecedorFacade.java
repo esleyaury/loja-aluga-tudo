@@ -17,7 +17,7 @@ public class FornecedorFacade {
         service.salvar(fornecedor);
     }
 
-    public List<Fornecedor> listarTodos() {
+    public List<Fornecedor> listarTodosFornecedores() {
         return service.listarTodos();
     }
 

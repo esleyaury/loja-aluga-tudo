@@ -8,4 +8,5 @@ public interface IFornecedorService {
     List<Fornecedor> listarTodos();
     void atualizar(String cnpj, int opcao, String novoValor);
     void remover(String cnpj);
+    void guardarDados();
 }

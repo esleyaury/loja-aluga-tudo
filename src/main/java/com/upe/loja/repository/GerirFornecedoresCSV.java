@@ -2,38 +2,54 @@ package com.upe.loja.repository;
 
 import com.upe.loja.repository.entity.Fornecedor;
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GerirFornecedoresCSV {
-    private static final String ARQUIVO = "fornecedores.csv";
 
-    public void salvarArquivoCSV(List<Fornecedor> fornecedores) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(ARQUIVO))) {
-            for (Fornecedor f : fornecedores) {
-                writer.println(f.getCnpj() + "," + f.getNome() + "," + f.getTelefone());
+    public List<Fornecedor> carregar(File arquivoFornecedores){
+        List<Fornecedor> listaFornecedors = new ArrayList<>();
+
+        try{
+            if (!arquivoFornecedores.exists()){
+                arquivoFornecedores.createNewFile();
+                return listaFornecedors;
             }
-        } catch (IOException e) {
-            System.err.println("Erro ao salvar o arquivo CSV: " + e.getMessage());
+
+            List<String> linhas = Files.readAllLines(arquivoFornecedores.toPath());
+
+            for (String linha : linhas){
+                if (linha.trim().isEmpty()){continue;}
+
+                String[] dados = linha.split(";");
+                if (dados.length != 3){continue;}
+
+                String cnpj = dados[0];
+                String nome = dados[1];
+                String telefone = dados[2];
+
+                Fornecedor fornecedor = new Fornecedor(cnpj, nome, telefone);
+                listaFornecedors.add(fornecedor);
+            }
+        } catch (Exception e){
+            System.err.println(e);
+            e.printStackTrace();
         }
+        return listaFornecedors;
     }
 
-    public List<Fornecedor> carregarDoCSV() {
-        List<Fornecedor> lista = new ArrayList<>();
-        File file = new File(ARQUIVO);
-        if (!file.exists()) return lista;
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String linha;
-            while ((linha = reader.readLine()) != null) {
-                String[] partes = linha.split(",");
-                if (partes.length == 3) {
-                    lista.add(new Fornecedor(partes[0], partes[1], partes[2]));
-                }
+    public void guardarDados(File arquivoFonecedores, List<Fornecedor> fornecedores){
+        try (BufferedWriter writer = Files.newBufferedWriter(arquivoFonecedores.toPath())){
+            for (Fornecedor f : fornecedores){
+                String linha = String.format("%s;%s;%s",
+                    f.getCnpj(), f.getNome(), f.getTelefone());
+                    writer.write(linha);
+                    writer.newLine();
             }
-        } catch (IOException e) {
-            System.err.println("Erro ao carregar o arquivo CSV: " + e.getMessage());
+        } catch (Exception e){
+            System.err.println(e);
+            e.printStackTrace();
         }
-        return lista;
-    }
+    } 
 }

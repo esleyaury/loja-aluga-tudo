@@ -1,4 +1,4 @@
-package com.upe.loja.repository;
+package com.upe.loja.repository.interfaces;
 
 import com.upe.loja.repository.entity.Fornecedor;
 import java.util.List;
@@ -8,4 +8,5 @@ public interface IFornecedorRepository {
     List<Fornecedor> listarTodos();
     void atualizar(Fornecedor fornecedor);
     void remover(String cnpj);
+    void guardarDados();
 }
