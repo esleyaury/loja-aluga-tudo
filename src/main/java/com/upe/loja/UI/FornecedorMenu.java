@@ -1,6 +1,10 @@
 package com.upe.loja.UI;
 
+import com.upe.loja.business.FornecedorBusiness;
 import com.upe.loja.business.FornecedorFacade;
+import com.upe.loja.business.interfaces.IFornecedorService;
+import com.upe.loja.repository.FornecedorRepository;
+import com.upe.loja.repository.IFornecedorRepository;
 import com.upe.loja.repository.entity.Fornecedor;
 
 import java.util.InputMismatchException;
@@ -12,10 +16,12 @@ public class FornecedorMenu {
     private int opc;
     private FornecedorFacade facade;
 
-    public FornecedorMenu(Scanner entrada) {
-        this.entrada = entrada;
+    public FornecedorMenu() {
+        this.entrada = new Scanner(System.in);
         this.opc = -1;
-        this.facade = new FornecedorFacade(); 
+        IFornecedorRepository repository = new FornecedorRepository();
+        IFornecedorService service = new FornecedorBusiness(repository);
+        this.facade = new FornecedorFacade(service); 
     }
 
     public void iniciar() {
@@ -50,7 +56,7 @@ public class FornecedorMenu {
                 menuCadastrarFornecedor();
                 break;
             case 2:
-                menuListarFornecedores();
+                menuListarTodos();
                 break;
             case 3:
                 menuAtualizarFornecedor();
@@ -69,22 +75,22 @@ public class FornecedorMenu {
     public void menuCadastrarFornecedor() {
         boolean sucesso = false;
         while (!sucesso) {
-            System.out.println("Digite: id, nome, cnpj, telefone");
+            System.out.println("Digite: cnpj, nome, telefone (separados por vírgula)");
             String linha = entrada.nextLine();
             
             if(linha.trim().equals("0")) return; 
 
             try {
                 String[] partes = linha.split(",");
-                if (partes.length < 4) {
-                    throw new IllegalArgumentException("Formato inválido. Use vírgulas para separar os 4 campos.");
+                if (partes.length < 3) {
+                    throw new IllegalArgumentException("Formato inválido. Use vírgulas para separar os 3 campos.");
                 }
-                String id = partes[0].trim();
+                String cnpj = partes[0].trim();
                 String nome = partes[1].trim();
-                String cnpj = partes[2].trim();
-                String telefone = partes[3].trim();
-                
-                facade.cadastrarFornecedor(id, nome, cnpj, telefone);
+                String telefone = partes[2].trim();
+
+                Fornecedor novoFornecedor = new Fornecedor(cnpj, nome, telefone);
+                this.facade.salvar(novoFornecedor);
                 System.out.println("Fornecedor cadastrado.");
                 sucesso = true;
             } catch (IllegalArgumentException e) {
@@ -93,8 +99,8 @@ public class FornecedorMenu {
         }
     }
 
-    public void menuListarFornecedores() {
-        List<Fornecedor> fornecedores = facade.listarFornecedores();
+    public void menuListarTodos() {
+        List<Fornecedor> fornecedores = facade.listarTodos();
         if (fornecedores.isEmpty()) {
             System.out.println("Nenhum fornecedor cadastrado.");
             return;
@@ -102,7 +108,6 @@ public class FornecedorMenu {
 
         for (Fornecedor f : fornecedores) {
             System.out.println("-----------------------------------");
-            System.out.println("ID: " + f.getID());
             System.out.println("Nome: " + f.getNome());
             System.out.println("CNPJ: " + f.getCnpj());
             System.out.println("Telefone: " + f.getTelefone());
@@ -111,11 +116,11 @@ public class FornecedorMenu {
     }
 
     public void menuAtualizarFornecedor() {
-        System.out.println("Digite o ID do fornecedor que deseja atualizar:\n");
+        System.out.println("Digite o CNPJ do fornecedor que deseja atualizar:\n");
         String id = entrada.nextLine();
         
-        Fornecedor fornecedorEncontrado = facade.listarFornecedores().stream()
-                .filter(f -> f.getID().equals(id))
+        Fornecedor fornecedorEncontrado = facade.listarTodos().stream()
+                .filter(f -> f.getCnpj().equals(id))
                 .findFirst()
                 .orElse(null);
 
@@ -139,7 +144,7 @@ public class FornecedorMenu {
                 System.out.println("O que deseja inserir no lugar?\n");
                 String valor = entrada.nextLine();
                 
-                facade.atualizarFornecedor(fornecedorEncontrado, option, valor);
+                facade.atualizar(fornecedorEncontrado, option, valor);
                 System.out.println("Fornecedor atualizado.");
                 sucesso = true;
             } catch (IllegalArgumentException e) {
@@ -154,14 +159,14 @@ public class FornecedorMenu {
     public void menuRemoverFornecedor() {
         boolean sucesso = false;
         while (!sucesso) {
-            System.out.println("Digite o ID do fornecedor que deseja deletar (ou 0 para cancelar):\n");
+            System.out.println("Digite o CNPJ do fornecedor que deseja deletar (ou 0 para cancelar):\n");
             String id = entrada.nextLine();
             
             if(id.trim().equals("0")) return;
 
             try {
-                Fornecedor fornecedorEncontrado = facade.listarFornecedores().stream()
-                        .filter(f -> f.getID().equals(id))
+                Fornecedor fornecedorEncontrado = facade.listarTodos().stream()
+                        .filter(f -> f.getCnpj().equals(id))
                         .findFirst()
                         .orElse(null);
 
@@ -169,7 +174,7 @@ public class FornecedorMenu {
                     throw new IllegalArgumentException("Fornecedor não encontrado");
                 }
                 
-                facade.removerFornecedor(fornecedorEncontrado.getID());
+                facade.remover(fornecedorEncontrado.getCnpj());
                 System.out.println("Fornecedor removido.");
                 sucesso = true;
             } catch (IllegalArgumentException e) {
