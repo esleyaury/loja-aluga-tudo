@@ -1,9 +1,20 @@
 package com.upe.loja;
 
+import com.upe.loja.business.ContratoBusiness;
+import com.upe.loja.business.OcorrenciaBusiness;
+import com.upe.loja.business.interfaces.IContratoBusiness;
+import com.upe.loja.business.interfaces.IOcorrenciaBusiness;
+import com.upe.loja.repository.ContratoRepository;
+import com.upe.loja.repository.OcorrenciaRepository;
+import com.upe.loja.repository.ProdutoRepository;
+import com.upe.loja.repository.entity.Contrato;
+import com.upe.loja.repository.entity.Ocorrencia;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.time.LocalDate;
 
 import com.upe.loja.business.CategoriaBusiness;
 import com.upe.loja.business.FornecedorBusiness;
@@ -23,18 +34,27 @@ import com.upe.loja.business.interfaces.IClienteBusiness;
 import com.upe.loja.repository.entity.Cliente;
 
 public class Facade {
+
+    private final IContratoBusiness contratoBusiness;
+    private final IOcorrenciaBusiness ocorrenciaBusiness;
     private final IProdutoBusiness produtoBusiness;
     private final ICategoriaBusiness categoriaBusiness;
     private final IFornecedorService fornecedorBusiness;
     private final IClienteBusiness clienteBusiness;
     private final IFuncionarioBusiness funcionarioBusiness;
 
-    public Facade(){
+    public Facade() {
+        ContratoRepository contratoRepository    = new ContratoRepository();
+        OcorrenciaRepository ocorrenciaRepository = new OcorrenciaRepository();
+        ProdutoRepository produtoRepository       = new ProdutoRepository();
+
+        this.contratoBusiness  = new ContratoBusiness(contratoRepository, produtoRepository, ocorrenciaRepository);
         this.produtoBusiness = new ProdutoBusiness();
         this.categoriaBusiness = new CategoriaBusiness();
         this.fornecedorBusiness = new FornecedorBusiness();
         this.clienteBusiness = new ClienteBusiness();
         this.funcionarioBusiness = new FuncionarioBusiness();
+        this.ocorrenciaBusiness = new OcorrenciaBusiness(new OcorrenciaRepository(), new ContratoRepository());
     }
 
     public void cadastrarProduto(String id, String nome, String categoria, BigDecimal taxaDiaria,
@@ -66,20 +86,23 @@ public class Facade {
         categoriaBusiness.criarCategoria(nome);
     }
 
-    public Set<String> listarCategorias(){
-        return categoriaBusiness.listarCategorias();
+    // Contrato
+    public Contrato criarContrato(String cpfCliente, String cpfFuncionario,
+            List<String> idsProdutos, LocalDate dataRetirada, LocalDate dataDevolucaoPrevista) {
+        return contratoBusiness.criarContrato(cpfCliente, cpfFuncionario,
+                idsProdutos, dataRetirada, dataDevolucaoPrevista);
     }
 
-    public void deletarCategoria(String nome){
-        categoriaBusiness.deletarCategoria(nome);
+    public Contrato buscarContratoPorId(long id) {
+        return contratoBusiness.buscarPorId(id);
     }
 
-    public boolean buscarCategoria(String nome){
-        return categoriaBusiness.buscarCategoria(nome);
+    public List<Contrato> buscarContratosPorCliente(String cpfCliente) {
+        return contratoBusiness.buscarPorCpfCliente(cpfCliente);
     }
 
-    public void atualizarCategoria(String nomeAntigo, String nomeNovo){
-        categoriaBusiness.atualizar(nomeAntigo, nomeNovo);
+    public List<Contrato> buscarContratosAtivos() {
+        return contratoBusiness.buscarAtivos();
     }
     public void salvarFornecedor(Fornecedor fornecedor){
         fornecedorBusiness.salvar(fornecedor);
@@ -94,12 +117,84 @@ public class Facade {
         fornecedorBusiness.remover(cnpj);
     }
 
-    public void fecharPrograma(){
+
+    public Map<Long, Contrato> listarContratos() {
+        return contratoBusiness.listarTodos();
+
+    }
+
+    public void registrarAtraso(long idContrato, LocalDate dataDevolucaoReal, long diasAtraso, BigDecimal valorDiaria){
+    ocorrenciaBusiness.registrarAtraso(idContrato, dataDevolucaoReal, diasAtraso, valorDiaria);
+    }
+
+    public void registrarAvaria(long idContrato, String descricao){
+        ocorrenciaBusiness.registrarAvaria(idContrato, descricao);
+    }
+
+    public void quitarOcorrencia(long idOcorrencia){
+        ocorrenciaBusiness.quitar(idOcorrencia);
+    }
+
+    public List<Ocorrencia> buscarOcorrenciasPorContrato(long idContrato){
+        return ocorrenciaBusiness.buscarPorContrato(idContrato);
+    }
+
+    public boolean clienteTemPendencias(String cpfCliente){
+        return ocorrenciaBusiness.clienteTemPendencias(cpfCliente);
+    }
+
+    public Map<Long, Ocorrencia> listarOcorrencias(){
+        return ocorrenciaBusiness.listarTodas();
+    }
+
+    public void removerOcorrencia(long idOcorrencia){
+        ocorrenciaBusiness.remover(idOcorrencia);
+    }
+
+    public void encerrarContrato(long id) {
+        contratoBusiness.encerrarContrato(id);
+    }
+
+    // Ocorrencia
+    public void registrarAtraso(long idContrato, LocalDate dataDevolucaoReal,
+            long diasAtraso, BigDecimal valorDiaria) {
+        ocorrenciaBusiness.registrarAtraso(idContrato, dataDevolucaoReal, diasAtraso, valorDiaria);
+    }
+
+    public void registrarAvaria(long idContrato, String descricao) {
+        ocorrenciaBusiness.registrarAvaria(idContrato, descricao);
+    }
+
+    public void quitarOcorrencia(long idContrato) {
+        ocorrenciaBusiness.quitar(idContrato);
+    }
+
+    public Ocorrencia buscarOcorrenciaPorContrato(long idContrato) {
+        return ocorrenciaBusiness.buscarPorContrato(idContrato);
+    }
+
+    public boolean clienteTemPendencias(String cpfCliente) {
+        return ocorrenciaBusiness.clienteTemPendencias(cpfCliente);
+    }
+
+    public Map<Long, Ocorrencia> listarOcorrencias() {
+        return ocorrenciaBusiness.listarTodas();
+    }
+
+    public void removerOcorrencia(long idContrato) {
+        ocorrenciaBusiness.remover(idContrato);
+    }
+
+    // Persistência
+    public void fecharPrograma() {
+        contratoBusiness.guardarDados();
+        ocorrenciaBusiness.guardarDados();
         produtoBusiness.guardarDados();
         categoriaBusiness.guardarDados();
         fornecedorBusiness.guardarDados();
         clienteBusiness.guardarDados();
         funcionarioBusiness.guardarDados();
+        ocorrenciaBusiness.guardarDados();
     }
 
     public void cadastrarCliente(String cpf, String senha, String nome, String email) {
