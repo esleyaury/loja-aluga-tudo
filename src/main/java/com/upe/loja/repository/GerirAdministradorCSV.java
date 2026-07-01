@@ -1,7 +1,7 @@
 package com.upe.loja.repository;
 
 
-    import com.upe.loja.repository.entity.*;
+    import com.upe.loja.repository.entity.administrador;
     import java.util.Map;
     import java.util.HashMap;
     import java.io.BufferedWriter;

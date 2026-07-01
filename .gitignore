@@ -17,7 +17,11 @@ buildNumber.properties
 .classpath
 .vscode/
 <<<<<<< HEAD
+<<<<<<< HEAD
 *.csv
 =======
 *.csv
 >>>>>>> release/categoria
+=======
+*.csv
+>>>>>>> release/usuario
