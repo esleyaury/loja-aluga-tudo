@@ -1,16 +1,16 @@
 package com.upe.loja.business;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.upe.loja.business.interfaces.IProdutoBusiness;
 import com.upe.loja.repository.ProdutoRepository;
+import com.upe.loja.repository.interfaces.IProdutoRepository;
 import com.upe.loja.repository.entity.Produto;
 import com.upe.loja.repository.entity.Produto.EstadoProduto;
-import com.upe.loja.repository.interfaces.IProdutoRepository;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.math.BigDecimal;
+import java.util.Map;
 
 public class ProdutoBusiness implements IProdutoBusiness{
   private IProdutoRepository estoque;
