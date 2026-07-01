@@ -25,13 +25,17 @@ public class Facade {
         clienteBusiness.cadastrarCliente(cpf, senha, nome, email);
     }
 
-    public void atualizarCliente(Cliente cliente, int option, String valor) {
-        clienteBusiness.atualizar(cliente, option, valor);
+    public void atualizarCliente(String cpf, int option, String valor) {
+        clienteBusiness.atualizar(cpf, option, valor);
     }
 
     public Map<String, Cliente> listarTodosCliente() {
         return clienteBusiness.listarTodos();
     }
+
+    public Cliente buscarPorCpf(String cpf) {
+        return clienteBusiness.buscarPorCpf(cpf);
+    } //so ta aq porque tem uma função para pesquisar cliente
 
     public void removerCliente(String cpf) {
         clienteBusiness.remover(cpf);

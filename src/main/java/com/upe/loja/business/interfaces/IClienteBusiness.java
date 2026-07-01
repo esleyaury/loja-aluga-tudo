@@ -10,7 +10,7 @@ public interface IClienteBusiness {
     Cliente buscarPorCpf(String cpf);
     List<Cliente> buscarPorNome(String nome);
     void salvar(Cliente cliente);
-    void atualizar(Cliente cliente, int option, String valor);
+    void atualizar(String cliente, int option, String valor);
     Map<String, Cliente> listarTodos();
     void remover(String cpf);
     void guardarDados();

@@ -127,7 +127,7 @@ public class Menu {
             imprimirCliente(c);
         }
         System.out.println("-----------------------------------");
-    }
+    }//n faz sentido?
 
     public void menuBuscarPorCpf() {
         System.out.println("Digite o CPF do cliente que deseja buscar:\n");
@@ -144,11 +144,6 @@ public class Menu {
     public void menuAtualizarCliente() {
         System.out.println("Digite o CPF do cliente que deseja atualizar:\n");
         String cpf = entrada.nextLine().trim();
-        Cliente clienteEncontrado = facade.buscarPorCpf(cpf);
-        if (clienteEncontrado == null) {
-            System.out.println("Cliente não localizado.");
-            return;
-        }
 
         boolean sucesso = false;
 
@@ -158,7 +153,7 @@ public class Menu {
                 int option = Integer.parseInt(entrada.nextLine().trim());
                 System.out.println("O que deseja inserir no lugar?\n");
                 String valor = entrada.nextLine();
-                facade.atualizarCliente(clienteEncontrado, option, valor);
+                facade.atualizarCliente(cpf, option, valor);
                 System.out.println("Cliente atualizado.");
                 sucesso = true;
             } catch (NumberFormatException e) {
@@ -174,11 +169,7 @@ public class Menu {
         System.out.println("Digite o CPF do cliente que deseja remover:\n");
         String cpf = entrada.nextLine().trim();
         try {
-            Cliente clienteEncontrado = facade.buscarPorCpf(cpf);
-            if (clienteEncontrado == null) {
-                throw new IllegalArgumentException("Cliente não encontrado.");
-            }
-            facade.removerCliente(clienteEncontrado.getCpf());
+            facade.removerCliente(cpf);
             System.out.println("Cliente removido (exclusão lógica: ativo = false).");
         } catch (IllegalArgumentException e) {
             System.err.println("Erro: " + e.getMessage());
