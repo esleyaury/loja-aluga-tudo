@@ -7,30 +7,43 @@ import java.util.Set;
 
 import com.upe.loja.business.CategoriaBusiness;
 import com.upe.loja.business.ProdutoBusiness;
+import com.upe.loja.business.AdministradorBusiness;
+import com.upe.loja.business.FornecedorBusiness;
 import com.upe.loja.business.interfaces.ICategoriaBusiness;
 import com.upe.loja.business.interfaces.IProdutoBusiness;
+import com.upe.loja.business.interfaces.IAdministradorBusiness;
+import com.upe.loja.business.interfaces.IFornecedorBusiness;
 import com.upe.loja.repository.entity.Produto;
 import com.upe.loja.repository.entity.Funcionario;
 import com.upe.loja.repository.entity.Funcionario.Cargo;
+import com.upe.loja.repository.entity.Administrador;
+import com.upe.loja.repository.entity.Fornecedor;
 
 import com.upe.loja.business.interfaces.IFuncionarioBusiness;
 import com.upe.loja.business.FuncionarioBusiness;
 import com.upe.loja.business.ClienteBusiness;
 import com.upe.loja.business.interfaces.IClienteBusiness;
 import com.upe.loja.repository.entity.Cliente;
+import com.upe.loja.repository.FornecedorRepository;
 
 public class Facade {
     private final IProdutoBusiness produtoBusiness;
     private final ICategoriaBusiness categoriaBusiness;
     private final IClienteBusiness clienteBusiness;
     private final IFuncionarioBusiness funcionarioBusiness;
+    private final IAdministradorBusiness administradorBusiness;
+    private final IFornecedorBusiness fornecedorBusiness;
 
     public Facade(){
         this.produtoBusiness = new ProdutoBusiness();
         this.categoriaBusiness = new CategoriaBusiness();
         this.clienteBusiness = new ClienteBusiness();
         this.funcionarioBusiness = new FuncionarioBusiness();
+        this.administradorBusiness = new AdministradorBusiness();
+        this.fornecedorBusiness = new FornecedorBusiness(new FornecedorRepository());
     }
+
+    // ==================== PRODUTO ====================
 
     public void cadastrarProduto(String id, String nome, String categoria, BigDecimal taxaDiaria,
         String conservacao, BigDecimal valorReposicao){
@@ -56,7 +69,13 @@ public class Facade {
     public void removerProduto(String id){
         produtoBusiness.remover(id);
     }
-    
+
+    public Map<String, Produto> produtosDisponiveis(){
+        return produtoBusiness.produtosDisponiveis();
+    }
+
+    // ==================== CATEGORIA ====================
+
     public void criarCategoria(String nome){
         categoriaBusiness.criarCategoria(nome);
     }
@@ -77,12 +96,7 @@ public class Facade {
         categoriaBusiness.atualizar(nomeAntigo, nomeNovo);
     }
 
-    public void fecharPrograma(){
-        produtoBusiness.guardarDados();
-        categoriaBusiness.guardarDados();
-        clienteBusiness.guardarDados();
-        funcionarioBusiness.guardarDados();
-    }
+    // ==================== CLIENTE ====================
 
     public void cadastrarCliente(String cpf, String senha, String nome, String email) {
         clienteBusiness.cadastrarCliente(cpf, senha, nome, email);
@@ -98,7 +112,11 @@ public class Facade {
 
     public Cliente buscarPorCpf(String cpf) {
         return clienteBusiness.buscarPorCpf(cpf);
-    } //so ta aq porque tem uma função para pesquisar cliente
+    }
+
+    public List<Cliente> buscarPorNome(String nome) {
+        return clienteBusiness.buscarPorNome(nome);
+    }
 
     public void removerCliente(String cpf) {
         clienteBusiness.remover(cpf);
@@ -108,12 +126,22 @@ public class Facade {
         return clienteBusiness.podeAlugar(cpf);
     }
 
+    public Map<String, Cliente> clientesAtivos() {
+        return clienteBusiness.clientesAtivos();
+    }
+
+    // ==================== FUNCIONÁRIO ====================
+
     public void cadastrarFuncionario(String cpf, String senha, String nome, String email, BigDecimal salario, Cargo cargo){
         funcionarioBusiness.cadastrarFuncionario(cpf, senha, nome, email, salario, cargo);
     }
 
     public Map<String, Funcionario> listarTodosFuncionario(){
         return funcionarioBusiness.listarTodos();
+    }
+
+    public Funcionario buscarFuncionarioPorCpf(String cpf){
+        return funcionarioBusiness.buscarPorCpf(cpf);
     }
 
     public void atualizarFuncionario(String cpf, int option, String valor){
@@ -123,5 +151,55 @@ public class Facade {
     public void removerFuncionario(String cpf){
         funcionarioBusiness.remover(cpf);
     }
-    
+
+    // ==================== ADMINISTRADOR ====================
+
+    public void cadastrarAdministrador(String cpf, String senha, String nome, String email){
+        administradorBusiness.cadastrarAdministrador(cpf, senha, nome, email);
+    }
+
+    public Map<String, Administrador> listarTodosAdministrador(){
+        return administradorBusiness.listarTodos();
+    }
+
+    public Administrador buscarAdministradorPorCpf(String cpf){
+        return administradorBusiness.buscarPorCpf(cpf);
+    }
+
+    public void atualizarAdministrador(String cpf, int option, String valor){
+        administradorBusiness.atualizar(cpf, option, valor);
+    }
+
+    public void removerAdministrador(String cpf){
+        administradorBusiness.remover(cpf);
+    }
+
+    // ==================== FORNECEDOR ====================
+
+    public void salvarFornecedor(Fornecedor fornecedor){
+        fornecedorBusiness.salvar(fornecedor);
+    }
+
+    public List<Fornecedor> listarTodosFornecedor(){
+        return fornecedorBusiness.listarTodos();
+    }
+
+    public void atualizarFornecedor(String cnpj, int opcao, String novoValor){
+        fornecedorBusiness.atualizar(cnpj, opcao, novoValor);
+    }
+
+    public void removerFornecedor(String cnpj){
+        fornecedorBusiness.remover(cnpj);
+    }
+
+    // ==================== SISTEMA ====================
+
+    public void fecharPrograma(){
+        produtoBusiness.guardarDados();
+        categoriaBusiness.guardarDados();
+        clienteBusiness.guardarDados();
+        funcionarioBusiness.guardarDados();
+        administradorBusiness.guardarDados();
+        fornecedorBusiness.guardarDados();
+    }
 }
