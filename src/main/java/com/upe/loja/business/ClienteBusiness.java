@@ -19,7 +19,11 @@ public class ClienteBusiness implements IClienteBusiness {
 
     @Override
     public void cadastrarCliente(String cpf, String senha, String nome, String email) {
-        Cliente cliente = new Cliente(cpf, senha, nome, email);
+        Cliente cliente = clientes.buscarPorCpf(cpf);
+        if (cliente != null) {
+            throw new IllegalArgumentException("CPF já cadastrado.");
+        }
+        cliente = new Cliente(cpf, senha, nome, email);
         salvar(cliente);
     }
 
@@ -106,6 +110,10 @@ public class ClienteBusiness implements IClienteBusiness {
     }
 
     public void removerDefinitivamente(String cpf) {
+        Cliente cliente = clientes.buscarPorCpf(cpf);
+        if (cliente == null) {
+            throw new IllegalArgumentException("Cliente não encontrado.");
+        }
         clientes.remover(cpf);
     }
 

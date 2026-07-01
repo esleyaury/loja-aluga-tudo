@@ -1,6 +1,5 @@
 package com.upe.loja;
 
-import java.util.List;
 import java.util.Map;
 import java.math.BigDecimal;
 
@@ -24,14 +23,6 @@ public class Facade {
 
     public void cadastrarCliente(String cpf, String senha, String nome, String email) {
         clienteBusiness.cadastrarCliente(cpf, senha, nome, email);
-    }
-
-    public Cliente buscarPorCpf(String cpf) {
-        return clienteBusiness.buscarPorCpf(cpf); //fazer as verificações q precisam disso no business e tirar isso daq do facade
-    }
-
-    public List<Cliente> buscarPorNome(String nome) {
-        return clienteBusiness.buscarPorNome(nome);
     }
 
     public void atualizarCliente(Cliente cliente, int option, String valor) {
