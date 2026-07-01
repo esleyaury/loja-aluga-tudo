@@ -6,14 +6,13 @@ import java.util.Map;
 
 public interface IAdministradorBusiness {
 
-    public void cadastrarAdministrador();
+    public void cadastrarAdministrador(String cpf, String senha, String nome, String email);
     // cadastrarAdministrador() constroe o objeto 
     // Administrador dentro de business, e chamar salvar(), que chama o 
     // Salvar dentro de Repository
 
-    public void salvar(Administrador administrador); // Vai chamar Admin Repository
-    public void buscarPorId(String cpf);
-    public Map<String, Administrador> listarTodosAdmin();
+    public Administrador buscarPorCpf(String cpf);
+    public Map<String, Administrador> listarTodos();
     public void atualizar(String cpf, int option, String valor);
     public void remover(String cpf);
     public void guardarDados();
