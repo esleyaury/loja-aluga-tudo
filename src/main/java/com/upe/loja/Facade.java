@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.upe.loja.business.CategoriaBusiness;
 import com.upe.loja.business.ProdutoBusiness;
+import com.upe.loja.business.interfaces.ICategoriaBusiness;
 import com.upe.loja.business.interfaces.IProdutoBusiness;
 import com.upe.loja.repository.entity.Produto;
-import com.upe.loja.business.CategoriaBusiness;
-import com.upe.loja.business.interfaces.ICategoriaBusiness;
 
 public class Facade {
     private final IProdutoBusiness produtoBusiness;
