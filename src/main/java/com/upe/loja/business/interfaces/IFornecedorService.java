@@ -6,6 +6,6 @@ import java.util.List;
 public interface IFornecedorService {
     void salvar(Fornecedor fornecedor);
     List<Fornecedor> listarTodos();
-    void atualizar(Fornecedor fornecedor, int option, String valor);
+    void atualizar(String cnpj, int opcao, String novoValor);
     void remover(String cnpj);
 }

@@ -35,21 +35,22 @@ public class FornecedorBusiness implements IFornecedorService {
     }
 
     @Override
-    public void atualizar(Fornecedor fornecedor, int option, String valor) {
-        switch (option) {
-            case 1: 
-                fornecedor.setNome(valor); 
-                break;
-            case 2: 
-                fornecedor.setCnpj(valor); 
-                break;
-            case 3: 
-                fornecedor.setTelefone(valor); 
-                break;
-            default: 
-                throw new IllegalArgumentException("Opção inválida.");
+    public void atualizar(String cnpj, int opcao, String novoValor) {
+        Fornecedor fornecedor = repository.listarTodos().stream()
+                .filter(f -> f.getCnpj().equals(cnpj))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Fornecedor não localizado com o CNPJ informado."));
+
+        if (opcao == 1) {
+            fornecedor.setNome(novoValor);
+        } else if (opcao == 2) {
+            fornecedor.setCnpj(novoValor);
+        } else if (opcao == 3) {
+            fornecedor.setTelefone(novoValor);
+        } else {
+            throw new IllegalArgumentException("Opção de atualização inválida.");
         }
-        this.repository.atualizar(fornecedor);
+
     }
 
     @Override

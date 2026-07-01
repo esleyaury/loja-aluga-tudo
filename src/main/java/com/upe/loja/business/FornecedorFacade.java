@@ -19,8 +19,8 @@ public class FornecedorFacade {
         return this.service.listarTodos();
     }
 
-    public void atualizar(Fornecedor fornecedor, int option, String valor) {
-        this.service.atualizar(fornecedor, option, valor);
+    public void atualizar(String cnpj, int opcao, String novoValor) {
+        service.atualizar(cnpj, opcao, novoValor);
     }
 
     public void remover(String cnpj) {

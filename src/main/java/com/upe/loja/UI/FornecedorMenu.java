@@ -117,17 +117,9 @@ public class FornecedorMenu {
 
     public void menuAtualizarFornecedor() {
         System.out.println("Digite o CNPJ do fornecedor que deseja atualizar:\n");
-        String id = entrada.nextLine();
+        String cnpjDigitado = entrada.nextLine();
         
-        Fornecedor fornecedorEncontrado = facade.listarTodos().stream()
-                .filter(f -> f.getCnpj().equals(id))
-                .findFirst()
-                .orElse(null);
-
-        if (fornecedorEncontrado == null) {
-            System.out.println("Fornecedor não localizado");
-            return;
-        }
+        if(cnpjDigitado.trim().equals("0")) return;
 
         boolean sucesso = false;
 
@@ -144,11 +136,16 @@ public class FornecedorMenu {
                 System.out.println("O que deseja inserir no lugar?\n");
                 String valor = entrada.nextLine();
                 
-                facade.atualizar(fornecedorEncontrado, option, valor);
-                System.out.println("Fornecedor atualizado.");
+                facade.atualizar(cnpjDigitado, option, valor);
+                System.out.println("Fornecedor atualizado com sucesso!");
                 sucesso = true;
+                
             } catch (IllegalArgumentException e) {
-                System.err.println("Erro: " + e.getMessage() + "\n Tente novamente\n");
+                System.err.println("Erro: " + e.getMessage() + "\nTente novamente\n");
+                // Quebra o loop caso o CNPJ não exista no banco
+                if(e.getMessage().contains("não localizado")) {
+                    break; 
+                }
             } catch (InputMismatchException e) {
                 System.err.println("Entrada inválida! Digite um número.\n");
                 entrada.nextLine(); 
