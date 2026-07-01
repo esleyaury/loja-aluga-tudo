@@ -1,10 +1,12 @@
 package com.upe.loja.business;
 
-import com.upe.loja.repository.entity.Fornecedor;
 import com.upe.loja.business.interfaces.IFornecedorService;
+import com.upe.loja.repository.entity.Fornecedor;
+
 import java.util.List;
 
 public class FornecedorFacade {
+    
     private IFornecedorService service;
 
     public FornecedorFacade(IFornecedorService service) {
@@ -12,11 +14,11 @@ public class FornecedorFacade {
     }
 
     public void salvar(Fornecedor fornecedor) {
-        this.service.salvar(fornecedor);
+        service.salvar(fornecedor);
     }
 
     public List<Fornecedor> listarTodos() {
-        return this.service.listarTodos();
+        return service.listarTodos();
     }
 
     public void atualizar(String cnpj, int opcao, String novoValor) {
@@ -24,6 +26,6 @@ public class FornecedorFacade {
     }
 
     public void remover(String cnpj) {
-        this.service.remover(cnpj);
+        service.remover(cnpj);
     }
 }
