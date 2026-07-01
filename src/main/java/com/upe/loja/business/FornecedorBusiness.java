@@ -18,7 +18,7 @@ public class FornecedorBusiness implements IFornecedorService {
             throw new IllegalArgumentException("CNPJ do fornecedor não pode ser vazio.");
         }
         
-        // Regra: Não permitir salvar se o CNPJ já estiver cadastrado no HashMap
+        // Regra: Não permitir salvar se o CNPJ já estiver cadastrado no banco/lista
         List<Fornecedor> existentes = this.repository.listarTodos();
         for (Fornecedor f : existentes) {
             if (f.getCnpj().equals(fornecedor.getCnpj())) {
@@ -51,7 +51,6 @@ public class FornecedorBusiness implements IFornecedorService {
             throw new IllegalArgumentException("Opção de atualização inválida.");
         }
         repository.atualizar(fornecedor);
-
     }
 
     @Override
@@ -60,10 +59,5 @@ public class FornecedorBusiness implements IFornecedorService {
             throw new IllegalArgumentException("CNPJ inválido para remoção.");
         }
         this.repository.remover(cnpj);
-    }
-    
-    // Método para ser repassado ao menu principal e fechar a execução
-    public void salvarDadosAntesDeSair() {
-        this.repository.salvarArquivoCSV();
     }
 }

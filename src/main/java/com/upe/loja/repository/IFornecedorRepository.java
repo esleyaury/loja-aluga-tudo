@@ -8,5 +8,4 @@ public interface IFornecedorRepository {
     List<Fornecedor> listarTodos();
     void atualizar(Fornecedor fornecedor);
     void remover(String cnpj);
-    void salvarArquivoCSV(); // Método para ser chamado apenas no final do programa
 }
