@@ -1,11 +1,11 @@
 package com.upe.loja.business;
 
-import com.upe.loja.repository.IFornecedorRepository;
+import com.upe.loja.repository.interfaces.IFornecedorRepository;
 import com.upe.loja.repository.entity.Fornecedor;
-import com.upe.loja.business.interfaces.IFornecedorService;
+import com.upe.loja.business.interfaces.IFornecedorBusiness;
 import java.util.List;
 
-public class FornecedorBusiness implements IFornecedorService {
+public class FornecedorBusiness implements IFornecedorBusiness {
     private IFornecedorRepository repository;
 
     public FornecedorBusiness(IFornecedorRepository repository) {
@@ -59,5 +59,10 @@ public class FornecedorBusiness implements IFornecedorService {
             throw new IllegalArgumentException("CNPJ inválido para remoção.");
         }
         this.repository.remover(cnpj);
+    }
+
+    @Override
+    public void guardarDados() {
+        repository.guardarDados();
     }
 }

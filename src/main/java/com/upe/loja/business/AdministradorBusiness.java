@@ -18,7 +18,7 @@ public class AdministradorBusiness implements IAdministradorBusiness{
 
     public void cadastrarAdministrador(String cpf, String senha, String nome, 
         String email){
-            Administrador admin = new Administrador(email, cpf, senha, nome, email);
+            Administrador admin = new Administrador(cpf, senha, nome, email);
             administradores.salvar(admin);
     }
 
@@ -46,6 +46,7 @@ public class AdministradorBusiness implements IAdministradorBusiness{
                 break;
             case 4:
                 administrador.setSenha(valor);
+                break;
             case 5:
                 administrador.setAtivo(converterParaBoolean(valor));
                 break;
