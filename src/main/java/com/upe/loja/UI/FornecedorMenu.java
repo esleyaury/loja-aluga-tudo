@@ -1,10 +1,6 @@
 package com.upe.loja.UI;
 
-import com.upe.loja.business.FornecedorBusiness;
-import com.upe.loja.business.FornecedorFacade;
-import com.upe.loja.business.interfaces.IFornecedorService;
-import com.upe.loja.repository.FornecedorRepository;
-import com.upe.loja.repository.IFornecedorRepository;
+import com.upe.loja.Facade;
 import com.upe.loja.repository.entity.Fornecedor;
 
 import java.util.InputMismatchException;
@@ -14,14 +10,12 @@ import java.util.List;
 public class FornecedorMenu {
     private Scanner entrada;
     private int opc;
-    private FornecedorFacade facade;
+    private Facade facade;
 
-    public FornecedorMenu() {
+    public FornecedorMenu(Facade facade) {
         this.entrada = new Scanner(System.in);
         this.opc = -1;
-        IFornecedorRepository repository = new FornecedorRepository();
-        IFornecedorService service = new FornecedorBusiness(repository);
-        this.facade = new FornecedorFacade(service); 
+        this.facade = facade;
     }
 
     public void iniciar() {
@@ -90,7 +84,7 @@ public class FornecedorMenu {
                 String telefone = partes[2].trim();
 
                 Fornecedor novoFornecedor = new Fornecedor(cnpj, nome, telefone);
-                this.facade.salvar(novoFornecedor);
+                facade.salvarFornecedor(novoFornecedor);
                 System.out.println("Fornecedor cadastrado.");
                 sucesso = true;
             } catch (IllegalArgumentException e) {
@@ -100,7 +94,7 @@ public class FornecedorMenu {
     }
 
     public void menuListarTodos() {
-        List<Fornecedor> fornecedores = facade.listarTodos();
+        List<Fornecedor> fornecedores = facade.listarTodosFornecedor();
         if (fornecedores.isEmpty()) {
             System.out.println("Nenhum fornecedor cadastrado.");
             return;
@@ -126,8 +120,7 @@ public class FornecedorMenu {
         do {
             try {
                 System.out.println("O que deseja alterar? \n 1- NOME 2-CNPJ 3-TELEFONE\n");
-                int option = entrada.nextInt();
-                entrada.nextLine(); 
+                int option = Integer.parseInt(entrada.nextLine().trim());
                 
                 if(option < 1 || option > 3) {
                      throw new IllegalArgumentException("Opção inválida. Escolha entre 1 e 3.");
@@ -136,7 +129,7 @@ public class FornecedorMenu {
                 System.out.println("O que deseja inserir no lugar?\n");
                 String valor = entrada.nextLine();
                 
-                facade.atualizar(cnpjDigitado, option, valor);
+                facade.atualizarFornecedor(cnpjDigitado, option, valor);
                 System.out.println("Fornecedor atualizado com sucesso!");
                 sucesso = true;
                 
@@ -146,9 +139,6 @@ public class FornecedorMenu {
                 if(e.getMessage().contains("não localizado")) {
                     break; 
                 }
-            } catch (InputMismatchException e) {
-                System.err.println("Entrada inválida! Digite um número.\n");
-                entrada.nextLine(); 
             }
         } while (!sucesso);
     }
@@ -162,7 +152,7 @@ public class FornecedorMenu {
             if(id.trim().equals("0")) return;
 
             try {
-                Fornecedor fornecedorEncontrado = facade.listarTodos().stream()
+                Fornecedor fornecedorEncontrado = facade.listarTodosFornecedor().stream()
                         .filter(f -> f.getCnpj().equals(id))
                         .findFirst()
                         .orElse(null);
@@ -171,7 +161,7 @@ public class FornecedorMenu {
                     throw new IllegalArgumentException("Fornecedor não encontrado");
                 }
                 
-                facade.remover(fornecedorEncontrado.getCnpj());
+                facade.removerFornecedor(fornecedorEncontrado.getCnpj());
                 System.out.println("Fornecedor removido.");
                 sucesso = true;
             } catch (IllegalArgumentException e) {
