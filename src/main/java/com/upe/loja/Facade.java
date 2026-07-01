@@ -4,20 +4,27 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.time.LocalDate;
 
 import com.upe.loja.business.CategoriaBusiness;
 import com.upe.loja.business.ProdutoBusiness;
 import com.upe.loja.business.interfaces.ICategoriaBusiness;
 import com.upe.loja.business.interfaces.IProdutoBusiness;
 import com.upe.loja.repository.entity.Produto;
+import com.upe.loja.business.OcorrenciaBusiness;
+import com.upe.loja.business.interfaces.IOcorrenciaBusiness;
+import com.upe.loja.repository.OcorrenciaRepository;
+import com.upe.loja.repository.entity.Ocorrencia;
 
 public class Facade {
     private final IProdutoBusiness produtoBusiness;
     private final ICategoriaBusiness categoriaBusiness;
+    private final IOcorrenciaBusiness ocorrenciaBusiness;
 
     public Facade(){
         this.produtoBusiness = new ProdutoBusiness();
         this.categoriaBusiness = new CategoriaBusiness();
+        this.ocorrenciaBusiness = new OcorrenciaBusiness(new OcorrenciaRepository(), new ContratoRepository());
     }
 
     public void cadastrarProduto(String id, String nome, String categoria, BigDecimal taxaDiaria,
@@ -65,8 +72,37 @@ public class Facade {
         categoriaBusiness.atualizar(nomeAntigo, nomeNovo);
     }
 
+    public void registrarAtraso(long idContrato, LocalDate dataDevolucaoReal, long diasAtraso, BigDecimal valorDiaria){
+    ocorrenciaBusiness.registrarAtraso(idContrato, dataDevolucaoReal, diasAtraso, valorDiaria);
+    }
+
+    public void registrarAvaria(long idContrato, String descricao){
+        ocorrenciaBusiness.registrarAvaria(idContrato, descricao);
+    }
+
+    public void quitarOcorrencia(long idOcorrencia){
+        ocorrenciaBusiness.quitar(idOcorrencia);
+    }
+
+    public List<Ocorrencia> buscarOcorrenciasPorContrato(long idContrato){
+        return ocorrenciaBusiness.buscarPorContrato(idContrato);
+    }
+
+    public boolean clienteTemPendencias(String cpfCliente){
+        return ocorrenciaBusiness.clienteTemPendencias(cpfCliente);
+    }
+
+    public Map<Long, Ocorrencia> listarOcorrencias(){
+        return ocorrenciaBusiness.listarTodas();
+    }
+
+    public void removerOcorrencia(long idOcorrencia){
+        ocorrenciaBusiness.remover(idOcorrencia);
+    }
+
     public void fecharPrograma(){
         produtoBusiness.guardarDados();
         categoriaBusiness.guardarDados();
+        ocorrenciaBusiness.guardarDados();
     }
 }
