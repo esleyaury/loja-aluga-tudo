@@ -53,8 +53,7 @@ public class MenuCategoria{
                 menuRemoverCategoria();
                 break;
             case 0:
-                fecharPrograma();
-                entrada.close();
+                System.out.println("Voltando ao menu principal...");
                 break;
             default:
                 System.out.println("Opção inválida");
@@ -103,6 +102,8 @@ public class MenuCategoria{
                 System.out.println("Insira o novo nome da categoria: ");
                 String novoNome = entrada.nextLine().toLowerCase();
                 facade.atualizarCategoria(nomeAntigo, novoNome);
+                System.out.println("Categoria atualizada.");
+                sucesso = true;
             } catch(Exception e){
                 System.err.println("Erro: " + e.getMessage());
             }
