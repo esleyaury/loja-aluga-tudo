@@ -11,8 +11,8 @@ import java.util.Map;
 
 public class GerenciadorClientesCSV {
 
-    // Formato da linha: id;cpf;senha;nome;email;ativo;inadimplente
-    private static final int QTD_CAMPOS = 7;
+    // Formato da linha: cpf;senha;nome;email;ativo;inadimplente
+    private static final int QTD_CAMPOS = 6;
 
     public Map<String, Cliente> carregar(File arquivoClientes) {
         Map<String, Cliente> listaClientes = new HashMap<>();
@@ -31,17 +31,16 @@ public class GerenciadorClientesCSV {
                 String[] dados = linha.split(";");
                 if (dados.length != QTD_CAMPOS) { continue; }
 
-                String id = dados[0];
-                String cpf = dados[1];
-                String senha = dados[2];
-                String nome = dados[3];
-                String email = dados[4];
-                boolean ativo = Boolean.parseBoolean(dados[5]);
-                boolean inadimplente = Boolean.parseBoolean(dados[6]);
+                String cpf = dados[0];
+                String senha = dados[1];
+                String nome = dados[2];
+                String email = dados[3];
+                boolean ativo = Boolean.parseBoolean(dados[4]);
+                boolean inadimplente = Boolean.parseBoolean(dados[5]);
 
-                Cliente cliente = reconstruirCliente(id, cpf, senha, nome, email, ativo, inadimplente);
+                Cliente cliente = reconstruirCliente(cpf, senha, nome, email, ativo, inadimplente);
 
-                listaClientes.put(cliente.getId(), cliente);
+                listaClientes.put(cliente.getCpf(), cliente);
             }
         } catch (Exception e) {
             System.err.print(e);
@@ -51,14 +50,9 @@ public class GerenciadorClientesCSV {
         return listaClientes;
     }
 
-    // O construtor público de Cliente sempre gera um id novo (UUID), pois no
-    // dia a dia o id não é informado por ninguém. Mas ao recarregar do CSV
-    // precisamos preservar o id ORIGINAL (senão cada reinício geraria ids
-    // diferentes e quebraria as referências), por isso usamos aqui o
-    // construtor package-private de Cliente, que aceita o id explicitamente.
-    private Cliente reconstruirCliente(String id, String cpf, String senha, String nome,
+    private Cliente reconstruirCliente(String cpf, String senha, String nome,
             String email, boolean ativo, boolean inadimplente) {
-        Cliente cliente = new Cliente(id, cpf, senha, nome, email);
+        Cliente cliente = new Cliente(cpf, senha, nome, email);
         cliente.setAtivo(ativo);
         cliente.setInadimplente(inadimplente);
         return cliente;
@@ -68,7 +62,7 @@ public class GerenciadorClientesCSV {
         try (BufferedWriter writer = Files.newBufferedWriter(arquivoClientes.toPath())) {
 
             for (Cliente c : clientes.values()) {
-                String linha = String.format("%s;%s;%s;%s;%s;%s;%s", c.getId(), c.getCpf(),
+                String linha = String.format("%s;%s;%s;%s;%s;%s", c.getCpf(),
                     c.getSenha(), c.getNome(), c.getEmail(), c.isAtivo(), c.isInadimplente());
 
                 writer.write(linha);

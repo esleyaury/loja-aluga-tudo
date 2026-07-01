@@ -5,10 +5,9 @@ import com.upe.loja.repository.entity.Cliente;
 
 public interface IClienteRepository {
     public void salvar(Cliente cliente);
-    public Cliente buscarPorId(String id);
     public Cliente buscarPorCpf(String cpf);
     public Map<String, Cliente> listarTodos();
     public void atualizar(Cliente cliente);
-    public void remover(String id);
+    public void remover(String cpf);
     public void guardarDados();
 }

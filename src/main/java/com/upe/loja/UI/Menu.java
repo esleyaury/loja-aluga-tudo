@@ -178,7 +178,7 @@ public class Menu {
             if (clienteEncontrado == null) {
                 throw new IllegalArgumentException("Cliente não encontrado.");
             }
-            facade.removerCliente(clienteEncontrado.getId());
+            facade.removerCliente(clienteEncontrado.getCpf());
             System.out.println("Cliente removido (exclusão lógica: ativo = false).");
         } catch (IllegalArgumentException e) {
             System.err.println("Erro: " + e.getMessage());
@@ -202,7 +202,6 @@ public class Menu {
 
     private void imprimirCliente(Cliente c) {
         System.out.println("-----------------------------------");
-        System.out.println("ID: " + c.getId());
         System.out.println("CPF: " + c.getCpf());
         System.out.println("Nome: " + c.getNome());
         System.out.println("Email: " + c.getEmail());

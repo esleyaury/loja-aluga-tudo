@@ -26,10 +26,6 @@ public class Facade {
         clienteBusiness.cadastrarCliente(cpf, senha, nome, email);
     }
 
-    public Cliente buscarPorId(String id) {
-        return clienteBusiness.buscarPorId(id); //vai sair
-    }
-
     public Cliente buscarPorCpf(String cpf) {
         return clienteBusiness.buscarPorCpf(cpf); //fazer as verificações q precisam disso no business e tirar isso daq do facade
     }
@@ -46,8 +42,8 @@ public class Facade {
         return clienteBusiness.listarTodos();
     }
 
-    public void removerCliente(String id) {
-        clienteBusiness.remover(id);
+    public void removerCliente(String cpf) {
+        clienteBusiness.remover(cpf);
     }
 
     public boolean podeAlugar(String cpf) {

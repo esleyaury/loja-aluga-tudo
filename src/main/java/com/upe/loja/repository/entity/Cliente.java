@@ -1,28 +1,11 @@
 package com.upe.loja.repository.entity;
 
-import java.util.UUID;
-
 public class Cliente extends Usuario {
 
     private boolean inadimplente;
 
     public Cliente(String cpf, String senha, String nome, String email){
-        // O id é gerado automaticamente (UUID) — para o Cliente, o CPF é o
-        // identificador que realmente importa no dia a dia (cadastro, busca,
-        // atualização e remoção são sempre feitos por CPF). O id só existe
-        // "por debaixo dos panos" porque o construtor de Usuario o exige.
-        this(UUID.randomUUID().toString(), cpf, senha, nome, email);
-    }
-
-    // Construtor usado apenas pelo GerenciadorClientesCSV, para restaurar o
-    // id ORIGINAL do cliente ao recarregar os dados do arquivo (em vez de
-    // gerar um UUID novo a cada reinício do programa). É público porque
-    // Cliente (pacote .entity) e GerenciadorClientesCSV (pacote .repository)
-    // estão em pacotes diferentes, mas não deve ser usado fora desse fluxo
-    // de carregamento — para cadastrar um cliente novo, use sempre o
-    // construtor de 4 argumentos.
-    public Cliente(String id, String cpf, String senha, String nome, String email){
-        super(id, cpf, senha, nome, email, TipoPerfil.CLIENTE);
+        super(cpf, senha, nome, email, TipoPerfil.CLIENTE);
 
         if (cpf == null || cpf.trim().isEmpty()) {
             throw new IllegalArgumentException("O campo 'CPF' é obrigatório.");

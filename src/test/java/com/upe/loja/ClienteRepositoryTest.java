@@ -43,17 +43,6 @@ public class ClienteRepositoryTest {
     }
 
     @Test
-    public void deveSalvarESerEncontradoPorId() {
-        Cliente cliente = new Cliente("12345678901", "senha123", "Maria Silva", "maria@email.com");
-
-        clienteRepository.salvar(cliente);
-
-        Cliente encontrado = clienteRepository.buscarPorId(cliente.getId());
-        assertNotNull(encontrado);
-        assertEquals("Maria Silva", encontrado.getNome());
-    }
-
-    @Test
     public void deveSalvarESerEncontradoPorCpf() {
         Cliente cliente = new Cliente("12345678901", "senha123", "Maria Silva", "maria@email.com");
 
@@ -61,12 +50,6 @@ public class ClienteRepositoryTest {
 
         Cliente encontrado = clienteRepository.buscarPorCpf("12345678901");
         assertNotNull(encontrado);
-        assertEquals(cliente.getId(), encontrado.getId());
-    }
-
-    @Test
-    public void buscarPorIdInexistenteDeveRetornarNull() {
-        assertNull(clienteRepository.buscarPorId("id-que-nao-existe"));
     }
 
     @Test
@@ -102,7 +85,7 @@ public class ClienteRepositoryTest {
         cliente.setNome("Maria Oliveira");
         clienteRepository.atualizar(cliente);
 
-        Cliente atualizado = clienteRepository.buscarPorId(cliente.getId());
+        Cliente atualizado = clienteRepository.buscarPorCpf(cliente.getCpf());
         assertEquals("Maria Oliveira", atualizado.getNome());
     }
 
@@ -111,9 +94,9 @@ public class ClienteRepositoryTest {
         Cliente cliente = new Cliente("12345678901", "senha123", "Maria Silva", "maria@email.com");
         clienteRepository.salvar(cliente);
 
-        clienteRepository.remover(cliente.getId());
+        clienteRepository.remover(cliente.getCpf());
 
-        assertNull(clienteRepository.buscarPorId(cliente.getId()));
+        assertNull(clienteRepository.buscarPorCpf(cliente.getCpf()));
     }
 
     @Test
@@ -136,7 +119,7 @@ public class ClienteRepositoryTest {
         Cliente recarregado = repositorioRecarregado.buscarPorCpf("12345678901");
 
         assertNotNull(recarregado, "cliente deveria ter sido recarregado do CSV");
-        assertEquals(cliente.getId(), recarregado.getId(), "o id deve ser preservado entre execuções");
+        assertEquals(cliente.getCpf(), recarregado.getCpf(), "o id deve ser preservado entre execuções");
         assertEquals("Maria Silva", recarregado.getNome());
         assertEquals("maria@email.com", recarregado.getEmail());
         assertTrue(recarregado.isAtivo());

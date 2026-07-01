@@ -19,11 +19,7 @@ public class ClienteRepository implements IClienteRepository {
     }
 
     public void salvar(Cliente cliente) {
-        clientes.put(cliente.getId(), cliente);
-    }
-
-    public Cliente buscarPorId(String id) {
-        return clientes.get(id);
+        clientes.put(cliente.getCpf(), cliente);
     }
 
     public Cliente buscarPorCpf(String cpf) {
@@ -38,11 +34,11 @@ public class ClienteRepository implements IClienteRepository {
     }
 
     public void atualizar(Cliente cliente) {
-        clientes.put(cliente.getId(), cliente);
+        clientes.put(cliente.getCpf(), cliente);
     }
 
-    public void remover(String id) {
-        this.clientes.remove(id);
+    public void remover(String cpf) {
+        this.clientes.remove(cpf);
     }
 
     public void guardarDados() {

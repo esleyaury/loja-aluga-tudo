@@ -24,11 +24,6 @@ public class ClienteBusiness implements IClienteBusiness {
     }
 
     @Override
-    public Cliente buscarPorId(String id) {
-        return clientes.buscarPorId(id);
-    }
-
-    @Override
     public Cliente buscarPorCpf(String cpf) {
         return clientes.buscarPorCpf(cpf);
     }
@@ -97,12 +92,12 @@ public class ClienteBusiness implements IClienteBusiness {
     }
 
     @Override
-    public void remover(String id) {
+    public void remover(String cpf) {
         // RN05 - Integridade: não é possível excluir um cliente com histórico
         // de contratos. Por ora este módulo não tem acesso direto à entidade
         // Contrato (de outro CRUD), então a remoção é sempre feita por
         // exclusão lógica (ativo = false), preservando o registro.
-        Cliente cliente = clientes.buscarPorId(id);
+        Cliente cliente = clientes.buscarPorCpf(cpf);
         if (cliente == null) {
             throw new IllegalArgumentException("Cliente não encontrado.");
         }
@@ -110,8 +105,8 @@ public class ClienteBusiness implements IClienteBusiness {
         clientes.atualizar(cliente);
     }
 
-    public void removerDefinitivamente(String id) {
-        clientes.remover(id);
+    public void removerDefinitivamente(String cpf) {
+        clientes.remover(cpf);
     }
 
     @Override
@@ -124,7 +119,7 @@ public class ClienteBusiness implements IClienteBusiness {
         Map<String, Cliente> ativos = new HashMap<>();
         for (Cliente c : clientes.listarTodos().values()) {
             if (c.isAtivo()) {
-                ativos.put(c.getId(), c);
+                ativos.put(c.getCpf(), c);
             }
         }
         return ativos;
