@@ -15,8 +15,7 @@ public class Funcionario extends Usuario{
         this.permissaoAdmin = false;
     }
 
-    protected Funcionario(String id, String cpf, String senha, String nome, 
-        String email, boolean permissaoAdmin){
+    protected Funcionario(String cpf, String senha, String nome, String email, boolean permissaoAdmin){
         
         super(cpf, senha, nome, email, TipoPerfil.ADMINISTRADOR);
         this.permissaoAdmin = permissaoAdmin;
@@ -42,19 +41,19 @@ public class Funcionario extends Usuario{
 
         // verificação salarial
        // Estagiario: 200 -- 800
-        if (this.cargo == Cargo.ESTAGIARIO && salarioNovo.compareTo(new BigDecimal("200")) < 0 || salarioNovo.compareTo(new BigDecimal("800")) > 0){
+        if (this.cargo == Cargo.ESTAGIARIO && (salarioNovo.compareTo(new BigDecimal("200")) < 0 || salarioNovo.compareTo(new BigDecimal("800")) > 0)){
             throw new IllegalArgumentException("Salário de estagiário fora de escopo");
         }
        //Atendente: 1500 -- 4000
-        if (this.cargo == Cargo.ATENDENTE && salarioNovo.compareTo(new BigDecimal("1500")) < 0 || salarioNovo.compareTo(new BigDecimal("4000")) >0){
+        if (this.cargo == Cargo.ATENDENTE && (salarioNovo.compareTo(new BigDecimal("1500")) < 0 || salarioNovo.compareTo(new BigDecimal("4000")) > 0)){
             throw new IllegalArgumentException("Salário de atendente fora de escopo");
         }
         //Caixa: 1500 -- 4000
-        if (this.cargo == Cargo.CAIXA && salarioNovo.compareTo(new BigDecimal("1500")) < 0 || salarioNovo.compareTo(new BigDecimal("4000")) > 0){
+        if (this.cargo == Cargo.CAIXA && (salarioNovo.compareTo(new BigDecimal("1500")) < 0 || salarioNovo.compareTo(new BigDecimal("4000")) > 0)){
             throw new IllegalArgumentException("Salário de caixa fora de escopo");
         }
         //Gerente: 5000 -- 15000
-        if (this.cargo == Cargo.GERENTE && salarioNovo.compareTo(new BigDecimal("5000")) < 0 || salarioNovo.compareTo(new BigDecimal("15000")) > 0){
+        if (this.cargo == Cargo.GERENTE && (salarioNovo.compareTo(new BigDecimal("5000")) < 0 || salarioNovo.compareTo(new BigDecimal("15000")) > 0)){
             throw new IllegalArgumentException("Salário de gerente fora de escopo");
         }
         //Ceo: 15000 -- o céu é o limite
