@@ -1,27 +1,24 @@
 package com.upe.loja.UI;
 
 import com.upe.loja.Facade;
-import com.upe.loja.repository.entity.Funcionario.Cargo;
-import com.upe.loja.repository.entity.*;
+import com.upe.loja.repository.entity.Administrador;
 
-import java.math.BigDecimal;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 import java.util.Map;
 
-public class MenuFuncionario {
-    //menu funcionario deveria ser com oq fṕode fazer em funcionario ou que funcionario pode fazer??
+public class MenuAdministrador {
     private Scanner entrada;
     private int opc;
     private Facade facade;
 
-    public MenuFuncionario(Facade facade){
+    public MenuAdministrador(Facade facade){
         this.entrada = new Scanner(System.in);
         this.opc = -1;
         this.facade = facade;
     }
 
-    public void iniciar(){ //sera q e melhor trocar os nomes p nao dar problemas na hora de chamar nos gerais?
+    public void iniciar(){
         do{
             exibirOpcoes();
             String digitando = entrada.nextLine();
@@ -37,28 +34,28 @@ public class MenuFuncionario {
     }
 
     public void exibirOpcoes(){
-        System.out.println("------Menu funcionário------");
+        System.out.println("------Menu Administrador------");
         System.out.println("Escolha uma opção: ");
-        System.out.println("1 - Cadastrar novo funcionário");
-        System.out.println("2 - Listar funcionários");
-        System.out.println("3 - Atualizar dados de um funcionário");
-        System.out.println("4 - Remover um funcionário");
-        System.out.println("0 - Fechar");
+        System.out.println("1 - Cadastrar Administrador");
+        System.out.println("2 - Listar Administradores");
+        System.out.println("3 - Atualizar Administrador");
+        System.out.println("4 - Remover Administrador");
+        System.out.println("0 - Voltar");
     }
 
     public void processarOpcao(int opc){
         switch(opc){
             case 1:
-                menuCadastrarFuncionario();
+                menuCadastrarAdministrador();
                 break;
             case 2:
-                menuListarFuncionarios();
+                menuListarAdministradores();
                 break;
             case 3:
-                menuAtualizarFuncionario();
+                menuAtualizarAdministrador();
                 break;
             case 4:
-                menuRemoverFuncionario();
+                menuRemoverAdministrador();
                 break;
             case 0:
                 System.out.println("Voltando ao menu principal...");
@@ -68,59 +65,53 @@ public class MenuFuncionario {
         }
     }
 
-    public void menuCadastrarFuncionario(){
+    public void menuCadastrarAdministrador(){
         boolean sucesso = false;
         while(!sucesso){
-            System.out.println("Digite: cpf, senha, nome, email, salário e cargo: ");
+            System.out.println("Digite: cpf, senha, nome, email: ");
             String linha = entrada.nextLine();
             try{
                 String[] partes = linha.split(",");
-                if(partes.length < 6 ){
+                if(partes.length < 4){
                     throw new IllegalArgumentException("Formato inválido");
                 }
                 String cpf = partes[0].trim();
                 String senha = partes[1].trim();
                 String nome = partes[2].trim();
                 String email = partes[3].trim();
-                BigDecimal salario = new BigDecimal(partes[4].trim());
-                Cargo cargo = Cargo.valueOf(partes[5].trim().toUpperCase());
-                facade.cadastrarFuncionario(cpf, senha, nome, email, salario, cargo);
+                facade.cadastrarAdministrador(cpf, senha, nome, email);
                 sucesso = true;
-            } catch(NumberFormatException e){
-                System.err.println("Salário está fora de formato");
             } catch(IllegalArgumentException e){
                 System.err.println("Erro: " + e.getMessage());
             }
         }
     }
 
-    public void menuListarFuncionarios(){
-        Map<String, Funcionario> funcionarios = facade.listarTodosFuncionario();
-        for(Funcionario f : funcionarios.values()){
+    public void menuListarAdministradores(){
+        Map<String, Administrador> administradores = facade.listarTodosAdministrador();
+        for(Administrador a : administradores.values()){
             System.out.println("------------");
-            System.out.println("CPF: " + f.getCpf());
-            System.out.println("Nome: " + f.getNome());
-            System.out.println("Senha: " + f.getSenha());
-            System.out.println("E-mail: " + f.getEmail());
-            System.out.println("Salário: " + f.getSalario());
-            System.out.println("Cargo: " + f.getCargo());
+            System.out.println("CPF: " + a.getCpf());
+            System.out.println("Nome: " + a.getNome());
+            System.out.println("E-mail: " + a.getEmail());
+            System.out.println("Ativo: " + a.isAtivo());
         }
         System.out.println("------Fim------");
     }
 
-    public void menuAtualizarFuncionario(){
-        System.out.println("Digite o CPF do funcionário que deseja alterar:\n");
+    public void menuAtualizarAdministrador(){
+        System.out.println("Digite o CPF do administrador que deseja alterar:\n");
         String cpf = entrada.nextLine();
         boolean sucesso = false;
         do{
             try{
-                System.out.println("O que deseja alterar?\n 1- NOME 2- SENHA 3- EMAIL 4- SALÁRIO 5- CARGO\n");
+                System.out.println("O que deseja alterar?\n 1- CPF 2- EMAIL 3- NOME 4- SENHA 5- ATIVO\n");
                 int option = entrada.nextInt();
                 entrada.nextLine();
                 System.out.println("Qual valor inserir no lugar?\n");
                 String valor = entrada.nextLine();
-                facade.atualizarFuncionario(cpf, option, valor);
-                System.out.println("Funcionário atualizado");
+                facade.atualizarAdministrador(cpf, option, valor);
+                System.out.println("Administrador atualizado");
                 sucesso = true;
             } catch(IllegalArgumentException e){
                 System.err.println("Erro: " + e.getMessage());
@@ -131,14 +122,14 @@ public class MenuFuncionario {
         } while(!sucesso);
     }
 
-    public void menuRemoverFuncionario(){
+    public void menuRemoverAdministrador(){
         boolean sucesso = false;
         while(!sucesso){
-            System.out.println("Digite o CPF do funcionário que deseja remover:\n");
+            System.out.println("Digite o CPF do administrador que deseja remover:\n");
             String cpf = entrada.nextLine();
             try{
-                facade.removerFuncionario(cpf);
-                System.out.println("Funcionário removido");
+                facade.removerAdministrador(cpf);
+                System.out.println("Administrador removido");
                 sucesso = true;
             } catch(IllegalArgumentException e){
                 System.err.println("Erro: " + e.getMessage());

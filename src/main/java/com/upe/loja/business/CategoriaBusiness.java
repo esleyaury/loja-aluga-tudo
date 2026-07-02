@@ -2,10 +2,11 @@ package com.upe.loja.business;
 
 import com.upe.loja.business.interfaces.ICategoriaBusiness;
 import com.upe.loja.repository.CategoriaRepository;
+import com.upe.loja.repository.interfaces.ICategoriaRepository;
 import java.util.Set;
 
 public class CategoriaBusiness implements ICategoriaBusiness{
-    private CategoriaRepository categorias;
+    private ICategoriaRepository categorias;
 
     public CategoriaBusiness(){
         this.categorias = new CategoriaRepository();

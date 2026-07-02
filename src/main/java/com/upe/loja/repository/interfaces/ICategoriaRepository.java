@@ -4,8 +4,8 @@ import java.util.Set;
 
 public interface ICategoriaRepository {
     void salvar(String nome);
-    boolean existe(String nome);
-    Set<String> listarTodas();
+    boolean buscarCategoria(String nome);
+    Set<String> listarCategorias();
     void remover(String nome);
     void atualizar(String nomeAtual, String novoNome);
     void guardarDados();

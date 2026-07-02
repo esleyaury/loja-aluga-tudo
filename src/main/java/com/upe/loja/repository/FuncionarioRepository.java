@@ -8,13 +8,13 @@ import java.io.File;
 
 public class FuncionarioRepository implements IFuncionarioRepository{
     private Map<String, Funcionario> funcionarios;
-    private GerirFuncionariosCSV gereciadorArquivo;
+    private GerirFuncionariosCSV gerenciadorArquivo;
     private File arquivoFuncionarios;
 
     public FuncionarioRepository(){
         this.arquivoFuncionarios = new File("funcionarios.csv");
-        this.gereciadorArquivo = new GerirFuncionariosCSV();
-        this.funcionarios = gereciadorArquivo.carregar(this.arquivoFuncionarios);
+        this.gerenciadorArquivo = new GerirFuncionariosCSV();
+        this.funcionarios = gerenciadorArquivo.carregar(this.arquivoFuncionarios);
     }
     public void salvar(Funcionario funcionario){
         funcionarios.put(funcionario.getCpf(), funcionario);
@@ -33,6 +33,6 @@ public class FuncionarioRepository implements IFuncionarioRepository{
         this.funcionarios.remove(cpf);
     }
     public void guardarDados(){
-        gereciadorArquivo.guardarDados(this.arquivoFuncionarios, this.funcionarios);
+        gerenciadorArquivo.guardarDados(this.arquivoFuncionarios, this.funcionarios);
     }
 }

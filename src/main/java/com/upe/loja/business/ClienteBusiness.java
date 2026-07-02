@@ -60,7 +60,7 @@ public class ClienteBusiness implements IClienteBusiness {
 
     @Override
     public void atualizar(String cpf, int option, String valor) {
-        Cliente cliente = buscarPorCpf(valor);
+        Cliente cliente = buscarPorCpf(cpf);
         if (cliente == null) {
             throw new IllegalArgumentException("Cliente inválido para atualização.");
         }

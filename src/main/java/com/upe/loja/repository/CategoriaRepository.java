@@ -1,10 +1,11 @@
 package com.upe.loja.repository;
 
+import com.upe.loja.repository.interfaces.ICategoriaRepository;
 import java.util.HashSet;
 import java.util.Set;
 import java.io.File;
 
-public class CategoriaRepository {
+public class CategoriaRepository implements ICategoriaRepository {
 
     private Set<String> categorias;
     private GerirCategoriasCSV gerenciadorArquivo;

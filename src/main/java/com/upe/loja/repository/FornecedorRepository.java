@@ -31,6 +31,7 @@ public class FornecedorRepository implements IFornecedorRepository {
 
     public void atualizar(Fornecedor fornecedor) {
     }
+    @Override
     public void guardarDados(){
         gerenciadorArquivo.guardarDados(this.arquivoFornecedores, this.fornecedores);
     }

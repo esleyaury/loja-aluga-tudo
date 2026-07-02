@@ -89,39 +89,51 @@ public class FornecedorMenu {
     }
 
     public void menuListarTodos() {
-        List<Fornecedor> fornecedores = facade.listarFornecedores();
+        List<Fornecedor> fornecedores = facade.listarTodosFornecedor();
         if (fornecedores.isEmpty()) {
             System.out.println("Nenhum fornecedor cadastrado.");
             return;
         }
+
         for (Fornecedor f : fornecedores) {
             System.out.println("-----------------------------------");
-            System.out.println("CNPJ: " + f.getCnpj());
             System.out.println("Nome: " + f.getNome());
+            System.out.println("CNPJ: " + f.getCnpj());
             System.out.println("Telefone: " + f.getTelefone());
         }
         System.out.println("-----------------------------------");
     }
 
     public void menuAtualizarFornecedor() {
-        System.out.println("Digite o CNPJ do fornecedor que deseja atualizar:");
-        String cnpj = entrada.nextLine();
+        System.out.println("Digite o CNPJ do fornecedor que deseja atualizar:\n");
+        String cnpjDigitado = entrada.nextLine();
+        
+        if(cnpjDigitado.trim().equals("0")) return;
+
         boolean sucesso = false;
+
         do {
             try {
-                System.out.println("O que deseja alterar?\n 1- NOME 2- CNPJ 3- TELEFONE");
-                int option = entrada.nextInt();
-                entrada.nextLine();
-                System.out.println("Qual valor inserir no lugar?");
+                System.out.println("O que deseja alterar? \n 1- NOME 2-CNPJ 3-TELEFONE\n");
+                int option = Integer.parseInt(entrada.nextLine().trim());
+                
+                if(option < 1 || option > 3) {
+                     throw new IllegalArgumentException("Opção inválida. Escolha entre 1 e 3.");
+                }
+
+                System.out.println("O que deseja inserir no lugar?\n");
                 String valor = entrada.nextLine();
-                facade.atualizarFornecedor(cnpj, option, valor);
-                System.out.println("Fornecedor atualizado.");
+                
+                facade.atualizarFornecedor(cnpjDigitado, option, valor);
+                System.out.println("Fornecedor atualizado com sucesso!");
                 sucesso = true;
+                
             } catch (IllegalArgumentException e) {
-                System.err.println("Erro: " + e.getMessage());
-            } catch (InputMismatchException e) {
-                System.err.println("Entrada inválida! Digite um número.");
-                entrada.nextLine();
+                System.err.println("Erro: " + e.getMessage() + "\nTente novamente\n");
+                // Quebra o loop caso o CNPJ não exista no banco
+                if(e.getMessage().contains("não localizado")) {
+                    break; 
+                }
             }
         } while (!sucesso);
     }
@@ -129,10 +141,22 @@ public class FornecedorMenu {
     public void menuRemoverFornecedor() {
         boolean sucesso = false;
         while (!sucesso) {
-            System.out.println("Digite o CNPJ do fornecedor que deseja remover:");
-            String cnpj = entrada.nextLine();
+            System.out.println("Digite o CNPJ do fornecedor que deseja deletar (ou 0 para cancelar):\n");
+            String id = entrada.nextLine();
+            
+            if(id.trim().equals("0")) return;
+
             try {
-                facade.removerFornecedor(cnpj);
+                Fornecedor fornecedorEncontrado = facade.listarTodosFornecedor().stream()
+                        .filter(f -> f.getCnpj().equals(id))
+                        .findFirst()
+                        .orElse(null);
+
+                if (fornecedorEncontrado == null) {
+                    throw new IllegalArgumentException("Fornecedor não encontrado");
+                }
+                
+                facade.removerFornecedor(fornecedorEncontrado.getCnpj());
                 System.out.println("Fornecedor removido.");
                 sucesso = true;
             } catch (IllegalArgumentException e) {

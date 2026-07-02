@@ -3,7 +3,7 @@ package com.upe.loja.business.interfaces;
 import com.upe.loja.repository.entity.Fornecedor;
 import java.util.List;
 
-public interface IFornecedorService {
+public interface IFornecedorBusiness {
     void salvar(Fornecedor fornecedor);
     List<Fornecedor> listarTodos();
     void atualizar(String cnpj, int opcao, String novoValor);
