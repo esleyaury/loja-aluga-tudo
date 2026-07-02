@@ -42,6 +42,7 @@ classDiagram
         class FornecedorRepository
         class ContratoRepository
         class OcorrenciaRepository
+        class GerirCSV
     }
 
     namespace BusinessInterfaces {
@@ -53,6 +54,7 @@ classDiagram
         class IFornecedorBusiness
         class IContratoBusiness
         class IOcorrenciaBusiness
+        class IRelatorioBusiness
     }
 
     namespace Business {
@@ -64,6 +66,13 @@ classDiagram
         class FornecedorBusiness
         class ContratoBusiness
         class OcorrenciaBusiness
+        class RelatorioBusiness
+    }
+
+    namespace DTOs {
+        class Sessao
+        class ItemAlugado
+        class RelatorioFaturamento
     }
 
     class Facade
@@ -303,58 +312,63 @@ classDiagram
 
     %% ===================== REPOSITORIES (persistência CSV) =====================
 
+    class GerirCSV~T~ {
+        +carregar(arquivo, parser) List~T~
+        +guardarDados(arquivo, itens, serializer) void
+    }
+
     class ClienteRepository {
         -clientes : Map~String,Cliente~
-        -gerenciadorArquivo : GerenciadorClientesCSV
+        -gerenciadorArquivo : GerirCSV~Cliente~
         -arquivoClientes : File
         +ClienteRepository()
     }
 
     class FuncionarioRepository {
         -funcionarios : Map~String,Funcionario~
-        -gerenciadorArquivo : GerirFuncionariosCSV
+        -gerenciadorArquivo : GerirCSV~Funcionario~
         -arquivoFuncionarios : File
         +FuncionarioRepository()
     }
 
     class AdministradorRepository {
         -administradores : Map~String,Administrador~
-        -gerenciadorArquivo : GerirAdministradorCSV
+        -gerenciadorArquivo : GerirCSV~Administrador~
         -arquivoAdministradores : File
         +AdministradorRepository()
     }
 
     class ProdutoRepository {
         -estoque : Map~String,Produto~
-        -gerenciadorArquivo : GerirProdutosCSV
+        -gerenciadorArquivo : GerirCSV~Produto~
         -arquivoProdutos : File
         +ProdutoRepository()
     }
 
     class CategoriaRepository {
         -categorias : Set~String~
-        -gerenciadorArquivo : GerirCategoriasCSV
+        -gerenciadorArquivo : GerirCSV~String~
         -arquivoCategorias : File
         +CategoriaRepository()
     }
 
     class FornecedorRepository {
         -fornecedores : List~Fornecedor~
-        -gerenciadorArquivo : GerirFornecedoresCSV
+        -gerenciadorArquivo : GerirCSV~Fornecedor~
         -arquivoFornecedores : File
         +FornecedorRepository()
     }
 
     class ContratoRepository {
         -contratos : Map~Long,Contrato~
-        -gerenciadorArquivo : GerirContratosCSV
+        -gerenciadorArquivo : GerirCSV~Contrato~
         -arquivoContratos : File
         +ContratoRepository()
     }
 
     class OcorrenciaRepository {
         -ocorrencias : Map~Long,Ocorrencia~
-        -gerenciadorArquivo : GerirOcorrenciasCSV
+        -gerenciadorArquivo : GerirCSV~Ocorrencia~
         -arquivoOcorrencias : File
         +OcorrenciaRepository()
     }
@@ -452,6 +466,14 @@ classDiagram
         +guardarDados() void
     }
 
+    class IRelatorioBusiness {
+        <<interface>>
+        +itensDisponiveisPorCategoria() Map~String,List~Produto~~
+        +historicoAlugueisPorCliente(cpfCliente) List~Contrato~
+        +itensAlugadosNoMomento() List~ItemAlugado~
+        +faturamentoNoPeriodo(inicio, fim) RelatorioFaturamento
+    }
+
     %% ===================== BUSINESS (regras de negócio) =====================
 
     class ClienteBusiness {
@@ -498,6 +520,35 @@ classDiagram
         +OcorrenciaBusiness(ocorrencias, contratos)
     }
 
+    class RelatorioBusiness {
+        -produtos : IProdutoRepository
+        -contratos : IContratoRepository
+        -ocorrencias : IOcorrenciaRepository
+        +RelatorioBusiness(produtos, contratos, ocorrencias)
+    }
+
+    %% ===================== DTOs (registros retornados pela camada de serviço) =====================
+
+    class Sessao {
+        <<record>>
+        +cpf : String
+        +nome : String
+        +tipo : TipoPerfil
+    }
+
+    class ItemAlugado {
+        <<record>>
+        +contrato : Contrato
+        +emAtraso : boolean
+    }
+
+    class RelatorioFaturamento {
+        <<record>>
+        +totalAlugueis : BigDecimal
+        +totalMultas : BigDecimal
+        +totalGeral : BigDecimal
+    }
+
     %% ===================== FACADE =====================
 
     class Facade {
@@ -509,6 +560,7 @@ classDiagram
         -fornecedorBusiness : IFornecedorBusiness
         -contratoBusiness : IContratoBusiness
         -ocorrenciaBusiness : IOcorrenciaBusiness
+        -relatorioBusiness : IRelatorioBusiness
         +Facade()
         +autenticar(cpf, senha) Sessao
         +fecharPrograma() void
@@ -536,6 +588,17 @@ classDiagram
     IContratoRepository <|.. ContratoRepository
     IOcorrenciaRepository <|.. OcorrenciaRepository
 
+    %% ===================== RELACIONAMENTOS: repositório usa o manipulador de CSV genérico =====================
+
+    ClienteRepository *-- GerirCSV
+    FuncionarioRepository *-- GerirCSV
+    AdministradorRepository *-- GerirCSV
+    ProdutoRepository *-- GerirCSV
+    CategoriaRepository *-- GerirCSV
+    FornecedorRepository *-- GerirCSV
+    ContratoRepository *-- GerirCSV
+    OcorrenciaRepository *-- GerirCSV
+
     %% ===================== RELACIONAMENTOS: repositório gerencia entidade =====================
 
     ClienteRepository "1" --> "*" Cliente : gerencia
@@ -557,6 +620,7 @@ classDiagram
     IFornecedorBusiness <|.. FornecedorBusiness
     IContratoBusiness <|.. ContratoBusiness
     IOcorrenciaBusiness <|.. OcorrenciaBusiness
+    IRelatorioBusiness <|.. RelatorioBusiness
 
     %% ===================== RELACIONAMENTOS: business compõe repositório =====================
 
@@ -571,8 +635,11 @@ classDiagram
     ContratoBusiness *-- IOcorrenciaRepository
     OcorrenciaBusiness *-- IOcorrenciaRepository
     OcorrenciaBusiness *-- IContratoRepository
+    RelatorioBusiness *-- IProdutoRepository
+    RelatorioBusiness *-- IContratoRepository
+    RelatorioBusiness *-- IOcorrenciaRepository
 
-    %% ===================== RELACIONAMENTOS: Facade compõe as 8 Business =====================
+    %% ===================== RELACIONAMENTOS: Facade compõe as 9 Business =====================
 
     Facade *-- IClienteBusiness
     Facade *-- IFuncionarioBusiness
@@ -582,6 +649,13 @@ classDiagram
     Facade *-- IFornecedorBusiness
     Facade *-- IContratoBusiness
     Facade *-- IOcorrenciaBusiness
+    Facade *-- IRelatorioBusiness
+
+    %% ===================== RELACIONAMENTOS: DTOs produzidos pela camada de serviço =====================
+
+    Facade ..> Sessao : produz
+    RelatorioBusiness ..> ItemAlugado : produz
+    RelatorioBusiness ..> RelatorioFaturamento : produz
 
     %% ===================== RELACIONAMENTOS: associações entre entidades por chave (CSV-friendly) =====================
 

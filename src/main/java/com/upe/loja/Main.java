@@ -9,6 +9,7 @@ import com.upe.loja.UI.MenuContrato;
 import com.upe.loja.UI.MenuFuncionario;
 import com.upe.loja.UI.MenuOcorrencia;
 import com.upe.loja.UI.MenuProduto;
+import com.upe.loja.UI.MenuRelatorios;
 import com.upe.loja.UI.FornecedorMenu;
 import com.upe.loja.UI.MenuAdministrador;
 
@@ -103,6 +104,7 @@ public class Main {
             System.out.println("6 - Administradores");
             System.out.println("7 - Contratos");
             System.out.println("8 - Ocorrências/Multas");
+            System.out.println("9 - Relatórios");
             System.out.println("0 - Logout");
             System.out.print("Opção: ");
 
@@ -116,6 +118,7 @@ public class Main {
                 case 6 -> new MenuAdministrador(facade).iniciar();
                 case 7 -> new MenuContrato(facade).iniciar();
                 case 8 -> new MenuOcorrencia(facade).iniciar();
+                case 9 -> new MenuRelatorios(facade, true).iniciar();
                 case 0 -> System.out.println("Logout efetuado.");
                 default -> System.out.println("Opção inválida. Tente novamente.");
             }
@@ -131,6 +134,7 @@ public class Main {
             System.out.println("2 - Produtos");
             System.out.println("3 - Contratos");
             System.out.println("4 - Ocorrências/Multas");
+            System.out.println("5 - Relatórios");
             System.out.println("0 - Logout");
             System.out.print("Opção: ");
 
@@ -140,6 +144,7 @@ public class Main {
                 case 2 -> new MenuProduto(facade).iniciar();
                 case 3 -> new MenuContrato(facade).iniciar();
                 case 4 -> new MenuOcorrencia(facade).iniciar();
+                case 5 -> new MenuRelatorios(facade, false).iniciar();
                 case 0 -> System.out.println("Logout efetuado.");
                 default -> System.out.println("Opção inválida. Tente novamente.");
             }

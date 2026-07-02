@@ -2,8 +2,12 @@ package com.upe.loja;
 
 import com.upe.loja.business.ContratoBusiness;
 import com.upe.loja.business.OcorrenciaBusiness;
+import com.upe.loja.business.RelatorioBusiness;
+import com.upe.loja.business.RelatorioBusiness.ItemAlugado;
+import com.upe.loja.business.RelatorioBusiness.RelatorioFaturamento;
 import com.upe.loja.business.interfaces.IContratoBusiness;
 import com.upe.loja.business.interfaces.IOcorrenciaBusiness;
+import com.upe.loja.business.interfaces.IRelatorioBusiness;
 import com.upe.loja.repository.ContratoRepository;
 import com.upe.loja.repository.OcorrenciaRepository;
 import com.upe.loja.repository.ProdutoRepository;
@@ -47,6 +51,7 @@ public class Facade {
     private final IFuncionarioBusiness funcionarioBusiness;
     private final IAdministradorBusiness administradorBusiness;
     private final IFornecedorBusiness fornecedorBusiness;
+    private final IRelatorioBusiness relatorioBusiness;
 
     public Facade() {
         ContratoRepository contratoRepository    = new ContratoRepository();
@@ -55,7 +60,8 @@ public class Facade {
 
         this.contratoBusiness  = new ContratoBusiness(contratoRepository, produtoRepository, ocorrenciaRepository);
         this.ocorrenciaBusiness = new OcorrenciaBusiness(ocorrenciaRepository, contratoRepository);
-        
+        this.relatorioBusiness = new RelatorioBusiness(produtoRepository, contratoRepository, ocorrenciaRepository);
+
         this.produtoBusiness = new ProdutoBusiness(produtoRepository);
         this.categoriaBusiness = new CategoriaBusiness();
         this.clienteBusiness = new ClienteBusiness();
@@ -295,6 +301,24 @@ public class Facade {
         }
 
         return null;
+    }
+
+    // ==================== RELATÓRIOS ====================
+
+    public Map<String, List<Produto>> relatorioItensDisponiveisPorCategoria() {
+        return relatorioBusiness.itensDisponiveisPorCategoria();
+    }
+
+    public List<Contrato> relatorioHistoricoAlugueis(String cpfCliente) {
+        return relatorioBusiness.historicoAlugueisPorCliente(cpfCliente);
+    }
+
+    public List<ItemAlugado> relatorioItensAlugadosNoMomento() {
+        return relatorioBusiness.itensAlugadosNoMomento();
+    }
+
+    public RelatorioFaturamento relatorioFaturamento(LocalDate inicio, LocalDate fim) {
+        return relatorioBusiness.faturamentoNoPeriodo(inicio, fim);
     }
 
     // ==================== SISTEMA ====================
