@@ -23,6 +23,7 @@ public class FornecedorRepository implements IFornecedorRepository {
    
     public void salvar(Fornecedor fornecedor) {
         fornecedores.add(fornecedor);
+        guardarDados();
     }
 
     public void remover(String cnpj) {
