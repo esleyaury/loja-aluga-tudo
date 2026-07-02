@@ -7,20 +7,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FornecedorRepository implements IFornecedorRepository {
-    private GerirFornecedoresCSV gerenciadorArquivo;
+    private GerirCSV<Fornecedor> gerenciadorArquivo;
     private List<Fornecedor> fornecedores;
     private File arquivoFornecedores;
 
     public FornecedorRepository() {
         this.arquivoFornecedores = new File("fornecedores.csv");
-        this.gerenciadorArquivo= new GerirFornecedoresCSV();
-        this.fornecedores = gerenciadorArquivo.carregar(this.arquivoFornecedores);
+        this.gerenciadorArquivo = new GerirCSV<>();
+
+        // Formato da linha: cnpj;nome;telefone
+        List<Fornecedor> lista = gerenciadorArquivo.carregar(this.arquivoFornecedores, linha -> {
+            String[] dados = linha.split(";");
+            if (dados.length != 3) { return null; }
+
+            return new Fornecedor(dados[0], dados[1], dados[2]);
+        });
+
+        this.fornecedores = new ArrayList<>(lista);
     }
 
     public List<Fornecedor> listarTodos() {
         return new ArrayList<>(fornecedores);
     }
-   
+
     public void salvar(Fornecedor fornecedor) {
         fornecedores.add(fornecedor);
         guardarDados();
@@ -34,6 +43,7 @@ public class FornecedorRepository implements IFornecedorRepository {
     }
     @Override
     public void guardarDados(){
-        gerenciadorArquivo.guardarDados(this.arquivoFornecedores, this.fornecedores);
+        gerenciadorArquivo.guardarDados(this.arquivoFornecedores, this.fornecedores, f ->
+            String.format("%s;%s;%s", f.getCnpj(), f.getNome(), f.getTelefone()));
     }
 }

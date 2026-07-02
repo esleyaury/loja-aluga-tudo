@@ -2,19 +2,22 @@ package com.upe.loja.repository;
 
 import com.upe.loja.repository.interfaces.ICategoriaRepository;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.io.File;
 
 public class CategoriaRepository implements ICategoriaRepository {
 
     private Set<String> categorias;
-    private GerirCategoriasCSV gerenciadorArquivo;
+    private GerirCSV<String> gerenciadorArquivo;
     private File arquivoCategorias;
 
     public CategoriaRepository(){
         this.arquivoCategorias = new File("categorias.csv");
-        this.gerenciadorArquivo = new GerirCategoriasCSV();
-        this.categorias = gerenciadorArquivo.carregar(this.arquivoCategorias);
+        this.gerenciadorArquivo = new GerirCSV<>();
+
+        List<String> lista = gerenciadorArquivo.carregar(this.arquivoCategorias, linha -> linha.trim().toLowerCase());
+        this.categorias = new HashSet<>(lista);
     }
 
     public void salvar(String nomeCategoria) {
@@ -39,6 +42,6 @@ public class CategoriaRepository implements ICategoriaRepository {
     }
 
     public void guardarDados(){
-        gerenciadorArquivo.guardarDados(this.arquivoCategorias, this.categorias);
+        gerenciadorArquivo.guardarDados(this.arquivoCategorias, this.categorias, nome -> nome);
     }
 }

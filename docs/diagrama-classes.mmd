@@ -1,0 +1,591 @@
+%%{init: {"theme": "neutral"}}%%
+classDiagram
+    direction TB
+
+    namespace Entidades {
+        class Usuario
+        class Cliente
+        class Funcionario
+        class Administrador
+        class Produto
+        class Categoria
+        class Fornecedor
+        class Contrato
+        class Ocorrencia
+    }
+
+    namespace Enumeracoes {
+        class TipoPerfil
+        class Cargo
+        class EstadoProduto
+        class StatusContrato
+        class TipoOcorrencia
+    }
+
+    namespace RepositoryInterfaces {
+        class IClienteRepository
+        class IFuncionarioRepository
+        class IAdministradorRepository
+        class IProdutoRepository
+        class ICategoriaRepository
+        class IFornecedorRepository
+        class IContratoRepository
+        class IOcorrenciaRepository
+    }
+
+    namespace Repositories {
+        class ClienteRepository
+        class FuncionarioRepository
+        class AdministradorRepository
+        class ProdutoRepository
+        class CategoriaRepository
+        class FornecedorRepository
+        class ContratoRepository
+        class OcorrenciaRepository
+    }
+
+    namespace BusinessInterfaces {
+        class IClienteBusiness
+        class IFuncionarioBusiness
+        class IAdministradorBusiness
+        class IProdutoBusiness
+        class ICategoriaBusiness
+        class IFornecedorBusiness
+        class IContratoBusiness
+        class IOcorrenciaBusiness
+    }
+
+    namespace Business {
+        class ClienteBusiness
+        class FuncionarioBusiness
+        class AdministradorBusiness
+        class ProdutoBusiness
+        class CategoriaBusiness
+        class FornecedorBusiness
+        class ContratoBusiness
+        class OcorrenciaBusiness
+    }
+
+    class Facade
+
+    %% ===================== ENTIDADES =====================
+
+    class Usuario {
+        <<abstract>>
+        -cpf : String
+        -senha : String
+        -nome : String
+        -email : String
+        -tipo : TipoPerfil
+        -ativo : boolean
+        +Usuario(cpf, senha, nome, email, tipo)
+        +getCpf() String
+        +getSenha() String
+        +getNome() String
+        +getEmail() String
+        +getTipo() TipoPerfil
+        +isAtivo() boolean
+        +setSenha(senha) void
+        +setNome(nome) void
+        +setEmail(email) void
+        +setAtivo(ativo) void
+    }
+
+    class Cliente {
+        -inadimplente : boolean
+        +Cliente(cpf, senha, nome, email)
+        +isInadimplente() boolean
+        +setInadimplente(inadimplente) void
+    }
+
+    class Funcionario {
+        -cargo : Cargo
+        -salario : BigDecimal
+        -permissaoAdmin : boolean
+        +Funcionario(cpf, senha, nome, email, salario, cargo)
+        #Funcionario(cpf, senha, nome, email, permissaoAdmin)
+        +getSalario() BigDecimal
+        +getCargo() Cargo
+        +setSalario(salarioNovo) void
+        +setCargo(cargo) void
+        +getPermissao() boolean
+    }
+
+    class Administrador {
+        +Administrador(cpf, senha, nome, email)
+    }
+
+    class Produto {
+        -id : String
+        -nome : String
+        -categoria : String
+        -taxaDiaria : BigDecimal
+        -conservacao : String
+        -valorReposicao : BigDecimal
+        -estado : EstadoProduto
+        +Produto(id, nome, categoria, taxaDiaria, conservacao, valorReposicao, estado)
+        +getID() String
+        +getNome() String
+        +getCategoria() String
+        +getTaxaDiaria() BigDecimal
+        +getConservacao() String
+        +getValorReposicao() BigDecimal
+        +getEstado() EstadoProduto
+        +setEstado(estado) void
+    }
+
+    class Categoria {
+        -nomeCategoria : String
+        +Categoria(nome)
+        +getNomeCategoria() String
+    }
+
+    class Fornecedor {
+        -cnpj : String
+        -nome : String
+        -telefone : String
+        +Fornecedor(cnpj, nome, telefone)
+        +getCnpj() String
+        +getNome() String
+        +getTelefone() String
+    }
+
+    class Contrato {
+        -id : long
+        -cpfCliente : String
+        -cpfFuncionario : String
+        -idsProdutos : Set~String~
+        -dataRetirada : LocalDate
+        -dataDevolucaoPrevista : LocalDate
+        -dataDevolucaoReal : LocalDate
+        -valorTotal : BigDecimal
+        -status : StatusContrato
+        +Contrato(cpfCliente, cpfFuncionario, idsProdutos, dataRetirada, dataDevolucaoPrevista, valorTotal)
+        +getId() long
+        +getIdsProdutos() Set~String~
+        +getStatus() StatusContrato
+        +setDataDevolucaoReal(data) void
+        +encerrar() void
+    }
+
+    class Ocorrencia {
+        -idContrato : long
+        -tipo : TipoOcorrencia
+        -dataOcorrencia : LocalDate
+        -descricao : String
+        -valorMulta : BigDecimal
+        -quitada : boolean
+        +Ocorrencia(idContrato, tipo, dataOcorrencia, descricao, valorMulta)
+        +isQuitada() boolean
+        +quitar() void
+        +calcularMultaAtraso(diasAtraso, valorDiaria)$ BigDecimal
+        +calcularMultaAvaria()$ BigDecimal
+    }
+
+    class TipoPerfil {
+        <<enumeration>>
+        FUNCIONARIO
+        CLIENTE
+        ADMINISTRADOR
+    }
+
+    class Cargo {
+        <<enumeration>>
+        ESTAGIARIO
+        ATENDENTE
+        CAIXA
+        GERENTE
+        CEO
+    }
+
+    class EstadoProduto {
+        <<enumeration>>
+        DISPONIVEL
+        ALUGADO
+        EM_MANUTENCAO
+        INATIVO
+    }
+
+    class StatusContrato {
+        <<enumeration>>
+        ATIVO
+        ENCERRADO
+    }
+
+    class TipoOcorrencia {
+        <<enumeration>>
+        ATRASO
+        AVARIA
+    }
+
+    %% ===================== INTERFACES DE REPOSITORY =====================
+
+    class IClienteRepository {
+        <<interface>>
+        +salvar(cliente) void
+        +buscarPorCpf(cpf) Cliente
+        +listarTodos() Map~String,Cliente~
+        +atualizar(cliente) void
+        +remover(cpf) void
+        +guardarDados() void
+    }
+
+    class IFuncionarioRepository {
+        <<interface>>
+        +salvar(funcionario) void
+        +buscarPorCpf(cpf) Funcionario
+        +listarTodos() Map~String,Funcionario~
+        +atualizar(funcionario) void
+        +remover(cpf) void
+        +guardarDados() void
+    }
+
+    class IAdministradorRepository {
+        <<interface>>
+        +salvar(administrador) void
+        +buscarPorCpf(cpf) Administrador
+        +listarTodos() Map~String,Administrador~
+        +atualizar(administrador) void
+        +remover(cpf) void
+        +guardarDados() void
+    }
+
+    class IProdutoRepository {
+        <<interface>>
+        +salvar(produto) void
+        +buscarPorId(id) Produto
+        +listarTodos() Map~String,Produto~
+        +buscarProduto(nome) List~Produto~
+        +atualizar(produto) void
+        +remover(id) void
+        +guardarDados() void
+    }
+
+    class ICategoriaRepository {
+        <<interface>>
+        +salvar(nome) void
+        +buscarCategoria(nome) boolean
+        +listarCategorias() Set~String~
+        +remover(nome) void
+        +atualizar(nomeAtual, novoNome) void
+        +guardarDados() void
+    }
+
+    class IFornecedorRepository {
+        <<interface>>
+        +salvar(fornecedor) void
+        +listarTodos() List~Fornecedor~
+        +atualizar(fornecedor) void
+        +remover(cnpj) void
+        +guardarDados() void
+    }
+
+    class IContratoRepository {
+        <<interface>>
+        +salvar(contrato) void
+        +buscarPorId(id) Contrato
+        +listarTodos() Map~Long,Contrato~
+        +buscarPorCpfCliente(cpfCliente) List~Contrato~
+        +buscarAtivos() List~Contrato~
+        +atualizar(contrato) void
+        +guardarDados() void
+    }
+
+    class IOcorrenciaRepository {
+        <<interface>>
+        +salvar(ocorrencia) void
+        +buscarPorContrato(idContrato) Ocorrencia
+        +listarTodas() Map~Long,Ocorrencia~
+        +atualizar(ocorrencia) void
+        +remover(idContrato) void
+        +guardarDados() void
+    }
+
+    %% ===================== REPOSITORIES (persistência CSV) =====================
+
+    class ClienteRepository {
+        -clientes : Map~String,Cliente~
+        -gerenciadorArquivo : GerenciadorClientesCSV
+        -arquivoClientes : File
+        +ClienteRepository()
+    }
+
+    class FuncionarioRepository {
+        -funcionarios : Map~String,Funcionario~
+        -gerenciadorArquivo : GerirFuncionariosCSV
+        -arquivoFuncionarios : File
+        +FuncionarioRepository()
+    }
+
+    class AdministradorRepository {
+        -administradores : Map~String,Administrador~
+        -gerenciadorArquivo : GerirAdministradorCSV
+        -arquivoAdministradores : File
+        +AdministradorRepository()
+    }
+
+    class ProdutoRepository {
+        -estoque : Map~String,Produto~
+        -gerenciadorArquivo : GerirProdutosCSV
+        -arquivoProdutos : File
+        +ProdutoRepository()
+    }
+
+    class CategoriaRepository {
+        -categorias : Set~String~
+        -gerenciadorArquivo : GerirCategoriasCSV
+        -arquivoCategorias : File
+        +CategoriaRepository()
+    }
+
+    class FornecedorRepository {
+        -fornecedores : List~Fornecedor~
+        -gerenciadorArquivo : GerirFornecedoresCSV
+        -arquivoFornecedores : File
+        +FornecedorRepository()
+    }
+
+    class ContratoRepository {
+        -contratos : Map~Long,Contrato~
+        -gerenciadorArquivo : GerirContratosCSV
+        -arquivoContratos : File
+        +ContratoRepository()
+    }
+
+    class OcorrenciaRepository {
+        -ocorrencias : Map~Long,Ocorrencia~
+        -gerenciadorArquivo : GerirOcorrenciasCSV
+        -arquivoOcorrencias : File
+        +OcorrenciaRepository()
+    }
+
+    %% ===================== INTERFACES DE BUSINESS (camada de serviço) =====================
+
+    class IClienteBusiness {
+        <<interface>>
+        +cadastrarCliente(cpf, senha, nome, email) void
+        +buscarPorCpf(cpf) Cliente
+        +buscarPorNome(nome) List~Cliente~
+        +atualizar(cpf, option, valor) void
+        +listarTodos() Map~String,Cliente~
+        +remover(cpf) void
+        +clientesAtivos() Map~String,Cliente~
+        +podeAlugar(cpf) boolean
+        +autenticar(cpf, senha) Cliente
+        +guardarDados() void
+    }
+
+    class IFuncionarioBusiness {
+        <<interface>>
+        +cadastrarFuncionario(cpf, senha, nome, email, salario, cargo) void
+        +buscarPorCpf(cpf) Funcionario
+        +listarTodos() Map~String,Funcionario~
+        +atualizar(cpf, option, valor) void
+        +remover(id) void
+        +autenticar(cpf, senha) Funcionario
+        +guardarDados() void
+    }
+
+    class IAdministradorBusiness {
+        <<interface>>
+        +cadastrarAdministrador(cpf, senha, nome, email) void
+        +buscarPorCpf(cpf) Administrador
+        +listarTodos() Map~String,Administrador~
+        +atualizar(cpf, option, valor) void
+        +remover(cpf) void
+        +autenticar(cpf, senha) Administrador
+        +guardarDados() void
+    }
+
+    class IProdutoBusiness {
+        <<interface>>
+        +cadastrarProduto(id, nome, categoria, taxaDiaria, conservacao, valorReposicao) void
+        +verificarDisponibilidade(nome) List~Produto~
+        +buscarPorId(id) Produto
+        +atualizar(produto, option, valor) void
+        +listarTodos() Map~String,Produto~
+        +remover(id) void
+        +produtosDisponiveis() Map~String,Produto~
+        +guardarDados() void
+    }
+
+    class ICategoriaBusiness {
+        <<interface>>
+        +criarCategoria(nome) void
+        +deletarCategoria(nome) void
+        +buscarCategoria(nome) boolean
+        +listarCategorias() Set~String~
+        +atualizar(nomeAtual, novoNome) void
+        +guardarDados() void
+    }
+
+    class IFornecedorBusiness {
+        <<interface>>
+        +salvar(fornecedor) void
+        +listarTodos() List~Fornecedor~
+        +atualizar(cnpj, opcao, novoValor) void
+        +remover(cnpj) void
+        +guardarDados() void
+    }
+
+    class IContratoBusiness {
+        <<interface>>
+        +criarContrato(cpfCliente, cpfFuncionario, idsProdutos, dataRetirada, dataDevolucaoPrevista) Contrato
+        +buscarPorId(id) Contrato
+        +buscarPorCpfCliente(cpfCliente) List~Contrato~
+        +buscarAtivos() List~Contrato~
+        +listarTodos() Map~Long,Contrato~
+        +encerrarContrato(id) void
+        +buscarMultasPendentesPorCliente(cpfCliente) List~Ocorrencia~
+        +guardarDados() void
+    }
+
+    class IOcorrenciaBusiness {
+        <<interface>>
+        +registrarAtraso(idContrato, dataDevolucaoReal, diasAtraso, valorDiaria) void
+        +registrarAvaria(idContrato, descricao) void
+        +quitar(idContrato) void
+        +buscarPorContrato(idContrato) Ocorrencia
+        +clienteTemPendencias(cpfCliente) boolean
+        +listarTodas() Map~Long,Ocorrencia~
+        +remover(idContrato) void
+        +guardarDados() void
+    }
+
+    %% ===================== BUSINESS (regras de negócio) =====================
+
+    class ClienteBusiness {
+        -clientes : IClienteRepository
+        +ClienteBusiness()
+    }
+
+    class FuncionarioBusiness {
+        -funcionarios : IFuncionarioRepository
+        +FuncionarioBusiness()
+    }
+
+    class AdministradorBusiness {
+        -administradores : IAdministradorRepository
+        +AdministradorBusiness()
+    }
+
+    class ProdutoBusiness {
+        -estoque : IProdutoRepository
+        +ProdutoBusiness()
+        +ProdutoBusiness(estoque : ProdutoRepository)
+    }
+
+    class CategoriaBusiness {
+        -categorias : ICategoriaRepository
+        +CategoriaBusiness()
+    }
+
+    class FornecedorBusiness {
+        -repository : IFornecedorRepository
+        +FornecedorBusiness(repository)
+    }
+
+    class ContratoBusiness {
+        -contratos : IContratoRepository
+        -produtos : IProdutoRepository
+        -ocorrencias : IOcorrenciaRepository
+        +ContratoBusiness(contratos, produtos, ocorrencias)
+    }
+
+    class OcorrenciaBusiness {
+        -ocorrencias : IOcorrenciaRepository
+        -contratos : IContratoRepository
+        +OcorrenciaBusiness(ocorrencias, contratos)
+    }
+
+    %% ===================== FACADE =====================
+
+    class Facade {
+        -clienteBusiness : IClienteBusiness
+        -funcionarioBusiness : IFuncionarioBusiness
+        -administradorBusiness : IAdministradorBusiness
+        -produtoBusiness : IProdutoBusiness
+        -categoriaBusiness : ICategoriaBusiness
+        -fornecedorBusiness : IFornecedorBusiness
+        -contratoBusiness : IContratoBusiness
+        -ocorrenciaBusiness : IOcorrenciaBusiness
+        +Facade()
+        +autenticar(cpf, senha) Sessao
+        +fecharPrograma() void
+    }
+
+    %% ===================== RELACIONAMENTOS: herança e enums =====================
+
+    Usuario <|-- Cliente
+    Usuario <|-- Funcionario
+    Funcionario <|-- Administrador
+    Usuario ..> TipoPerfil
+    Funcionario ..> Cargo
+    Produto ..> EstadoProduto
+    Contrato ..> StatusContrato
+    Ocorrencia ..> TipoOcorrencia
+
+    %% ===================== RELACIONAMENTOS: repositório implementa interface =====================
+
+    IClienteRepository <|.. ClienteRepository
+    IFuncionarioRepository <|.. FuncionarioRepository
+    IAdministradorRepository <|.. AdministradorRepository
+    IProdutoRepository <|.. ProdutoRepository
+    ICategoriaRepository <|.. CategoriaRepository
+    IFornecedorRepository <|.. FornecedorRepository
+    IContratoRepository <|.. ContratoRepository
+    IOcorrenciaRepository <|.. OcorrenciaRepository
+
+    %% ===================== RELACIONAMENTOS: repositório gerencia entidade =====================
+
+    ClienteRepository "1" --> "*" Cliente : gerencia
+    FuncionarioRepository "1" --> "*" Funcionario : gerencia
+    AdministradorRepository "1" --> "*" Administrador : gerencia
+    ProdutoRepository "1" --> "*" Produto : gerencia
+    CategoriaRepository "1" --> "*" Categoria : gerencia
+    FornecedorRepository "1" --> "*" Fornecedor : gerencia
+    ContratoRepository "1" --> "*" Contrato : gerencia
+    OcorrenciaRepository "1" --> "*" Ocorrencia : gerencia
+
+    %% ===================== RELACIONAMENTOS: business implementa interface =====================
+
+    IClienteBusiness <|.. ClienteBusiness
+    IFuncionarioBusiness <|.. FuncionarioBusiness
+    IAdministradorBusiness <|.. AdministradorBusiness
+    IProdutoBusiness <|.. ProdutoBusiness
+    ICategoriaBusiness <|.. CategoriaBusiness
+    IFornecedorBusiness <|.. FornecedorBusiness
+    IContratoBusiness <|.. ContratoBusiness
+    IOcorrenciaBusiness <|.. OcorrenciaBusiness
+
+    %% ===================== RELACIONAMENTOS: business compõe repositório =====================
+
+    ClienteBusiness *-- IClienteRepository
+    FuncionarioBusiness *-- IFuncionarioRepository
+    AdministradorBusiness *-- IAdministradorRepository
+    ProdutoBusiness *-- IProdutoRepository
+    CategoriaBusiness *-- ICategoriaRepository
+    FornecedorBusiness *-- IFornecedorRepository
+    ContratoBusiness *-- IContratoRepository
+    ContratoBusiness *-- IProdutoRepository
+    ContratoBusiness *-- IOcorrenciaRepository
+    OcorrenciaBusiness *-- IOcorrenciaRepository
+    OcorrenciaBusiness *-- IContratoRepository
+
+    %% ===================== RELACIONAMENTOS: Facade compõe as 8 Business =====================
+
+    Facade *-- IClienteBusiness
+    Facade *-- IFuncionarioBusiness
+    Facade *-- IAdministradorBusiness
+    Facade *-- IProdutoBusiness
+    Facade *-- ICategoriaBusiness
+    Facade *-- IFornecedorBusiness
+    Facade *-- IContratoBusiness
+    Facade *-- IOcorrenciaBusiness
+
+    %% ===================== RELACIONAMENTOS: associações entre entidades por chave (CSV-friendly) =====================
+
+    Contrato ..> Produto : referencia por ID
+    Contrato ..> Cliente : referencia por CPF
+    Contrato ..> Funcionario : referencia por CPF
+    Ocorrencia ..> Contrato : referencia por ID
