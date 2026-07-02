@@ -1,6 +1,7 @@
 package com.upe.loja.repository;
 
 import com.upe.loja.repository.entity.Fornecedor;
+import com.upe.loja.repository.interfaces.IFornecedorRepository;
 import java.util.List;
 
 public class FornecedorRepository implements IFornecedorRepository {
@@ -31,6 +32,11 @@ public class FornecedorRepository implements IFornecedorRepository {
 
     @Override
     public void atualizar(Fornecedor fornecedor) {
+        gerenciadorCSV.salvarArquivoCSV(fornecedores);
+    }
+
+    @Override
+    public void guardarDados() {
         gerenciadorCSV.salvarArquivoCSV(fornecedores);
     }
 }
