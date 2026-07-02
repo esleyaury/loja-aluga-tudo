@@ -1,52 +1,85 @@
 package com.upe.loja.repository.entity;
-
 import java.math.BigDecimal;
 
 public class Produto {
     private String id;
     private String nome;
+    private String categoria;
     private BigDecimal taxaDiaria;
     private String conservacao;
     private BigDecimal valorReposicao;
-    private Categoria categoria;
-    private Fornecedor fornecedor;
-    private String estado;
+    private EstadoProduto estado;
 
-    public Produto(String id, String nome, BigDecimal taxaDiaria, String conservacao, BigDecimal valorReposicao, Categoria categoria, Fornecedor fornecerdor, boolean estado){
+    public Produto(){}
+    public Produto(String id, String nome, String categoria, BigDecimal taxaDiaria,
+        String conservacao, BigDecimal valorReposicao, EstadoProduto estado){
+
+        if (id == null || id.trim().isEmpty()) {
+            throw new IllegalArgumentException("O campo 'ID' é obrigatório.");
+        }
+
         this.id = id;
+
+        setNome(nome);
+        setCategoria(categoria);
+        setTaxaDiaria(taxaDiaria);
+        setConservacao(conservacao);
+        setValorReposicao(valorReposicao);
+        setEstado(estado);
+    }
+
+    public enum EstadoProduto{
+      DISPONIVEL,
+      ALUGADO,
+      EM_MANUTENCAO,
+      INATIVO
+    }
+
+    //getters 
+    public String getID(){ return this.id; }
+    public String getNome(){ return this.nome; }
+    public String getCategoria() { return this.categoria; }
+    public BigDecimal getTaxaDiaria(){ return this.taxaDiaria;}
+    public String getConservacao(){ return this.conservacao;}
+    public BigDecimal getValorReposicao(){ return this.valorReposicao;}
+    public EstadoProduto getEstado(){ return this.estado;}
+
+    //setters com verificação  
+    public void setNome(String nome){
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new IllegalArgumentException("O campo 'Nome' é obrigatório.");
+        }
         this.nome = nome;
-        this.taxaDiaria = taxaDiaria;
-        this.conservacao = conservacao;
-        this.valorReposicao = valorReposicao;
+    }
+    public void setCategoria(String categoria) {
+        if (categoria == null || categoria.trim().isEmpty()) {
+            throw new IllegalArgumentException("Categoria é obrigatória.");
+        }
         this.categoria = categoria;
-        this.fornecedor = fornecerdor;
+    }
+    public void setTaxaDiaria(BigDecimal taxaDiaria){ 
+        if (taxaDiaria == null || taxaDiaria.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("A 'Taxa Diária' deve ser maior que zero.");
+        }
+        this.taxaDiaria = taxaDiaria;
+    }
+    public void setConservacao(String conservacao){ 
+        if (conservacao == null || conservacao.trim().isEmpty()) {
+            throw new IllegalArgumentException("O campo 'Conservação' é obrigatório.");
+        }
+        this.conservacao = conservacao;
+    }
+    public void setValorReposicao(BigDecimal valorReposicao){ 
+        if (valorReposicao == null || valorReposicao.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("O 'Valor de Reposição' deve ser maior que zero.");
+        }
+        this.valorReposicao = valorReposicao;
+    }
+    public void setEstado(EstadoProduto estado){ 
+        if (estado == null) {
+            throw new IllegalArgumentException("O campo 'Estado' é obrigatório.");
+        }
         this.estado = estado;
     }
-    public String getID(){
-        return this.id;
-    }
-    public String getNome(){
-        return this.nome;
-    }
-    public BigDecimal getTaxaDiaria(){
-        return this.taxaDiaria;
-    }
-    public String getConservacao(){
-        return this.conservacao;
-    }
-    public BigDecimal getValorReposicao(){
-        return this.valorReposicao;
-    }
-    public String getEstado(){
-        return this.estado;
-    }
-    public Categoria getCategoria(){
-        return this.categoria;
-    }
-    public Fornecedor getFornecedor(){
-        return this.fornecedor;
-    }
-    public void setEstado(String estado){
-        this.estado = estado;
-    }
+
 }
