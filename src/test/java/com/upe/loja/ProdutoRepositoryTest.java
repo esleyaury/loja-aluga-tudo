@@ -22,6 +22,7 @@ class ProdutoRepositoryTest {
 
     @BeforeEach
     void setup() {
+        arquivoProdutos.delete();
         repository = new ProdutoRepository();
     }
 

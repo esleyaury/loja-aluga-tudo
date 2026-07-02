@@ -24,6 +24,7 @@ class ContratoRepositoryTest {
 
     @BeforeEach
     void setup() {
+        arquivoContratos.delete();
         repository = new ContratoRepository();
     }
 

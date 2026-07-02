@@ -27,6 +27,7 @@ class OcorrenciaRepositoryTest {
 
     @BeforeEach
     void setup() {
+        arquivoOcorrencias.delete();
         repository = new OcorrenciaRepository();
     }
 

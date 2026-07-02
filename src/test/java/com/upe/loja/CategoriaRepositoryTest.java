@@ -18,6 +18,7 @@ class CategoriaRepositoryTest {
 
     @BeforeEach
     void setup() {
+        arquivoCategorias.delete();
         repository = new CategoriaRepository();
     }
 
