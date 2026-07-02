@@ -255,7 +255,7 @@ public class Facade {
         ocorrenciaBusiness.quitar(idOcorrencia);
     }
 
-    public List<Ocorrencia> buscarOcorrenciasPorContrato(long idContrato) {
+    public Ocorrencia buscarOcorrenciaPorContrato(long idContrato) {
         return ocorrenciaBusiness.buscarPorContrato(idContrato);
     }
 
