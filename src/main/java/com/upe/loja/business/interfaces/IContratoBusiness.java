@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.upe.loja.repository.entity.Contrato;
+import com.upe.loja.repository.entity.Ocorrencia;
 
 public interface IContratoBusiness {
     Contrato criarContrato(String cpfCliente, String cpfFuncionario,
@@ -16,4 +17,5 @@ public interface IContratoBusiness {
     Map<Long, Contrato> listarTodos();
     void encerrarContrato(long id);
     void guardarDados();
+    List<Ocorrencia> buscarMultasPendentesPorCliente(String cpfCliente);
 }

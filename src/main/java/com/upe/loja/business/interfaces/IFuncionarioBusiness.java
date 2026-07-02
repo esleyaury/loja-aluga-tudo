@@ -14,4 +14,5 @@ public interface IFuncionarioBusiness {
     public void atualizar(String cpf, int option, String valor);
     public void remover(String id);
     public void guardarDados();
+    public Funcionario autenticar(String cpf, String senha);
 }

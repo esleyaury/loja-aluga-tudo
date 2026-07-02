@@ -92,4 +92,13 @@ public class FuncionarioBusiness implements IFuncionarioBusiness{
     public void guardarDados(){
         funcionarios.guardarDados();
     }
+
+    @Override
+    public Funcionario autenticar(String cpf, String senha){
+        Funcionario funcionario = funcionarios.buscarPorCpf(cpf);
+        if (funcionario == null || !funcionario.isAtivo() || senha == null || !senha.equals(funcionario.getSenha())){
+            return null;
+        }
+        return funcionario;
+    }
 }

@@ -19,6 +19,10 @@ public class ProdutoBusiness implements IProdutoBusiness{
     this.estoque = new ProdutoRepository();
   }
 
+  public ProdutoBusiness(ProdutoRepository estoque){
+    this.estoque = estoque;
+  }
+
   @Override
   public void cadastrarProduto(String id, String nome,String categoria, BigDecimal taxaDiaria,
       String conservacao, BigDecimal valorReposicao){

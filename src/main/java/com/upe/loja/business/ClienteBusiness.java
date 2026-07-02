@@ -144,4 +144,13 @@ public class ClienteBusiness implements IClienteBusiness {
         }
         return cliente.isAtivo() && !cliente.isInadimplente();
     }
+
+    @Override
+    public Cliente autenticar(String cpf, String senha) {
+        Cliente cliente = clientes.buscarPorCpf(cpf);
+        if (cliente == null || !cliente.isAtivo() || senha == null || !senha.equals(cliente.getSenha())) {
+            return null;
+        }
+        return cliente;
+    }
 }

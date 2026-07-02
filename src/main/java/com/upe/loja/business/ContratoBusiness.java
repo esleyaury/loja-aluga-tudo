@@ -15,6 +15,7 @@ import com.upe.loja.repository.entity.Produto.EstadoProduto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -127,5 +128,17 @@ public class ContratoBusiness implements IContratoBusiness {
     @Override
     public void guardarDados() {
         contratos.guardarDados();
+    }
+
+    @Override
+    public List<Ocorrencia> buscarMultasPendentesPorCliente(String cpfCliente) {
+        List<Ocorrencia> pendentes = new ArrayList<>();
+        for (Contrato c : contratos.buscarPorCpfCliente(cpfCliente)) {
+            Ocorrencia ocorrencia = ocorrencias.buscarPorContrato(c.getId());
+            if (ocorrencia != null && !ocorrencia.isQuitada()) {
+                pendentes.add(ocorrencia);
+            }
+        }
+        return pendentes;
     }
 }

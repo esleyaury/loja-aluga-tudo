@@ -16,4 +16,5 @@ public interface IClienteBusiness {
     void guardarDados();
     Map<String, Cliente> clientesAtivos();
     boolean podeAlugar(String cpf);
+    Cliente autenticar(String cpf, String senha);
 }

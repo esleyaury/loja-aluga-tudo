@@ -9,6 +9,7 @@ import com.upe.loja.repository.OcorrenciaRepository;
 import com.upe.loja.repository.ProdutoRepository;
 import com.upe.loja.repository.entity.Contrato;
 import com.upe.loja.repository.entity.Ocorrencia;
+import com.upe.loja.repository.entity.Usuario.TipoPerfil;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -55,7 +56,7 @@ public class Facade {
         this.contratoBusiness  = new ContratoBusiness(contratoRepository, produtoRepository, ocorrenciaRepository);
         this.ocorrenciaBusiness = new OcorrenciaBusiness(ocorrenciaRepository, contratoRepository);
         
-        this.produtoBusiness = new ProdutoBusiness();
+        this.produtoBusiness = new ProdutoBusiness(produtoRepository);
         this.categoriaBusiness = new CategoriaBusiness();
         this.clienteBusiness = new ClienteBusiness();
         this.funcionarioBusiness = new FuncionarioBusiness();
@@ -269,6 +270,31 @@ public class Facade {
 
     public void removerOcorrencia(long idOcorrencia) {
         ocorrenciaBusiness.remover(idOcorrencia);
+    }
+
+    public List<Ocorrencia> minhasMultasPendentes(String cpfCliente) {
+        return contratoBusiness.buscarMultasPendentesPorCliente(cpfCliente);
+    }
+
+    // ==================== AUTENTICAÇÃO ====================
+
+    public Sessao autenticar(String cpf, String senha) {
+        Administrador administrador = administradorBusiness.autenticar(cpf, senha);
+        if (administrador != null) {
+            return new Sessao(administrador.getCpf(), administrador.getNome(), TipoPerfil.ADMINISTRADOR);
+        }
+
+        Funcionario funcionario = funcionarioBusiness.autenticar(cpf, senha);
+        if (funcionario != null) {
+            return new Sessao(funcionario.getCpf(), funcionario.getNome(), TipoPerfil.FUNCIONARIO);
+        }
+
+        Cliente cliente = clienteBusiness.autenticar(cpf, senha);
+        if (cliente != null) {
+            return new Sessao(cliente.getCpf(), cliente.getNome(), TipoPerfil.CLIENTE);
+        }
+
+        return null;
     }
 
     // ==================== SISTEMA ====================

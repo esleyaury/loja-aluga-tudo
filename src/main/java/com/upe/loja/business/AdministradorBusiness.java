@@ -64,6 +64,15 @@ public class AdministradorBusiness implements IAdministradorBusiness{
         administradores.guardarDados();
     }
 
+    @Override
+    public Administrador autenticar(String cpf, String senha){
+        Administrador administrador = administradores.buscarPorCpf(cpf);
+        if (administrador == null || !administrador.isAtivo() || senha == null || !senha.equals(administrador.getSenha())){
+            return null;
+        }
+        return administrador;
+    }
+
     public boolean converterParaBoolean(String valor){
         String v = valor.trim().toUpperCase();
 

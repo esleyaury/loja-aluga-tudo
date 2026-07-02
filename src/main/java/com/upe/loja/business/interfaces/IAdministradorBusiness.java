@@ -16,4 +16,5 @@ public interface IAdministradorBusiness {
     public void atualizar(String cpf, int option, String valor);
     public void remover(String cpf);
     public void guardarDados();
+    public Administrador autenticar(String cpf, String senha);
 }
