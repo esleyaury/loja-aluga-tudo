@@ -57,6 +57,17 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.3.0</version>
       </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.4.2</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>com.upe.loja.Main</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
